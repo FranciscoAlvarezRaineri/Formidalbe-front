@@ -5,7 +5,7 @@ Generador de formularios dinámicos
 <br>
 El equipo está compuesto por:
 <br>
-Diego Siboldi
-Julian Pacheco
-Francisco Alvarez Raineri
+Diego Siboldi<br>
+Julian Pacheco<br>
+Francisco Alvarez Raineri<br>
 Francisco BIdonde
