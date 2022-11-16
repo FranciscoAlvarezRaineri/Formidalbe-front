@@ -85,7 +85,7 @@ export default function SignIn() {
           />
 
           <Button
-            href="/forms/new"
+            href="/forms"
             type="submit"
             fullWidth
             variant="contained"

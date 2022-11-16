@@ -35,9 +35,6 @@ const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
   },
-  container: {
-    maxHeight: 440,
-  },
   head: {
     backgroundColor: "#fff",
     position: "sticky",
@@ -52,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
 export default function StickyHeadTable() {
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [rowsPerPage, setRowsPerPage] = React.useState(25);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -79,21 +76,23 @@ export default function StickyHeadTable() {
         </Button>
       </Grid>
 
-      <TableContainer className={classes.container}>
+      <Table className={classes.head}>
+        <TableHead>
+          <TableRow>
+            {columns.map((column) => (
+              <TableCell
+                key={column.id}
+                align={column.align}
+                style={{ minWidth: column.minWidth }}
+              >
+                {column.label}
+              </TableCell>
+            ))}
+          </TableRow>
+        </TableHead>
+      </Table>
+      <TableContainer>
         <Table>
-          <TableHead className={classes.head}>
-            <TableRow>
-              {columns.map((column) => (
-                <TableCell
-                  key={column.id}
-                  align={column.align}
-                  style={{ minWidth: column.minWidth }}
-                >
-                  {column.label}
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
           <TableBody>
             {rows
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
@@ -121,7 +120,7 @@ export default function StickyHeadTable() {
         </Table>
       </TableContainer>
       <TablePagination
-        rowsPerPageOptions={[10, 25, 100]}
+        rowsPerPageOptions={[25, 100]}
         component="div"
         count={rows.length}
         rowsPerPage={rowsPerPage}
