@@ -3,6 +3,7 @@ front-end
 <br>
 Generador de formularios dinámicos
 <br>
+Para iniciar: "npm run dev"<br>
 <br>
 El equipo está compuesto por:
 <br>
