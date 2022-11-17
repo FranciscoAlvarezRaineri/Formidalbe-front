@@ -4,7 +4,10 @@ import { useState, useEffect } from "react";
 import Form from "@rjsf/material-ui";
 import validator from "@rjsf/validator-ajv8";
 import Editor from "@monaco-editor/react";
-import { Grid } from "@material-ui/core";
+import { Grid, Paper } from "@material-ui/core";
+import Button from "@material-ui/core/Button";
+import { makeStyles } from "@material-ui/core/styles";
+import { PlayCircleFilledWhiteTwoTone } from "@material-ui/icons";
 
 export default function NewForm() {
   const [newSchema, setNewSchema] = useState("");
@@ -281,48 +284,77 @@ export default function NewForm() {
     });
   }, []);
 
+  const useStyles = makeStyles((theme) => ({
+    item: {
+      // borderRadius: "20px",
+      borderStyle: "ridge",
+    },
+    backButton: {
+      type: "button",
+      margin: "10px",
+    },
+  }));
+  const classes = useStyles();
+
   return (
     <Grid
       container
       direction="row"
-      justifyContent="center"
+      justifyContent="space-evenly"
       alignItems="flex-start"
+      spacing={3}
     >
-      <Grid container item lg={6} md={12} spacing={3}>
+      <Grid item lg={6} md={12}>
         <>
           <h3>Schema:</h3>
-          <Editor
-            height="500px"
-            // width="500px"
-            defaultLanguage="javascript"
-            defaultValue={JSON.stringify(schema, null, "\n")}
-            onChange={(e) => {
-              console.log(e.schema);
-              setSchema(JSON.parse(e));
-            }}
-          />
+          <Paper className={classes.item}>
+            <Editor
+              height="500px"
+              width="600px"
+              defaultLanguage="javascript"
+              defaultValue={JSON.stringify(schema, null, "\n")}
+              onChange={(e) => {
+                console.log(e.schema);
+                setSchema(JSON.parse(e));
+              }}
+            />
+          </Paper>
           <h3>UISchema:</h3>
-          <Editor
-            height="500px"
-            // width="500px"
-            defaultLanguage="javascript"
-            defaultValue={JSON.stringify(schema, null, "\n")}
-            onChange={(e) => {
-              console.log(e.schema);
-              setUiSchema(JSON.parse(e));
+          <Paper className={classes.item}>
+            <Editor
+              height="500px"
+              width="600px"
+              defaultLanguage="javascript"
+              defaultValue={JSON.stringify(uiSchema, null, "\n")}
+              onChange={(e) => {
+                console.log(e.schema);
+                setUiSchema(JSON.parse(e));
+              }}
+            />
+          </Paper>
+          <Button
+            className={classes.backButton}
+            variant="contained"
+            color="primary"
+            onClick={() => {
+              window.location.href = "/forms/";
             }}
-          />
+          >
+            Atras
+          </Button>
         </>
       </Grid>
-      <Grid container item lg={6} md={12} spacing={3}>
-        <Form
-          schema={schema}
-          uiSchema={uiSchema}
-          validator={validator}
-          onSubmit={(e) => {
-            //mandar al back
-          }}
-        />
+      <Grid item lg={6} md={12}>
+        <Paper className={classes.item}>
+          <Form
+            schema={schema}
+            uiSchema={uiSchema}
+            validator={validator}
+            onSubmit={(e) => {
+              //mandar al back
+            }}
+          />
+        </Paper>
       </Grid>
     </Grid>
   );
