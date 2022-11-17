@@ -1,23 +1,37 @@
 // Similar a forms/[formID]/manage salvo que sin el botón de eliminar.
 // Al crearlo se debe guardar el form en el back end.
 import { useState, useEffect } from "react";
+import axios from "../../axios";
+import Router from "next/router";
+
 import Form from "@rjsf/material-ui";
 import validator from "@rjsf/validator-ajv8";
 import Editor from "@monaco-editor/react";
-import { Grid, Paper } from "@material-ui/core";
-import Button from "@material-ui/core/Button";
+import { Grid, Paper, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { PlayCircleFilledWhiteTwoTone } from "@material-ui/icons";
 
 export default function NewForm() {
-  const [newSchema, setNewSchema] = useState("");
   const [schema, setSchema] = useState({});
-  const [uiSchema, setUiSchema] = useState({});
+  const [uiSchema, setUISchema] = useState({});
+  const [newSchema, setNewSchema] = useState({});
+  const [newUISchema, setNewUISchema] = useState({});
+
+  function createForm() {
+    axios
+      .post("/form/create", {
+        schema,
+        uiSchema,
+        answers: [],
+      })
+      .then(() => {
+        Router.push("/forms");
+      })
+      .catch((err) => console.log(err));
+  }
 
   useEffect(() => {
-    //get("", => setSchema())
-
-    setUiSchema({
+    setUISchema({
       "ui:order": [
         "Condiciones generales obligatorias",
         "Elementos de protección personal necesarios para la tarea",
@@ -289,8 +303,9 @@ export default function NewForm() {
 
   const useStyles = makeStyles((theme) => ({
     item: {
-      // borderRadius: "20px",
+      borderRadius: "2px",
       borderStyle: "ridge",
+      margin: "25px",
     },
     backButton: {
       type: "button",
@@ -317,7 +332,6 @@ export default function NewForm() {
               defaultLanguage="javascript"
               defaultValue={JSON.stringify(schema, null, "\n")}
               onChange={(e) => {
-                console.log(e.schema);
                 setSchema(JSON.parse(e));
               }}
             />
@@ -330,8 +344,7 @@ export default function NewForm() {
               defaultLanguage="javascript"
               defaultValue={JSON.stringify(uiSchema, null, "\n")}
               onChange={(e) => {
-                console.log(e.schema);
-                setUiSchema(JSON.parse(e));
+                setUISchema(JSON.parse(e));
               }}
             />
           </Paper>
@@ -340,7 +353,7 @@ export default function NewForm() {
             variant="contained"
             color="primary"
             onClick={() => {
-              window.location.href = "/forms/";
+              Router.push("/forms");
             }}
           >
             Atras
@@ -353,11 +366,19 @@ export default function NewForm() {
             schema={schema}
             uiSchema={uiSchema}
             validator={validator}
-            onSubmit={(e) => {
-              //mandar al back
-            }}
+            children={true} // Evitar que se muestre el boton de Submit.
           />
         </Paper>
+        <Button
+          className={classes.backButton}
+          variant="contained"
+          color="primary"
+          onClick={() => {
+            createForm();
+          }}
+        >
+          Crear Formulario
+        </Button>
       </Grid>
     </Grid>
   );

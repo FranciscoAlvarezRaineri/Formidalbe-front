@@ -100,7 +100,7 @@ export default function FormsTable() {
                           <Link href={`/forms/${row._id}`}>{row._id}</Link>
                         </TableCell>
                         <TableCell key="createdAt" align="center">
-                          {row.createdAt.split("T")[0]}
+                          {row.createdAt?.split("T")[0]}
                         </TableCell>
                         <TableCell key="answers" align="right">
                           {row.answers?.length}
