@@ -32,5 +32,5 @@ Implementación del editor Monaco:<br>
 "monaco-editor": "^0.34.1",<br>
 "@monaco-editor/react": "^4.4.6",<br>
 <br>
-Conexión con el back:<br>
+Conección con el back:<br>
 "axios": "^1.1.3",<br>
