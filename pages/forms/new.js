@@ -13,16 +13,15 @@ import { PlayCircleFilledWhiteTwoTone } from "@material-ui/icons";
 
 export default function NewForm() {
   const [schema, setSchema] = useState({});
-  const [uiSchema, setUISchema] = useState({});
+  const [uischema, setUischema] = useState({});
   const [newSchema, setNewSchema] = useState({});
-  const [newUISchema, setNewUISchema] = useState({});
+  const [newuischema, setNewUischema] = useState({});
 
   function createForm() {
     axios
-      .post("/form/create", {
+      .post("/forms/create", {
         schema,
-        uiSchema,
-        answers: [],
+        uischema,
       })
       .then(() => {
         Router.push("/forms");
@@ -31,7 +30,7 @@ export default function NewForm() {
   }
 
   useEffect(() => {
-    setUISchema({
+    setUischema({
       "ui:order": [
         "Condiciones generales obligatorias",
         "Elementos de protección personal necesarios para la tarea",
@@ -329,8 +328,8 @@ export default function NewForm() {
             <Editor
               height="500px"
               width="600px"
-              defaultLanguage="javascript"
-              defaultValue={JSON.stringify(schema, null, "\n")}
+              language="json"
+              defaultValue={JSON.stringify(schema, null, 2)}
               onChange={(e) => {
                 setSchema(JSON.parse(e));
               }}
@@ -341,10 +340,10 @@ export default function NewForm() {
             <Editor
               height="500px"
               width="600px"
-              defaultLanguage="javascript"
-              defaultValue={JSON.stringify(uiSchema, null, "\n")}
+              language="json"
+              defaultValue={JSON.stringify(uischema, null, 2)}
               onChange={(e) => {
-                setUISchema(JSON.parse(e));
+                setUischema(JSON.parse(e));
               }}
             />
           </Paper>
@@ -364,7 +363,7 @@ export default function NewForm() {
         <Paper className={classes.item}>
           <Form
             schema={schema}
-            uiSchema={uiSchema}
+            uiSchema={uischema}
             validator={validator}
             children={true} // Evitar que se muestre el boton de Submit.
           />
