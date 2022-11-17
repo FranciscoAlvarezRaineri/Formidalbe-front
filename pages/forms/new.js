@@ -10,7 +10,10 @@ export default function NewForm() {
   const [newSchema, setNewSchema] = useState("");
   const [schema, setSchema] = useState({});
   const [uiSchema, setUiSchema] = useState({});
+
   useEffect(() => {
+    //get("", => setSchema())
+
     setUiSchema({
       "ui:order": [
         "Condiciones generales obligatorias",

@@ -1,4 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
+import Router from "next/router";
+import axios from "../axios"; //importar axios del index de la carpeta axios, que contiene la instancia que hace referencia al back.
+
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -12,19 +15,6 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        Smart Safety
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
-
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
@@ -37,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
-    width: "100%", // Fix IE 11 issue.
+    width: "100%",
     marginTop: theme.spacing(1),
   },
   submit: {
@@ -47,6 +37,19 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignIn() {
   const classes = useStyles();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  // const [remember, setRemember] = useState(false) // para ser usado cuando codiemo permanencia.
+
+  function logIn(e) {
+    Router.push("/forms"); // borrar cuanto el pedido post este funcionando!
+    axios
+      .post("/users", { email, password })
+      .then(() => {
+        Router.push("/forms");
+      })
+      .catch((err) => console.log(err));
+  }
 
   return (
     <Container component="main" maxWidth="xs">
@@ -68,6 +71,10 @@ export default function SignIn() {
             name="email"
             autoComplete="email"
             autoFocus
+            value={email}
+            onChange={() => {
+              setEmail(value);
+            }}
           />
           <TextField
             margin="normal"
@@ -78,15 +85,19 @@ export default function SignIn() {
             type="password"
             id="password"
             autoComplete="current-password"
+            value={password}
+            onChange={() => {
+              setPassword(value);
+            }}
           />
-          <FormControlLabel
+          {/* <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
             label="Recordarme"
-          />
+          /> */}
 
           <Button
-            href="/forms"
-            type="submit"
+            onClick={() => logIn()}
+            type="button"
             fullWidth
             variant="contained"
             color="primary"
@@ -100,5 +111,17 @@ export default function SignIn() {
         <Copyright />
       </Box>
     </Container>
+  );
+}
+
+function Copyright() {
+  return (
+    <Typography variant="body2" color="textSecondary" align="center">
+      {"Copyright © "}
+      <Link color="inherit" href="https://smartsafety.com.ar/" target="_blank">
+        Smart Safety
+      </Link>
+      {" 2022"}
+    </Typography>
   );
 }
