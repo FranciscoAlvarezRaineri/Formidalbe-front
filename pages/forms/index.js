@@ -23,10 +23,10 @@ import {
 import { makeStyles } from "@material-ui/core/styles";
 
 const columns = [
-  { id: "title", label: "Nombre", minWidth: 100 },
-  { id: "date", label: "Fecha de Creación", minWidth: 100 },
+  { id: "_id", label: "Nombre", minWidth: 100, align: "left" },
+  { id: "createdAt", label: "Fecha de Creación", minWidth: 100, align: "left" },
   {
-    id: "respuestas",
+    id: "answers",
     label: "Respuestas",
     minWidth: 30,
     align: "right",
@@ -35,20 +35,24 @@ const columns = [
 
 //const rows = fakeForms();
 
-export default function StickyHeadTable() {
+export default function FormsTable() {
   const classes = useStyles();
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [rows, setRows] = useState(fakeForms());
+  const [rows, setRows] = useState([]);
 
-  /*useEffect(() => {
-    axios.get("/forms").then((res) => {
-      setRows(res).catch((err) => {
+  useEffect(() => {
+    axios
+      .get("/form")
+      .then((res) => {
+        console.log(res.data);
+        setRows(res.data);
+      })
+      .catch((err) => {
         console.log(err);
       });
-    });
-  }, []);*/
+  }, []);
 
   return (
     <Paper className={classes.root}>
@@ -65,43 +69,44 @@ export default function StickyHeadTable() {
           Nuevo Formulario
         </Button>
       </Grid>
-      <Table className={classes.head}>
-        <TableHead>
-          <TableRow>
-            {columns.map((column) => (
-              <TableCell
-                key={column.id}
-                align={column.align}
-                style={{ minWidth: column.minWidth }}
-              >
-                {column.label}
-              </TableCell>
-            ))}
-          </TableRow>
-        </TableHead>
-      </Table>
       <TableContainer>
         <Table>
+          <TableHead className={classes.head}>
+            <TableRow>
+              {
+                <>
+                  <TableCell key="_id" align="left">
+                    Formulario
+                  </TableCell>
+                  <TableCell key="createdAt" align="center">
+                    Fecha de Creación
+                  </TableCell>
+                  <TableCell key="answers" align="right">
+                    Respuestas
+                  </TableCell>
+                </>
+              }
+            </TableRow>
+          </TableHead>
           <TableBody>
             {rows
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
                 return (
                   <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                    {columns.map((column) => {
-                      const value = row[column.id];
-                      return (
-                        <TableCell key={column.id} align={column.align}>
-                          {column.id === "title" ? (
-                            <Link href={`/forms/${row.formID}`}>{value}</Link>
-                          ) : column.format && typeof value === "number" ? (
-                            column.format(value)
-                          ) : (
-                            value
-                          )}
+                    {
+                      <>
+                        <TableCell key="_id" align="left">
+                          <Link href={`/forms/${row._id}`}>{row._id}</Link>
                         </TableCell>
-                      );
-                    })}
+                        <TableCell key="createdAt" align="center">
+                          {row.createdAt.split("T")[0]}
+                        </TableCell>
+                        <TableCell key="answers" align="right">
+                          {row.answers?.length}
+                        </TableCell>
+                      </>
+                    }
                   </TableRow>
                 );
               })}

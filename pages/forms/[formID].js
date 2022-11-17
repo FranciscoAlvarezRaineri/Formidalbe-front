@@ -5,10 +5,10 @@ import { Button, Grid } from "@material-ui/core";
 import axios from "../../axios";
 
 export async function getServerSideProps(context) {
-  // const form = await axios.get(`/forms/${context.params.formID}`)
-  const form = fakeForms().filter(
+  const form = await axios.get(`/forms/${context.params._id}`);
+  /* const form = fakeForms().filter(
     (form) => form.formID === context.params.formID
-  )[0];
+  )[0];*/
   return {
     props: { form },
   };
