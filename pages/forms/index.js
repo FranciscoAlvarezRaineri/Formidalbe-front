@@ -6,8 +6,6 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import axios from "../../axios";
 
-import fakeForms from "../../utils/fakeForms";
-
 import {
   Grid,
   Button,
@@ -33,8 +31,6 @@ const columns = [
   },
 ];
 
-//const rows = fakeForms();
-
 export default function FormsTable() {
   const classes = useStyles();
 
@@ -44,7 +40,7 @@ export default function FormsTable() {
 
   useEffect(() => {
     axios
-      .get("/form")
+      .get("/forms")
       .then((res) => {
         console.log(res.data);
         setRows(res.data);
