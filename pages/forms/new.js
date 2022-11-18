@@ -5,7 +5,7 @@ import axios from "../../axios";
 import Router from "next/router";
 
 import Form from "@rjsf/material-ui";
-import validator from "@rjsf/validator-ajv8";
+
 import Editor from "@monaco-editor/react";
 import { Grid, Paper, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
@@ -22,7 +22,7 @@ export default function NewForm() {
       .post("/forms/create", {
         schema,
         uischema,
-        answers: [1, 2],
+        answers: [],
       })
       .then(() => {
         Router.push("/forms");
@@ -193,7 +193,6 @@ export default function NewForm() {
           <Form
             schema={schema}
             uiSchema={uischema}
-            validator={validator}
             children={true} // Evitar que se muestre el boton de Submit.
           />
         </Paper>

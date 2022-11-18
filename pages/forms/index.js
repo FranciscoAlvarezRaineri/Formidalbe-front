@@ -18,6 +18,7 @@ import {
   Table,
   Paper,
 } from "@material-ui/core";
+
 import { makeStyles } from "@material-ui/core/styles";
 
 const columns = [
@@ -112,7 +113,7 @@ export default function FormsTable() {
         </Table>
       </TableContainer>
       <TablePagination
-        rowsPerPageOptions={[10, 25, 100]}
+        rowsPerPageOptions={[10, 25, 50, 100]}
         component="div"
         count={rows.length}
         rowsPerPage={rowsPerPage}

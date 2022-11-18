@@ -1,6 +1,4 @@
-import fakeForms from "../../utils/fakeForms.js";
 import Form from "@rjsf/material-ui";
-import validator from "@rjsf/validator-ajv8";
 import { Button, Grid, Paper } from "@material-ui/core";
 import axios from "../../axios";
 
@@ -31,7 +29,7 @@ export default function oneForm({ form }) {
         </Button>
       </Grid>
       <Paper>
-        <Form schema={form.schema} validator={validator} />
+        <Form schema={form.schema} />
       </Paper>
       <Button></Button>
     </>
