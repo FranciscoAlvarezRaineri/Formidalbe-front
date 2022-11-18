@@ -93,7 +93,9 @@ export default function FormsTable() {
                     {
                       <>
                         <TableCell key="_id" align="left">
-                          <Link href={`/forms/${row._id}`}>{row._id}</Link>
+                          <Link href={`/forms/${row._id}`}>
+                            {row.schema?.title || row._id}
+                          </Link>
                         </TableCell>
                         <TableCell key="createdAt" align="center">
                           {row.createdAt?.split("T")[0]}

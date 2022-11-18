@@ -22,6 +22,7 @@ export default function NewForm() {
       .post("/forms/create", {
         schema,
         uischema,
+        answers: [1, 2],
       })
       .then(() => {
         Router.push("/forms");
@@ -36,87 +37,6 @@ export default function NewForm() {
         "Elementos de protección personal necesarios para la tarea",
         "Riesgos aplicados",
       ],
-      "Riesgos aplicados": {
-        Polvo: {
-          "ui:help":
-            "Armado de cerramiento, utilización de máscaras con filtros, barbijos, líneas de aire, etc.",
-        },
-        Ruido: {
-          "ui:help":
-            "Vacíos, decomiso, servicios industriales, etc. Utilización obligatoria de protectores auditivos para realizar las tareas.",
-        },
-        "ui:order": [
-          "Uso de herramienta manual eléctrica",
-          "Descarga de materiales y productos químicos",
-          "Polvo",
-          "Ruido",
-          "Material para construcción",
-          "Ubicación",
-          "Medida de contención",
-          "Estiba y/o punto de sujeción",
-          "Fecha",
-          "Equipo Rodante (autoelevador, carreta)",
-        ],
-        "Material para construcción": {
-          "ui:help":
-            "Todo aquel material necesario para la realización de una obra dentro o fuera del predio, que implique sostener un stock temporario en las instalaciones de la planta.",
-        },
-        "Uso de herramienta manual eléctrica": {
-          "ui:help":
-            "Tablero eléctrico con llave termomagnética, disyuntor diferencial y puesta a tierra protegiendo todos los tendidos, herramientas, prolongaciones y herramientas en buen estado.",
-        },
-        "Equipo Rodante (autoelevador, carreta)": {
-          "ui:help":
-            "Formación específica para el manejo del equipo, respetar procedimiento de circulación y velocidades permitidas, uso de cinturón de seguridad.",
-        },
-        "Descarga de materiales y productos químicos": {
-          "ui:help":
-            "Colocación de tacos, delimitación del área de trabajo, uso de EPP indicados en la hoja de seguridad del producto, puesta a tierra, contención frente a derrames, verificar que lava ojos y ducha de emergencia se encuentren en servicio, utilizar instructivos y procedimientos de trabajo seguro.",
-        },
-      },
-      "Condiciones generales obligatorias": {
-        "ui:order": [
-          "Respetar procedimiento de circulación para contratistas",
-          "Colocar vallados y sectorizar el área de trabajo",
-          "Indumentaria en buenas condiciones de limpieza",
-          "Indumentaria acorde a la tarea a realizar",
-          "Retiro de materiales al final de la jornada",
-          "Analisis de riesgo",
-        ],
-        "Analisis de riesgo": {
-          "ui:widget": "radio",
-        },
-        "Indumentaria acorde a la tarea a realizar": {
-          "ui:widget": "radio",
-        },
-        "Retiro de materiales al final de la jornada": {
-          "ui:widget": "radio",
-        },
-        "Indumentaria en buenas condiciones de limpieza": {
-          "ui:widget": "radio",
-        },
-        "Colocar vallados y sectorizar el área de trabajo": {
-          "ui:widget": "radio",
-        },
-        "Respetar procedimiento de circulación para contratistas": {
-          "ui:widget": "radio",
-        },
-      },
-      "Elementos de protección personal necesarios para la tarea": {
-        epps: {
-          "ui:order": [
-            "Casco",
-            "Guantes",
-            "Delantal",
-            "Máscara facial",
-            "Protector auditivo",
-            "Arnés de seguridad",
-            "Anteojos de seguridad",
-            "Otros",
-            "Otros detalles",
-          ],
-        },
-      },
     });
     setSchema({
       type: "object",
@@ -134,65 +54,6 @@ export default function NewForm() {
               type: "boolean",
               title: "Ruido",
             },
-            "Material para construcción": {
-              type: "boolean",
-              title: "Material para construcción",
-            },
-            "Uso de herramienta manual eléctrica": {
-              type: "boolean",
-              title: "Uso de herramienta eléctrica",
-            },
-            "Equipo Rodante (autoelevador, carreta)": {
-              type: "boolean",
-              title: "Equipo Rodante (autoelevador, carreta)",
-            },
-            "Descarga de materiales y productos químicos": {
-              type: "boolean",
-              title: "Descarga de materiales y productos químicos",
-            },
-          },
-          dependencies: {
-            "Material para construcción": {
-              oneOf: [
-                {
-                  "-required": [
-                    "Medida de contención",
-                    "Estiba y/o punto de sujeción",
-                    "Fecha",
-                  ],
-                  properties: {
-                    Ubicación: {
-                      type: "object",
-                      title: "",
-                      properties: {
-                        "materiales-necesarios": {
-                          type: "string",
-                          title: "Materiales necesarios",
-                        },
-                      },
-                    },
-                    "Medida de contención": {
-                      type: "string",
-                      title: "Medida de contención",
-                    },
-                    "Material para construcción": {
-                      enum: [true],
-                    },
-                    "Estiba y/o punto de sujeción": {
-                      type: "string",
-                      title: "Estiba y/o punto de sujeción",
-                    },
-                  },
-                },
-                {
-                  "Material para construcción": {
-                    OTROS: {
-                      enum: [false],
-                    },
-                  },
-                },
-              ],
-            },
           },
         },
         "Condiciones generales obligatorias": {
@@ -207,24 +68,24 @@ export default function NewForm() {
           ],
           properties: {
             "Indumentaria acorde a la tarea a realizar": {
-              $ref: "#/definitions/yes-no",
+              type: "boolean",
               title: "¿Tiene indumentaria acorde a la tarea?",
             },
             "Retiro de materiales al final de la jornada": {
-              $ref: "#/definitions/yes-no",
+              type: "boolean",
               title: "Se retiraron los materiales al final de la jornada",
             },
             "Indumentaria en buenas condiciones de limpieza": {
-              $ref: "#/definitions/yes-no",
+              type: "boolean",
               title: "Tiene indumentaria en buenas condiciones de limpieza",
             },
             "Colocar vallados y sectorizar el área de trabajo": {
-              $ref: "#/definitions/yes-no",
+              type: "boolean",
               title:
                 "Se colocaron los vallados y se sectorizo el área de trabajo",
             },
             "Respetar procedimiento de circulación para contratistas": {
-              $ref: "#/definitions/yes-no",
+              type: "boolean",
               title:
                 "Se ha respetado el procedimiento de circulación libre para contratistas",
             },
@@ -263,38 +124,6 @@ export default function NewForm() {
               uniqueItems: true,
             },
           },
-        },
-      },
-      definitions: {
-        "yes-no": {
-          //type: ["string"],
-          oneOf: [
-            {
-              const: "SI",
-              title: "SI",
-            },
-            {
-              const: "NO",
-              title: "NO",
-            },
-          ],
-        },
-        "yes-no-na": {
-          //type: ["string"],
-          oneOf: [
-            {
-              const: "SI",
-              title: "SI",
-            },
-            {
-              const: "NO",
-              title: "NO",
-            },
-            {
-              const: "N/A",
-              title: "N/A",
-            },
-          ],
         },
       },
     });
