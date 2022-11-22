@@ -1,10 +1,6 @@
 import * as React from "react";
 import React__default, { useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-
-import * as Mui from "@material-ui/core";
-import * as Icons from "@material-ui/icons";
-
 import {
   Collapse as Collapse$1,
   UncontrolledTooltip,
@@ -3172,18 +3168,17 @@ const useStyles$5 = createUseStyles({
     },
   },
 });
-// Esta función controla el boton para agregar un nuevo elemento:
 function Add({ addElem, hidden, tooltipDescription }) {
   const classes = useStyles$5();
   const [popoverOpen, setPopoverOpen] = useState(false);
   const [createChoice, setCreateChoice] = useState("card");
   const [elementId] = useState(getRandomId());
   return /*#__PURE__*/ React__default.createElement(
-    Mui.Container,
+    "div",
     {
-      /*style: {
+      style: {
         display: hidden ? "none" : "initial",
-      },*/
+      },
     },
     /*#__PURE__*/ React__default.createElement(
       "span",
@@ -5537,252 +5532,6 @@ const useStyles$1 = createUseStyles({
     },
   },
 });
-function FormBuilder({ schema, uischema, onChange, mods, className }) {
-  const classes = useStyles$1();
-  const schemaData = parse(schema) || {};
-  schemaData.type = "object";
-  const uiSchemaData = parse(uischema) || {};
-  const allFormInputs = excludeKeys(
-    Object.assign(
-      {},
-      DEFAULT_FORM_INPUTS,
-      (mods && mods.customFormInputs) || {}
-    ),
-    mods && mods.deactivatedFormInputs
-  );
-  const unsupportedFeatures = checkForUnsupportedFeatures(
-    schemaData,
-    uiSchemaData,
-    allFormInputs
-  );
-  const elementNum = countElementsFromSchema(schemaData);
-  const defaultCollapseStates = [...Array(elementNum)].map(() => false);
-  const [cardOpenArray, setCardOpenArray] = React.useState(
-    defaultCollapseStates
-  );
-  const categoryHash = generateCategoryHash(allFormInputs);
-  // Esta sección genera las alertas:
-  return /*#__PURE__*/ React.createElement(
-    "div",
-    /*{
-      className: `${classes.formBuilder} ${className || ""}`,
-    },*/
-    /*#__PURE__*/ React.createElement(
-      Mui.Alert,
-      {
-        style: {
-          display: unsupportedFeatures.length === 0 ? "none" : "block",
-        },
-        color: "warning",
-      },
-      /*#__PURE__*/ React.createElement("h5", null, "Unsupported Features:"),
-      unsupportedFeatures.map((message, index) =>
-        /*#__PURE__*/ React.createElement(
-          "li",
-          {
-            key: index,
-          },
-          message
-        )
-      )
-    ),
-    // Esta sección genera el Header, con el título y la descripción:
-    (!mods || mods.showFormHead !== false) &&
-      /*#__PURE__*/ React.createElement(
-        Mui.Grid,
-        {
-          //className: classes.formHead,
-          container: true,
-          columns: 2,
-          spacing: 10,
-          justifyContent: "center",
-          marginTop: 25,
-          //"data-test": "form-head",
-        },
-        // Esta sección genera el input para cambiar el título del formulario
-        /*#__PURE__*/ React.createElement(
-          Mui.Grid,
-          { item: true, align: "center" },
-          /*#__PURE__*/ React.createElement(
-            "h5",
-            {
-              "data-test": "form-name-label",
-            },
-            mods && mods.labels && typeof mods.labels.formNameLabel === "string"
-              ? mods.labels.formNameLabel
-              : "Form Name"
-          ),
-          /*#__PURE__*/ React.createElement(Mui.Input, {
-            value: schemaData.title || "",
-            placeholder: "Title",
-            type: "text",
-            onChange: (ev) => {
-              onChange(
-                stringify(
-                  _extends({}, schemaData, {
-                    title: ev.target.value,
-                  })
-                ),
-                uischema
-              );
-            },
-            //className: "form-title",
-          })
-        ),
-        // Esta sección genera el input para cambiar la descripición del formulario
-        /*#__PURE__*/ React.createElement(
-          Mui.Grid,
-          { item: true, align: "center" },
-          /*#__PURE__*/ React.createElement(
-            "h5",
-            {
-              "data-test": "form-description-label",
-            },
-            mods &&
-              mods.labels &&
-              typeof mods.labels.formDescriptionLabel === "string"
-              ? mods.labels.formDescriptionLabel
-              : "Form Description"
-          ),
-          /*#__PURE__*/ React.createElement(Mui.Input, {
-            value: schemaData.description || "",
-            placeholder: "Description",
-            type: "text",
-            onChange: (ev) =>
-              onChange(
-                stringify(
-                  _extends({}, schemaData, {
-                    description: ev.target.value,
-                  })
-                ),
-                uischema
-              ),
-            //className: "form-description",
-          })
-        )
-      ),
-    // Esta sección genera el cuerpo del editor de formularios:
-    /*#__PURE__*/ React.createElement(
-      Mui.Container,
-      {
-        //className: `form-body ${classes.formBody}`,
-      },
-      // "DragDropContext" es un componenete del módulo "beautiful-dnd" y habilita las acciones de drag and drop.
-      /*#__PURE__*/ React.createElement(
-        DragDropContext,
-        {
-          onDragEnd: (result) =>
-            onDragEnd(result, {
-              schema: schemaData,
-              uischema: uiSchemaData,
-              onChange: (newSchema, newUiSchema) =>
-                onChange(stringify(newSchema), stringify(newUiSchema)),
-              definitionData: schemaData.definitions,
-              definitionUi: uiSchemaData.definitions,
-              categoryHash,
-            }),
-          // className: "form-body",
-        },
-        // "Droppable" es un componenete del módulo "beautiful-dnd" que habilita un área donde un elemento puede dropearse.
-        /*#__PURE__*/ React.createElement(
-          Droppable,
-          {
-            droppableId: "droppable",
-          },
-          // Cada Dropabble va a tener dentro un input del form
-          (providedDroppable) =>
-            /*#__PURE__*/ React.createElement(
-              "div",
-              _extends(
-                {
-                  ref: providedDroppable.innerRef,
-                },
-                providedDroppable.droppableProps
-              ),
-              // Genera un array de elementos a partir del schema y uischema
-              generateElementComponentsFromSchemas({
-                schemaData,
-                uiSchemaData,
-                onChange: (newSchema, newUiSchema) =>
-                  onChange(stringify(newSchema), stringify(newUiSchema)),
-                definitionData: schemaData.definitions,
-                definitionUi: uiSchemaData.definitions,
-                path: "root",
-                cardOpenArray,
-                setCardOpenArray,
-                allFormInputs,
-                mods,
-                categoryHash,
-                Card,
-                Section,
-              }).map((element, index) =>
-                // Mapea el array y crea un elemento con cada uno.
-                // "Draggable" es un elemento arrastrable del módulo "beautiful-dnd".
-                /*#__PURE__*/ React.createElement(
-                  Draggable,
-                  {
-                    key: element.key,
-                    draggableId: element.key,
-                    index: index,
-                  },
-                  (providedDraggable) =>
-                    /*#__PURE__*/ React.createElement(
-                      "div",
-                      _extends(
-                        {
-                          ref: providedDraggable.innerRef,
-                        },
-                        providedDraggable.draggableProps,
-                        providedDraggable.dragHandleProps
-                      ),
-                      element
-                    )
-                )
-              ),
-              providedDroppable.placeholder
-            )
-        )
-      )
-    ),
-    // Esta sección genera el footer (que en este momento esta vacío):
-    /*#__PURE__*/ React.createElement(
-      Mui.Container,
-      {
-        //className: `form-footer ${classes.formFooter}`,
-      },
-      /*#__PURE__*/ React.createElement(Add, {
-        tooltipDescription: ((mods || {}).tooltipDescriptions || {}).add,
-        addElem: (choice) => {
-          if (choice === "card") {
-            addCardObj({
-              schema: schemaData,
-              uischema: uiSchemaData,
-              mods: mods,
-              onChange: (newSchema, newUiSchema) =>
-                onChange(stringify(newSchema), stringify(newUiSchema)),
-              definitionData: schemaData.definitions,
-              definitionUi: uiSchemaData.definitions,
-              categoryHash,
-            });
-          } else if (choice === "section") {
-            addSectionObj({
-              schema: schemaData,
-              uischema: uiSchemaData,
-              onChange: (newSchema, newUiSchema) =>
-                onChange(stringify(newSchema), stringify(newUiSchema)),
-              definitionData: schemaData.definitions,
-              definitionUi: uiSchemaData.definitions,
-              categoryHash,
-            });
-          }
-        },
-        hidden:
-          schemaData.properties &&
-          Object.keys(schemaData.properties).length !== 0,
-      })
-    )
-  );
-}
 
 function CardGallery({
   definitionSchema,
@@ -6024,5 +5773,80 @@ const useStyles = createUseStyles({
     }
   ),
 });
+function PredefinedGallery({ schema, uischema, onChange, mods }) {
+  const classes = useStyles();
+  const schemaData = React.useMemo(() => parse(schema) || {}, [schema]);
+  const uiSchemaData = React.useMemo(() => parse(uischema) || {}, [uischema]);
+  const allFormInputs = excludeKeys(
+    Object.assign(
+      {},
+      DEFAULT_FORM_INPUTS,
+      (mods && mods.customFormInputs) || {}
+    ),
+    mods && mods.deactivatedFormInputs
+  );
+  const categoryHash = generateCategoryHash(allFormInputs);
+  React.useEffect(() => {
+    if (!uiSchemaData.definitions) {
+      // eslint-disable-next-line no-console
+      console.log("Parsing UI schema to assign UI for definitions");
+      // need to create definitions from scratch
+      const references = [];
+      // recursively search for all $refs in the schemaData
+      const findRefs = (name, schemaObject) => {
+        if (!schemaObject) return;
+        if (typeof schemaObject === "object")
+          Object.keys(schemaObject).forEach((key) => {
+            if (typeof key === "string") {
+              if (key === "$ref") references.push(name);
+              findRefs(key, schemaObject[key]);
+            }
+          });
+        if (Array.isArray(schemaObject))
+          schemaObject.forEach((innerObj) => {
+            findRefs(name, innerObj);
+          });
+      };
+      findRefs("root", schemaData);
+      uiSchemaData.definitions = {};
+      const referenceSet = new Set(references);
+      Object.keys(uiSchemaData).forEach((uiProp) => {
+        if (referenceSet.has(uiProp))
+          uiSchemaData.definitions[uiProp] = uiSchemaData[uiProp];
+      });
+      if (!Object.keys(uiSchemaData.definitions).length) {
+        uiSchemaData.definitions = undefined;
+      }
+      onChange(stringify(schemaData), stringify(uiSchemaData));
+    }
+  }, [uiSchemaData, schemaData, onChange]);
+  return /*#__PURE__*/ React.createElement(
+    "div",
+    {
+      className: classes.preDefinedGallery,
+    },
+    /*#__PURE__*/ React.createElement(CardGallery, {
+      definitionSchema: schemaData.definitions || {},
+      definitionUiSchema: uiSchemaData.definitions || {},
+      onChange: (newDefinitions, newDefinitionsUi) => {
+        // propagate changes in ui definitions to all relavant parties in main schema
 
-export default FormBuilder;
+        propagateDefinitionChanges(
+          _extends({}, schemaData, {
+            definitions: newDefinitions,
+          }),
+          _extends({}, uiSchemaData, {
+            definitions: newDefinitionsUi,
+          }),
+          (newSchema, newUiSchema) =>
+            onChange(stringify(newSchema), stringify(newUiSchema)),
+          categoryHash
+        );
+      },
+      mods: mods,
+      categoryHash: categoryHash,
+    })
+  );
+}
+
+export default PredefinedGallery;
