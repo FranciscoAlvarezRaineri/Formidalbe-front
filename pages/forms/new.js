@@ -3,10 +3,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "../../axios";
 import Router from "next/router";
-/*import {
-  FormBuilder,
-  PredefinedGallery,
-} from "../../react-json-schema-form-builder/dist";*/
 
 import Form from "@rjsf/material-ui";
 
@@ -15,14 +11,11 @@ import { Grid, Paper, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import dynamic from "next/dynamic";
 
-//import {FormBuilder} from '@ginkgo-bioworks/react-json-schema-form-builder'
+//import { FormBuilder } from "../../components/FormBuilder";
 
-const FormBuilder = dynamic(
-  () => import("../../react-json-schema-form-builder/dist"),
-  {
-    ssr: false,
-  }
-);
+const FormBuilder = dynamic(() => import("../../components/FormBuilder.js"), {
+  ssr: false,
+});
 
 export default function NewForm() {
   const [schema, setSchema] = useState({});
