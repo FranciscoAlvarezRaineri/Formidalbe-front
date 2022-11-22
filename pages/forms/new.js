@@ -16,6 +16,12 @@ import dynamic from "next/dynamic";
 const FormBuilder = dynamic(() => import("../../components/FormBuilder.js"), {
   ssr: false,
 });
+const PredefinedGallery = dynamic(
+  () => import("../../components/PredefinedGallery.js"),
+  {
+    ssr: false,
+  }
+);
 
 export default function NewForm() {
   const [schema, setSchema] = useState({});
@@ -53,12 +59,56 @@ export default function NewForm() {
         "Condiciones generales obligatorias": {
           type: "object",
           title: "Condiciones generales obligatorias",
+          properties: {
+            "Indumentaria acorde a la tarea a realizar": {
+              $ref: "#/definitions/yes-no",
+              title: "¿Tiene indumentaria acorde a la tarea?",
+            },
+            "Retiro de materiales al final de la jornada": {
+              $ref: "#/definitions/yes-no",
+              title: "Se retiraron los materiales al final de la jornada",
+            },
+            "Indumentaria en buenas condiciones de limpieza": {
+              $ref: "#/definitions/yes-no",
+              title: "Tiene indumentaria en buenas condiciones de limpieza",
+            },
+            "Colocar vallados y sectorizar el área de trabajo": {
+              $ref: "#/definitions/yes-no",
+              title:
+                "Se colocaron los vallados y se sectorizo el área de trabajo",
+            },
+            "Respetar procedimiento de circulación para contratistas": {
+              $ref: "#/definitions/yes-no",
+              title:
+                "Se ha respetado el procedimiento de circulación libre para contratistas",
+            },
+          },
         },
         "Elementos de protección personal necesarios para la tarea": {
           type: "object",
           title: "Elementos de protección personal necesarios para la tarea",
+          properties: {
+            epps: {
+              type: "array",
+              items: {
+                enum: [
+                  "Casco",
+                  "Anteojos de seguridad",
+                  "Arnés de seguridad",
+                  "Máscara facial",
+                  "Delantal",
+                  "Protector auditivo",
+                  "Guantes",
+                  "Calzado",
+                ],
+                type: "string",
+              },
+              title: "Seleccione los EPPS necesarios",
+            },
+          },
         },
       },
+      description: "hola, esto es un formulario",
     });
   }, []);
 
@@ -77,22 +127,17 @@ export default function NewForm() {
 
   return (
     <>
-      <Grid
-        container
-        direction="row"
-        justifyContent="space-evenly"
-        alignItems="flex-start"
-        spacing={3}
-      >
-        <FormBuilder
-          schema={JSON.stringify(schema)}
-          uischema={JSON.stringify(uischema)}
-          onChange={(newSchema, newUiSchema) => {
-            setSchema(JSON.parse(newSchema));
-            setUischema(JSON.parse(newUiSchema));
-          }}
-        />
-        {/* <PredefinedGallery
+      <Grid container justifyContent="space-evenly" spacing={3}>
+        <Grid item lg={6} md={12}>
+          <FormBuilder
+            schema={JSON.stringify(schema)}
+            uischema={JSON.stringify(uischema)}
+            onChange={(newSchema, newUiSchema) => {
+              setSchema(JSON.parse(newSchema));
+              setUischema(JSON.parse(newUiSchema));
+            }}
+          />
+          {/* <PredefinedGallery
           schema={JSON.stringify(schema)}
           uischema={JSON.stringify(uischema)}
           onChange={(newSchema, newUiSchema) => {
@@ -100,6 +145,7 @@ export default function NewForm() {
             setUischema(JSON.parse(newUiSchema));
           }}
         /> */}
+        </Grid>
         <Grid item lg={6} md={12}>
           <>
             <h3>Schema:</h3>
