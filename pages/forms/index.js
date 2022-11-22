@@ -18,6 +18,7 @@ import {
   Table,
   Paper,
 } from "@material-ui/core";
+
 import { makeStyles } from "@material-ui/core/styles";
 
 const columns = [
@@ -93,7 +94,9 @@ export default function FormsTable() {
                     {
                       <>
                         <TableCell key="_id" align="left">
-                          <Link href={`/forms/${row._id}`}>{row._id}</Link>
+                          <Link href={`/forms/${row._id}`}>
+                            {row.schema?.title || row._id}
+                          </Link>
                         </TableCell>
                         <TableCell key="createdAt" align="center">
                           {row.createdAt?.split("T")[0]}
@@ -110,7 +113,7 @@ export default function FormsTable() {
         </Table>
       </TableContainer>
       <TablePagination
-        rowsPerPageOptions={[10, 25, 100]}
+        rowsPerPageOptions={[10, 25, 50, 100]}
         component="div"
         count={rows.length}
         rowsPerPage={rowsPerPage}

@@ -42,9 +42,8 @@ export default function SignIn() {
   // const [remember, setRemember] = useState(false) // para ser usado cuando codiemo permanencia.
 
   function logIn(e) {
-    Router.push("/forms"); // borrar cuanto el pedido post este funcionando!
     axios
-      .post("/users", { email, password })
+      .post("/users/login", { email, password })
       .then(() => {
         Router.push("/forms");
       })
@@ -72,8 +71,8 @@ export default function SignIn() {
             autoComplete="email"
             autoFocus
             value={email}
-            onChange={() => {
-              setEmail(value);
+            onChange={(e) => {
+              setEmail(e.target.value);
             }}
           />
           <TextField
@@ -86,8 +85,8 @@ export default function SignIn() {
             id="password"
             autoComplete="current-password"
             value={password}
-            onChange={() => {
-              setPassword(value);
+            onChange={(e) => {
+              setPassword(e.target.value);
             }}
           />
           {/* <FormControlLabel
