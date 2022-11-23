@@ -1,5 +1,6 @@
 import * as Mui from "@material-ui/core";
 import * as Icons from "@material-ui/icons";
+import { Alert } from "@material-ui/lab";
 
 import { Input } from "reactstrap";
 
@@ -907,28 +908,30 @@ export default function FormBuilder({ schema, uischema, onChange, mods }) {
   // Esta sección genera las alertas:
   return /*#__PURE__*/ React.createElement(
     Mui.Container,
-    /*{ 
-      className: `${classes.formBuilder} ${className || ""}`,
-    },*/
-    /*#__PURE__*/ React.createElement(
-      Mui.Alert,
-      {
-        style: {
-          display: unsupportedFeatures.length === 0 ? "none" : "block",
-        },
-        color: "warning",
-      },
-      /*#__PURE__*/ React.createElement("h5", null, "Unsupported Features:"),
-      unsupportedFeatures.map((message, index) =>
-        /*#__PURE__*/ React.createElement(
-          "li",
+    null,
+    unsupportedFeatures.length === 0
+      ? null
+      : React.createElement(
+          Alert,
           {
-            key: index,
+            display: unsupportedFeatures.length === 0 ? "none" : "block",
+            color: "warning",
           },
-          message
-        )
-      )
-    ),
+          React__default.createElement(
+            Mui.Typography,
+            { variant: "h5" },
+            "Unsupported Features:"
+          ),
+          unsupportedFeatures.map((message, index) =>
+            React__default.createElement(
+              Mui.ListItem,
+              {
+                key: `${elementId}_${message}`,
+              },
+              message
+            )
+          )
+        ),
     // Esta sección genera el Header, con el título y la descripción:
     (!mods || mods.showFormHead !== false) &&
       /*#__PURE__*/ React.createElement(
