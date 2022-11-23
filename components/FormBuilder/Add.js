@@ -1,12 +1,9 @@
 import * as Mui from "@material-ui/core";
+import * as Icon from "@material-ui/icons";
+import React from "react";
 import React__default, { useState } from "react";
 
 import { createUseStyles } from "react-jss";
-import { faPlusSquare } from "@fortawesome/free-solid-svg-icons";
-
-// Importar componentes:
-import FontAwesomeIcon from "./FontAwesomeIcon";
-import FBRadioGroup from "./FBRadioGroup";
 
 // Importar Utils:
 import getRandomId from "../FormBuilderUtils/getRandomId";
@@ -36,39 +33,26 @@ const useStyles$5 = createUseStyles({
 export default function Add({ addElem, hidden, tooltipDescription }) {
   const classes = useStyles$5();
   const [popoverOpen, setPopoverOpen] = useState(false);
-  const [createChoice, setCreateChoice] = useState("card");
   const [elementId] = useState(getRandomId());
   const [anchorEl, setAnchorEl] = useState({});
 
-  return /*#__PURE__*/ React__default.createElement(
+  return /*#__PURE__*/ React.createElement(
     Mui.Container,
-    {
-      /*style: {
-          display: hidden ? "none" : "initial",
-        },*/
-    },
-    /*#__PURE__*/ React__default.createElement(
-      "span",
+    null,
+    React.createElement(
+      Mui.Tooltip,
       {
+        title: "Crear elemento nuevo",
         id: `${elementId}_add`,
       },
-      /*#__PURE__*/ React__default.createElement(FontAwesomeIcon, {
-        icon: faPlusSquare,
+      React.createElement(Icon.Add, {
         onClick: (event) => {
           setAnchorEl(event.currentTarget);
           setPopoverOpen(true);
         },
       })
     ),
-    /*#__PURE__*/ React__default.createElement(
-      "span",
-      {
-        placement: "top",
-        target: `${elementId}_add`,
-      },
-      tooltipDescription || "Crear elemento nuevo"
-    ),
-    /*#__PURE__*/ React__default.createElement(
+    React__default.createElement(
       Mui.Popover,
       {
         anchorEl: anchorEl,
@@ -76,38 +60,15 @@ export default function Add({ addElem, hidden, tooltipDescription }) {
         toggle: () => setPopoverOpen(false),
         id: `${elementId}_add_popover`,
       },
-      /*#__PURE__*/ React__default.createElement(
+      React__default.createElement(
         Mui.Typography,
         { variant: "h5", align: "center" },
         "Crear Nuevo"
       ),
-      /*#__PURE__*/ React__default.createElement(
+      React__default.createElement(
         Mui.Container,
-        null /*
-        React__default.createElement(FBRadioGroup, {
-          className: "choose-create",
-          defaultValue: createChoice,
-          horizontal: false,
-          options: [
-            {
-              value: "card",
-              label: "Elemento",
-            },
-            {
-              value: "section",
-              label: "Sección",
-            },
-          ],
-          onChange: (selection) => {
-            setCreateChoice(selection);
-          },
-        }),*/,
-        /*#__PURE__*/ /*React__default.createElement(
-          "div",
-          {
-            className: "action-buttons",
-          },*/
-        /*#__PURE__*/ React__default.createElement(
+        null,
+        React__default.createElement(
           Mui.Button,
           {
             onClick: () => {
@@ -118,7 +79,7 @@ export default function Add({ addElem, hidden, tooltipDescription }) {
           },
           "Elemento"
         ),
-        /*#__PURE__*/ React__default.createElement(
+        React__default.createElement(
           Mui.Button,
           {
             onClick: () => {
@@ -129,7 +90,7 @@ export default function Add({ addElem, hidden, tooltipDescription }) {
           },
           "Sección"
         ),
-        /*#__PURE__*/ React__default.createElement(
+        React__default.createElement(
           Mui.Button,
           {
             onClick: () => setPopoverOpen(false),
@@ -137,18 +98,6 @@ export default function Add({ addElem, hidden, tooltipDescription }) {
           },
           "Cancelar"
         )
-        /*React__default.createElement(
-          Mui.Button,
-          {
-            onClick: () => {
-              addElem(createChoice);
-              setPopoverOpen(false);
-            },
-            color: "primary",
-          },
-          "Crear"
-        )*/
-        //)
       )
     )
   );
