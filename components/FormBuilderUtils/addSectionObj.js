@@ -2,7 +2,7 @@ import generateElementPropsFromSchemas from "./generateElementPropsFromSchemas";
 import getIdFromElementsBlock from "./getIdFromElementsBlock";
 import updateSchemas from "./updateSchemas";
 
-const DEFAULT_INPUT_NAME = "Nuevo Elemento ";
+const DEFAULT_INPUT_NAME = "Nueva Sección ";
 
 // given an initial schema, update with a new section appended
 export default function addSectionObj(parameters) {
@@ -27,14 +27,14 @@ export default function addSectionObj(parameters) {
     name: `${DEFAULT_INPUT_NAME}${i}`,
     required: false,
     dataOptions: {
-      title: `New Input ${i}`,
+      title: `Nueva Sección ${i}`,
       type: "object",
       default: "",
     },
     uiOptions: {},
     propType: "section",
     schema: {
-      title: `New Input ${i}`,
+      title: `Nueva Sección ${i}`,
       type: "object",
     },
     uischema: {},
