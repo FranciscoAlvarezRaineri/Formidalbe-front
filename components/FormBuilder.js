@@ -1087,7 +1087,7 @@ export default function FormBuilder({ schema, uischema, onChange, mods }) {
         )
       )
     ),
-    // Esta sección genera el footer (que en este momento esta vacío):
+    // Esta sección genera el footer:
     /*#__PURE__*/ React.createElement(
       Mui.Container,
       {

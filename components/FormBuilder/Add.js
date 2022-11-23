@@ -1,13 +1,6 @@
 import * as Mui from "@material-ui/core";
 import React__default, { useState } from "react";
 
-import {
-  UncontrolledTooltip,
-  Button,
-  Popover,
-  PopoverHeader,
-  PopoverBody,
-} from "reactstrap";
 import { createUseStyles } from "react-jss";
 import { faPlusSquare } from "@fortawesome/free-solid-svg-icons";
 
@@ -84,56 +77,78 @@ export default function Add({ addElem, hidden, tooltipDescription }) {
         id: `${elementId}_add_popover`,
       },
       /*#__PURE__*/ React__default.createElement(
-        PopoverHeader,
-        null,
-        "Create New"
+        Mui.Typography,
+        { variant: "h5", align: "center" },
+        "Crear Nuevo"
       ),
       /*#__PURE__*/ React__default.createElement(
-        PopoverBody,
-        null,
-        /*#__PURE__*/ React__default.createElement(FBRadioGroup, {
+        Mui.Container,
+        null /*
+        React__default.createElement(FBRadioGroup, {
           className: "choose-create",
           defaultValue: createChoice,
           horizontal: false,
           options: [
             {
               value: "card",
-              label: "Form element",
+              label: "Elemento",
             },
             {
               value: "section",
-              label: "Form section",
+              label: "Sección",
             },
           ],
           onChange: (selection) => {
             setCreateChoice(selection);
           },
-        }),
-        /*#__PURE__*/ React__default.createElement(
+        }),*/,
+        /*#__PURE__*/ /*React__default.createElement(
           "div",
           {
             className: "action-buttons",
+          },*/
+        /*#__PURE__*/ React__default.createElement(
+          Mui.Button,
+          {
+            onClick: () => {
+              addElem("card");
+              setPopoverOpen(false);
+            },
+            color: "primary",
           },
-          /*#__PURE__*/ React__default.createElement(
-            Button,
-            {
-              onClick: () => setPopoverOpen(false),
-              color: "secondary",
+          "Elemento"
+        ),
+        /*#__PURE__*/ React__default.createElement(
+          Mui.Button,
+          {
+            onClick: () => {
+              addElem("section");
+              setPopoverOpen(false);
             },
-            "Cancel"
-          ),
-          /*#__PURE__*/ React__default.createElement(
-            Button,
-            {
-              onClick: () => {
-                addElem(createChoice);
-                setPopoverOpen(false);
-              },
-              color: "primary",
-            },
-            "Create"
-          )
+            color: "primary",
+          },
+          "Sección"
+        ),
+        /*#__PURE__*/ React__default.createElement(
+          Mui.Button,
+          {
+            onClick: () => setPopoverOpen(false),
+            color: "secondary",
+          },
+          "Cancelar"
         )
+        /*React__default.createElement(
+          Mui.Button,
+          {
+            onClick: () => {
+              addElem(createChoice);
+              setPopoverOpen(false);
+            },
+            color: "primary",
+          },
+          "Crear"
+        )*/
+        //)
       )
     )
   );
