@@ -1,4 +1,5 @@
 import generateElementPropsFromSchemas from "./generateElementPropsFromSchemas";
+import updateSchemas from "./updateSchemas";
 
 // function called when drag and drop ends
 export default function onDragEnd(result, details) {

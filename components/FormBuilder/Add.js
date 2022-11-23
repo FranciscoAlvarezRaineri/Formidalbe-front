@@ -45,6 +45,8 @@ export default function Add({ addElem, hidden, tooltipDescription }) {
   const [popoverOpen, setPopoverOpen] = useState(false);
   const [createChoice, setCreateChoice] = useState("card");
   const [elementId] = useState(getRandomId());
+  const [anchorEl, setAnchorEl] = useState({});
+
   return /*#__PURE__*/ React__default.createElement(
     Mui.Container,
     {
@@ -59,25 +61,26 @@ export default function Add({ addElem, hidden, tooltipDescription }) {
       },
       /*#__PURE__*/ React__default.createElement(FontAwesomeIcon, {
         icon: faPlusSquare,
-        onClick: () => setPopoverOpen(true),
+        onClick: (event) => {
+          setAnchorEl(event.currentTarget);
+          setPopoverOpen(true);
+        },
       })
     ),
     /*#__PURE__*/ React__default.createElement(
-      UncontrolledTooltip,
+      "span",
       {
         placement: "top",
         target: `${elementId}_add`,
       },
-      tooltipDescription || "Create new form element"
+      tooltipDescription || "Crear elemento nuevo"
     ),
     /*#__PURE__*/ React__default.createElement(
-      Popover,
+      Mui.Popover,
       {
-        placement: "bottom",
-        target: `${elementId}_add`,
-        isOpen: popoverOpen,
+        anchorEl: anchorEl,
+        open: popoverOpen,
         toggle: () => setPopoverOpen(false),
-        className: `add-details ${classes.addDetails}`,
         id: `${elementId}_add_popover`,
       },
       /*#__PURE__*/ React__default.createElement(
@@ -135,3 +138,95 @@ export default function Add({ addElem, hidden, tooltipDescription }) {
     )
   );
 }
+
+/*export default function Add({ addElem, hidden, tooltipDescription }) {
+  const classes = useStyles$5();
+  const [popoverOpen, setPopoverOpen] = useState(false);
+  const [createChoice, setCreateChoice] = useState("card");
+  const [elementId] = useState(getRandomId());
+  return React__default.createElement(
+    Mui.Container,
+    {},
+    React__default.createElement(
+      "span",
+      {
+        id: `${elementId}_add`,
+      },
+      React__default.createElement(FontAwesomeIcon, {
+        icon: faPlusSquare,
+        onClick: () => setPopoverOpen(true),
+      })
+    ),
+    React__default.createElement(
+      UncontrolledTooltip,
+      {
+        placement: "top",
+        target: `${elementId}_add`,
+      },
+      tooltipDescription || "Create new form element"
+    ),
+    React__default.createElement(
+      Popover,
+      {
+        placement: "bottom",
+        target: `${elementId}_add`,
+        isOpen: popoverOpen,
+        toggle: () => setPopoverOpen(false),
+        className: `add-details ${classes.addDetails}`,
+        id: `${elementId}_add_popover`,
+      },
+      React__default.createElement(
+        PopoverHeader,
+        null,
+        "Create New"
+      ),
+      React__default.createElement(
+        PopoverBody,
+        null,
+        React__default.createElement(FBRadioGroup, {
+          className: "choose-create",
+          defaultValue: createChoice,
+          horizontal: false,
+          options: [
+            {
+              value: "card",
+              label: "Form element",
+            },
+            {
+              value: "section",
+              label: "Form section",
+            },
+          ],
+          onChange: (selection) => {
+            setCreateChoice(selection);
+          },
+        }),
+        React__default.createElement(
+          "div",
+          {
+            className: "action-buttons",
+          },
+          React__default.createElement(
+            Button,
+            {
+              onClick: () => setPopoverOpen(false),
+              color: "secondary",
+            },
+            "Cancel"
+          ),
+          React__default.createElement(
+            Button,
+            {
+              onClick: () => {
+                addElem(createChoice);
+                setPopoverOpen(false);
+              },
+              color: "primary",
+            },
+            "Create"
+          )
+        )
+      )
+    )
+  );
+}*/

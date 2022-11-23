@@ -31,6 +31,7 @@ import countElementsFromSchema from "../FormBuilderUtils/countElementsFromSchema
 import getRandomId from "../FormBuilderUtils/getRandomId";
 import _extends from "../FormBuilderUtils/_extends";
 import generateElementComponentsFromSchemas from "../FormBuilderUtils/generateElementComponentsFromSchemas";
+import onDragEnd from "../FormBuilderUtils/onDragEnd";
 
 function CardDefaultParameterInputs({ parameters, onChange }) {
   return /*#__PURE__*/ React.createElement("div", null);

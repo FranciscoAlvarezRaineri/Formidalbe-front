@@ -1,11 +1,12 @@
 import * as Mui from "@material-ui/core";
 import * as Icons from "@material-ui/icons";
 
+import { Input } from "reactstrap";
+
 import * as React from "react";
 import React__default, { useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
-import { Input } from "reactstrap";
 import { createUseStyles } from "react-jss";
 
 // Importar componentes:
@@ -906,7 +907,7 @@ export default function FormBuilder({ schema, uischema, onChange, mods }) {
   // Esta sección genera las alertas:
   return /*#__PURE__*/ React.createElement(
     Mui.Container,
-    /*{
+    /*{ 
       className: `${classes.formBuilder} ${className || ""}`,
     },*/
     /*#__PURE__*/ React.createElement(
