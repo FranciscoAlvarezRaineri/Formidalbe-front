@@ -159,14 +159,14 @@ export default function Card({
             " ",
             componentProps.parent
               ? React.createElement(Example, {
-                  text: `Depends on ${componentProps.parent}`,
+                  text: `Depende de ${componentProps.parent}`,
                   id: `${elementId}_parentinfo`,
                   type: "alert",
                 })
               : "",
             componentProps.$ref !== undefined
               ? React.createElement(Example, {
-                  text: `Is an instance of pre-configured component ${componentProps.$ref}`,
+                  text: `Es una instancia del elemento pre-configurado ${componentProps.$ref}`,
                   id: `${elementId}_refinfo`,
                   type: "alert",
                 })
@@ -217,7 +217,7 @@ export default function Card({
         React.createElement(
           Mui.Tooltip,
           {
-            title: "Additional configurations for this form element",
+            title: "Configuraciones adicionales",
             id: `${elementId}_editinfo`,
           },
           React.createElement(Icon.Edit, {
@@ -227,7 +227,7 @@ export default function Card({
         React.createElement(
           Mui.Tooltip,
           {
-            title: "Delete form element",
+            title: "Eliminar elemento",
             id: `${elementId}_trashinfo`,
           },
           React.createElement(Icon.Delete, {
@@ -242,7 +242,7 @@ export default function Card({
               })
             ),
           isChecked: !!componentProps.required,
-          label: "Required",
+          label: "Requerido",
           id: `${elementId}_required`,
         })
       ),

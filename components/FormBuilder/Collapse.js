@@ -1,9 +1,9 @@
-import React__default from "react";
-import FontAwesomeIcon from "./FontAwesomeIcon";
+import * as Mui from "@material-ui/core";
+import * as Icon from "@material-ui/icons";
 
-import { Collapse as Collapse$1 } from "reactstrap";
+import React__default from "react";
+
 import { createUseStyles } from "react-jss";
-import { faCaretDown, faCaretRight } from "@fortawesome/free-solid-svg-icons";
 import classnames from "classnames";
 
 const useStyles$b = createUseStyles({
@@ -37,34 +37,72 @@ export default function Collapse(props) {
       disabled: props.disableToggle,
     }
   );
-  return /*#__PURE__*/ React__default.createElement(
+  return React__default.createElement(
     "div",
+    null,
+    React__default.createElement(
+      "span",
+      null,
+      React__default.createElement(
+        "span",
+        null,
+        props.isOpen
+          ? React__default.createElement(Icon.ExpandLess, {
+              onClick: !props.disableToggle ? props.toggleCollapse : () => {},
+            })
+          : React__default.createElement(Icon.ExpandMore, {
+              onClick: !props.disableToggle ? props.toggleCollapse : () => {},
+            })
+      ),
+      React__default.createElement(
+        Mui.Typography,
+        { variant: "h5", display: "inline" },
+        props.title
+      )
+    ),
+    React__default.createElement(
+      Mui.Collapse,
+      { in: props.isOpen },
+      React__default.createElement(Mui.Container, null, props.children)
+    )
+  );
+}
+
+/*export default function Collapse(props) {
+  const classes = classnames(
+    `collapse-element ${props.className || ""} ${
+      useStyles$b().collapseElement
+    }`,
     {
-      className: classes,
-    },
-    /*#__PURE__*/ React__default.createElement(
+      disabled: props.disableToggle,
+    }
+  );
+  return React__default.createElement(
+    "div",
+    null,
+    React__default.createElement(
       "div",
       {
         className: "d-flex",
       },
-      /*#__PURE__*/ React__default.createElement(
+      React__default.createElement(
         "span",
         {
           className: "toggle-collapse",
         },
-        /*#__PURE__*/ React__default.createElement(FontAwesomeIcon, {
+        React__default.createElement(FontAwesomeIcon, {
           onClick: !props.disableToggle ? props.toggleCollapse : () => {},
           icon: props.isOpen ? faCaretDown : faCaretRight,
         })
       ),
-      /*#__PURE__*/ React__default.createElement("h4", null, props.title)
+      React__default.createElement("h4", null, props.title)
     ),
-    /*#__PURE__*/ React__default.createElement(
+    React__default.createElement(
       Collapse$1,
       {
         isOpen: props.isOpen,
       },
-      /*#__PURE__*/ React__default.createElement("div", null, props.children)
+      React__default.createElement("div", null, props.children)
     )
   );
-}
+}*/
