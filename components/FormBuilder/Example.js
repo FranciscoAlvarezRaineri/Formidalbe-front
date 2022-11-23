@@ -1,5 +1,6 @@
 import React__default from "react";
 
+import { Tooltip } from '@material-ui/core';
 import FontAwesomeIcon from "./FontAwesomeIcon";
 import { UncontrolledTooltip } from "reactstrap";
 import { createUseStyles } from "react-jss";

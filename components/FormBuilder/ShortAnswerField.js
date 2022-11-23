@@ -1,6 +1,7 @@
 import React__default from "react";
 
-import { Input } from "reactstrap";
+// import { Input } from "reactstrap";
+import { Input } from '@material-ui/core'
 
 import _extends from "../FormBuilderUtils/_extends";
 
@@ -17,6 +18,8 @@ export default function ShortAnswerField({ parameters, onChange }) {
     /*#__PURE__*/ React__default.createElement(Input, {
       value: parameters.default,
       placeholder: "Default",
+      color: "secondary",
+      type: "text",
       type: formatTypeDictionary[parameters.format] || "text",
       onChange: (ev) =>
         onChange(
@@ -24,7 +27,7 @@ export default function ShortAnswerField({ parameters, onChange }) {
             default: ev.target.value,
           })
         ),
-      className: "card-text",
+      // className: "card-text",
     })
   );
 }

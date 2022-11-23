@@ -1,6 +1,7 @@
 import React__default from "react";
 
-import { Input } from "reactstrap";
+// import { Input } from "reactstrap";
+import { Input } from '@material-ui/core'
 
 import _extends from "../FormBuilderUtils/_extends";
 
@@ -13,6 +14,7 @@ export default function LongAnswer({ parameters, onChange }) {
       value: parameters.default,
       placeholder: "Default",
       type: "textarea",
+      color:"secondary",
       onChange: (ev) =>
         onChange(
           _extends({}, parameters, {

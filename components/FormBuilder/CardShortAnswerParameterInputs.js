@@ -1,6 +1,8 @@
 import React__default, { useState } from "react";
 
-import { Input } from "reactstrap";
+// import { Input } from "reactstrap";
+import { Input } from '@material-ui/core'
+
 import Select from "react-select";
 
 import getRandomId from "../FormBuilderUtils/getRandomId";
