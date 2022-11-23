@@ -1,17 +1,11 @@
+import * as Mui from "@material-ui/core";
+import * as Icon from "@material-ui/icons";
 import * as React from "react";
 
-import { UncontrolledTooltip } from "reactstrap";
 import { createUseStyles } from "react-jss";
-import {
-  faArrowUp,
-  faArrowDown,
-  faPencilAlt,
-  faTrash,
-} from "@fortawesome/free-solid-svg-icons";
 
 // Importar componentes:
 import FBCheckbox from "./FBCheckbox";
-import FontAwesomeIcon from "./FontAwesomeIcon";
 import Collapse from "./Collapse";
 import Example from "./Example";
 import CardModal from "./CardModal";
@@ -127,6 +121,7 @@ const useStyles$4 = createUseStyles({
     },
   },
 });
+
 export default function Card({
   componentProps,
   onChange,
@@ -144,18 +139,162 @@ export default function Card({
   const classes = useStyles$4();
   const [modalOpen, setModalOpen] = React.useState(false);
   const [elementId] = React.useState(getRandomId());
-  return /*#__PURE__*/ React.createElement(
+  return React.createElement(
     React.Fragment,
     null,
-    /*#__PURE__*/ React.createElement(
+    React.createElement(
       Collapse,
       {
         isOpen: cardOpen,
         toggleCollapse: () => setCardOpen(!cardOpen),
-        title: /*#__PURE__*/ React.createElement(
+        title: React.createElement(
           React.Fragment,
           null,
-          /*#__PURE__*/ React.createElement(
+          React.createElement(
+            "span",
+            {
+              onClick: () => setCardOpen(!cardOpen),
+            },
+            componentProps.title || componentProps.name,
+            " ",
+            componentProps.parent
+              ? React.createElement(Example, {
+                  text: `Depends on ${componentProps.parent}`,
+                  id: `${elementId}_parentinfo`,
+                  type: "alert",
+                })
+              : "",
+            componentProps.$ref !== undefined
+              ? React.createElement(Example, {
+                  text: `Is an instance of pre-configured component ${componentProps.$ref}`,
+                  id: `${elementId}_refinfo`,
+                  type: "alert",
+                })
+              : ""
+          ),
+          React.createElement(
+            Mui.Container,
+            {
+              id: `${elementId}_arrows`,
+            },
+            React.createElement(
+              Mui.Tooltip,
+              {
+                title: "Mover elemento hacia arriba",
+                id: `Hola`,
+              },
+              React.createElement(Icon.ArrowUpward, {
+                onClick: () => (onMoveUp ? onMoveUp() : {}),
+              })
+            ),
+            React.createElement(
+              Mui.Tooltip,
+              {
+                title: "Mover elemento hacia abajo",
+                id: `${elementId}_movedownbiginfo`,
+              },
+              React.createElement(Icon.ArrowDownward, {
+                onClick: () => (onMoveDown ? onMoveDown() : {}),
+              })
+            )
+          )
+        ),
+      },
+      React.createElement(
+        Mui.Container,
+        null,
+        React.createElement(CardGeneralParameterInputs, {
+          parameters: componentProps,
+          onChange: onChange,
+          allFormInputs: allFormInputs,
+          mods: mods,
+          showObjectNameInput: showObjectNameInput,
+        })
+      ),
+      React.createElement(
+        Mui.Container,
+        null,
+        React.createElement(
+          Mui.Tooltip,
+          {
+            title: "Additional configurations for this form element",
+            id: `${elementId}_editinfo`,
+          },
+          React.createElement(Icon.Edit, {
+            onClick: () => setModalOpen(true),
+          })
+        ),
+        React.createElement(
+          Mui.Tooltip,
+          {
+            title: "Delete form element",
+            id: `${elementId}_trashinfo`,
+          },
+          React.createElement(Icon.Delete, {
+            onClick: onDelete || (() => {}),
+          })
+        ),
+        React.createElement(FBCheckbox, {
+          onChangeValue: () =>
+            onChange(
+              _extends({}, componentProps, {
+                required: !componentProps.required,
+              })
+            ),
+          isChecked: !!componentProps.required,
+          label: "Required",
+          id: `${elementId}_required`,
+        })
+      ),
+      React.createElement(CardModal, {
+        componentProps: componentProps,
+        isOpen: modalOpen,
+        onClose: () => setModalOpen(false),
+        onChange: (newComponentProps) => {
+          onChange(newComponentProps);
+        },
+        TypeSpecificParameters: TypeSpecificParameters,
+      })
+    ),
+    addElem
+      ? React.createElement(Add, {
+          tooltipDescription: ((mods || {}).tooltipDescriptions || {}).add,
+          addElem: (choice) => addElem(choice),
+        })
+      : ""
+  );
+}
+
+/*
+export default function Card({
+  componentProps,
+  onChange,
+  onDelete,
+  onMoveUp,
+  onMoveDown,
+  TypeSpecificParameters,
+  addElem,
+  cardOpen,
+  setCardOpen,
+  allFormInputs,
+  mods,
+  showObjectNameInput = true,
+}) {
+  const classes = useStyles$4();
+  const [modalOpen, setModalOpen] = React.useState(false);
+  const [elementId] = React.useState(getRandomId());
+  return  React.createElement(
+    React.Fragment,
+    null,
+     React.createElement(
+      Collapse,
+      {
+        isOpen: cardOpen,
+        toggleCollapse: () => setCardOpen(!cardOpen),
+        title:  React.createElement(
+          React.Fragment,
+          null,
+           React.createElement(
             "span",
             {
               onClick: () => setCardOpen(!cardOpen),
@@ -164,36 +303,36 @@ export default function Card({
             componentProps.title || componentProps.name,
             " ",
             componentProps.parent
-              ? /*#__PURE__*/ React.createElement(Example, {
+              ?  React.createElement(Example, {
                   text: `Depends on ${componentProps.parent}`,
                   id: `${elementId}_parentinfo`,
                   type: "alert",
                 })
               : "",
             componentProps.$ref !== undefined
-              ? /*#__PURE__*/ React.createElement(Example, {
+              ?  React.createElement(Example, {
                   text: `Is an instance of pre-configured component ${componentProps.$ref}`,
                   id: `${elementId}_refinfo`,
                   type: "alert",
                 })
               : ""
           ),
-          /*#__PURE__*/ React.createElement(
+           React.createElement(
             "span",
             {
               className: "arrows",
             },
-            /*#__PURE__*/ React.createElement(
+             React.createElement(
               "span",
               {
                 id: `${elementId}_moveupbiginfo`,
               },
-              /*#__PURE__*/ React.createElement(FontAwesomeIcon, {
+               React.createElement(FontAwesomeIcon, {
                 icon: faArrowUp,
                 onClick: () => (onMoveUp ? onMoveUp() : {}),
               })
             ),
-            /*#__PURE__*/ React.createElement(
+             React.createElement(
               UncontrolledTooltip,
               {
                 placement: "top",
@@ -201,17 +340,17 @@ export default function Card({
               },
               "Move form element up"
             ),
-            /*#__PURE__*/ React.createElement(
+             React.createElement(
               "span",
               {
                 id: `${elementId}_movedownbiginfo`,
               },
-              /*#__PURE__*/ React.createElement(FontAwesomeIcon, {
+               React.createElement(FontAwesomeIcon, {
                 icon: faArrowDown,
                 onClick: () => (onMoveDown ? onMoveDown() : {}),
               })
             ),
-            /*#__PURE__*/ React.createElement(
+             React.createElement(
               UncontrolledTooltip,
               {
                 placement: "top",
@@ -225,12 +364,12 @@ export default function Card({
           componentProps.dependent ? "card-dependent" : ""
         } ${componentProps.$ref === undefined ? "" : "card-reference"}`,
       },
-      /*#__PURE__*/ React.createElement(
+       React.createElement(
         "div",
         {
           className: classes.cardEntries,
         },
-        /*#__PURE__*/ React.createElement(CardGeneralParameterInputs, {
+         React.createElement(CardGeneralParameterInputs, {
           parameters: componentProps,
           onChange: onChange,
           allFormInputs: allFormInputs,
@@ -238,22 +377,22 @@ export default function Card({
           showObjectNameInput: showObjectNameInput,
         })
       ),
-      /*#__PURE__*/ React.createElement(
+       React.createElement(
         "div",
         {
           className: classes.cardInteractions,
         },
-        /*#__PURE__*/ React.createElement(
+         React.createElement(
           "span",
           {
             id: `${elementId}_editinfo`,
           },
-          /*#__PURE__*/ React.createElement(FontAwesomeIcon, {
+           React.createElement(FontAwesomeIcon, {
             icon: faPencilAlt,
             onClick: () => setModalOpen(true),
           })
         ),
-        /*#__PURE__*/ React.createElement(
+         React.createElement(
           UncontrolledTooltip,
           {
             placement: "top",
@@ -261,17 +400,17 @@ export default function Card({
           },
           "Additional configurations for this form element"
         ),
-        /*#__PURE__*/ React.createElement(
+         React.createElement(
           "span",
           {
             id: `${elementId}_trashinfo`,
           },
-          /*#__PURE__*/ React.createElement(FontAwesomeIcon, {
+           React.createElement(FontAwesomeIcon, {
             icon: faTrash,
             onClick: onDelete || (() => {}),
           })
         ),
-        /*#__PURE__*/ React.createElement(
+         React.createElement(
           UncontrolledTooltip,
           {
             placement: "top",
@@ -279,7 +418,7 @@ export default function Card({
           },
           "Delete form element"
         ),
-        /*#__PURE__*/ React.createElement(FBCheckbox, {
+        React.createElement(FBCheckbox, {
           onChangeValue: () =>
             onChange(
               _extends({}, componentProps, {
@@ -291,7 +430,7 @@ export default function Card({
           id: `${elementId}_required`,
         })
       ),
-      /*#__PURE__*/ React.createElement(CardModal, {
+       React.createElement(CardModal, {
         componentProps: componentProps,
         isOpen: modalOpen,
         onClose: () => setModalOpen(false),
@@ -302,10 +441,11 @@ export default function Card({
       })
     ),
     addElem
-      ? /*#__PURE__*/ React.createElement(Add, {
+      ? React.createElement(Add, {
           tooltipDescription: ((mods || {}).tooltipDescriptions || {}).add,
           addElem: (choice) => addElem(choice),
         })
       : ""
   );
 }
+*/
