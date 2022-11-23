@@ -191,7 +191,7 @@ export default function generateElementComponentsFromSchemas(parameters) {
             definitionUi,
             onChange,
           });
-        },
+        } /*
         addElem: (choice) => {
           if (choice === "card") {
             addCardObj({
@@ -216,7 +216,7 @@ export default function generateElementComponentsFromSchemas(parameters) {
             });
           }
           setCardOpenArray([...cardOpenArray, false]);
-        },
+        },*/,
         cardOpen: expanded,
         setCardOpen: (newState) =>
           setCardOpenArray([
@@ -392,6 +392,7 @@ export default function generateElementComponentsFromSchemas(parameters) {
         dependents: elementProp.dependents,
         dependent: elementProp.dependent,
         parent: elementProp.parent,
+        /*
         addElem: (choice) => {
           if (choice === "card") {
             addCardObj({
@@ -416,7 +417,7 @@ export default function generateElementComponentsFromSchemas(parameters) {
             });
           }
           setCardOpenArray([...cardOpenArray, false]);
-        },
+        },*/
         cardOpen: expanded,
         setCardOpen: (newState) =>
           setCardOpenArray([

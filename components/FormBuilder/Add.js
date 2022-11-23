@@ -1,13 +1,6 @@
 import * as Mui from "@material-ui/core";
 import React__default, { useState } from "react";
 
-import {
-  UncontrolledTooltip,
-  Button,
-  Popover,
-  PopoverHeader,
-  PopoverBody,
-} from "reactstrap";
 import { createUseStyles } from "react-jss";
 import { faPlusSquare } from "@fortawesome/free-solid-svg-icons";
 
@@ -45,6 +38,8 @@ export default function Add({ addElem, hidden, tooltipDescription }) {
   const [popoverOpen, setPopoverOpen] = useState(false);
   const [createChoice, setCreateChoice] = useState("card");
   const [elementId] = useState(getRandomId());
+  const [anchorEl, setAnchorEl] = useState({});
+
   return /*#__PURE__*/ React__default.createElement(
     Mui.Container,
     {
@@ -59,10 +54,125 @@ export default function Add({ addElem, hidden, tooltipDescription }) {
       },
       /*#__PURE__*/ React__default.createElement(FontAwesomeIcon, {
         icon: faPlusSquare,
-        onClick: () => setPopoverOpen(true),
+        onClick: (event) => {
+          setAnchorEl(event.currentTarget);
+          setPopoverOpen(true);
+        },
       })
     ),
     /*#__PURE__*/ React__default.createElement(
+      "span",
+      {
+        placement: "top",
+        target: `${elementId}_add`,
+      },
+      tooltipDescription || "Crear elemento nuevo"
+    ),
+    /*#__PURE__*/ React__default.createElement(
+      Mui.Popover,
+      {
+        anchorEl: anchorEl,
+        open: popoverOpen,
+        toggle: () => setPopoverOpen(false),
+        id: `${elementId}_add_popover`,
+      },
+      /*#__PURE__*/ React__default.createElement(
+        Mui.Typography,
+        { variant: "h5", align: "center" },
+        "Crear Nuevo"
+      ),
+      /*#__PURE__*/ React__default.createElement(
+        Mui.Container,
+        null /*
+        React__default.createElement(FBRadioGroup, {
+          className: "choose-create",
+          defaultValue: createChoice,
+          horizontal: false,
+          options: [
+            {
+              value: "card",
+              label: "Elemento",
+            },
+            {
+              value: "section",
+              label: "Sección",
+            },
+          ],
+          onChange: (selection) => {
+            setCreateChoice(selection);
+          },
+        }),*/,
+        /*#__PURE__*/ /*React__default.createElement(
+          "div",
+          {
+            className: "action-buttons",
+          },*/
+        /*#__PURE__*/ React__default.createElement(
+          Mui.Button,
+          {
+            onClick: () => {
+              addElem("card");
+              setPopoverOpen(false);
+            },
+            color: "primary",
+          },
+          "Elemento"
+        ),
+        /*#__PURE__*/ React__default.createElement(
+          Mui.Button,
+          {
+            onClick: () => {
+              addElem("section");
+              setPopoverOpen(false);
+            },
+            color: "primary",
+          },
+          "Sección"
+        ),
+        /*#__PURE__*/ React__default.createElement(
+          Mui.Button,
+          {
+            onClick: () => setPopoverOpen(false),
+            color: "secondary",
+          },
+          "Cancelar"
+        )
+        /*React__default.createElement(
+          Mui.Button,
+          {
+            onClick: () => {
+              addElem(createChoice);
+              setPopoverOpen(false);
+            },
+            color: "primary",
+          },
+          "Crear"
+        )*/
+        //)
+      )
+    )
+  );
+}
+
+/*export default function Add({ addElem, hidden, tooltipDescription }) {
+  const classes = useStyles$5();
+  const [popoverOpen, setPopoverOpen] = useState(false);
+  const [createChoice, setCreateChoice] = useState("card");
+  const [elementId] = useState(getRandomId());
+  return React__default.createElement(
+    Mui.Container,
+    {},
+    React__default.createElement(
+      "span",
+      {
+        id: `${elementId}_add`,
+      },
+      React__default.createElement(FontAwesomeIcon, {
+        icon: faPlusSquare,
+        onClick: () => setPopoverOpen(true),
+      })
+    ),
+    React__default.createElement(
       UncontrolledTooltip,
       {
         placement: "top",
@@ -70,7 +180,7 @@ export default function Add({ addElem, hidden, tooltipDescription }) {
       },
       tooltipDescription || "Create new form element"
     ),
-    /*#__PURE__*/ React__default.createElement(
+    React__default.createElement(
       Popover,
       {
         placement: "bottom",
@@ -80,15 +190,15 @@ export default function Add({ addElem, hidden, tooltipDescription }) {
         className: `add-details ${classes.addDetails}`,
         id: `${elementId}_add_popover`,
       },
-      /*#__PURE__*/ React__default.createElement(
+      React__default.createElement(
         PopoverHeader,
         null,
         "Create New"
       ),
-      /*#__PURE__*/ React__default.createElement(
+      React__default.createElement(
         PopoverBody,
         null,
-        /*#__PURE__*/ React__default.createElement(FBRadioGroup, {
+        React__default.createElement(FBRadioGroup, {
           className: "choose-create",
           defaultValue: createChoice,
           horizontal: false,
@@ -106,12 +216,12 @@ export default function Add({ addElem, hidden, tooltipDescription }) {
             setCreateChoice(selection);
           },
         }),
-        /*#__PURE__*/ React__default.createElement(
+        React__default.createElement(
           "div",
           {
             className: "action-buttons",
           },
-          /*#__PURE__*/ React__default.createElement(
+          React__default.createElement(
             Button,
             {
               onClick: () => setPopoverOpen(false),
@@ -119,7 +229,7 @@ export default function Add({ addElem, hidden, tooltipDescription }) {
             },
             "Cancel"
           ),
-          /*#__PURE__*/ React__default.createElement(
+          React__default.createElement(
             Button,
             {
               onClick: () => {
@@ -134,4 +244,4 @@ export default function Add({ addElem, hidden, tooltipDescription }) {
       )
     )
   );
-}
+}*/
