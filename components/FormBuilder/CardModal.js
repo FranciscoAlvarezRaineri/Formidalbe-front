@@ -1,23 +1,16 @@
 import * as React from "react";
 import React__default, { useState } from "react";
+import * as Mui from "@material-ui/core";
+import * as Icon from "@material-ui/icons";
 
-import { UncontrolledTooltip } from "reactstrap";
-import { faTimes, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { createUseStyles } from "react-jss";
-import {
-  Input,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Button,
-} from "reactstrap";
 
 // Importar componentes:
 import Example from "./Example";
-import FontAwesomeIcon from "./FontAwesomeIcon";
 import FBRadioGroup from "./FBRadioGroup";
 import CardSelector from "./CardSelector";
+import FBCheckbox from "./FBCheckbox";
+import CardEnumOptions from "./CardEnumOptions";
 
 import _extends from "../FormBuilderUtils/_extends";
 import getRandomId from "../FormBuilderUtils/getRandomId";
@@ -124,7 +117,7 @@ function ValueSelector({
     if (parentEnums) {
       const enumType = typeof parentEnums[0] === "number" ? "number" : "string";
       if (enumType === "string")
-        return /*#__PURE__*/ React__default.createElement(CardSelector, {
+        return React__default.createElement(CardSelector, {
           possibleChoices: parentEnums.map((val) => `${val}`),
           chosenChoices: possibility.value.enum,
           onChange: (chosenChoices) =>
@@ -139,7 +132,7 @@ function ValueSelector({
           path: path,
         });
       if (enumType === "number")
-        return /*#__PURE__*/ React__default.createElement(CardSelector, {
+        return React__default.createElement(CardSelector, {
           possibleChoices: parentEnums.map((val) => `${val}`),
           chosenChoices: possibility.value.enum,
           onChange: (chosenChoices) =>
@@ -156,7 +149,7 @@ function ValueSelector({
     }
     // check box type
     if (parentType === "boolean") {
-      return /*#__PURE__*/ React__default.createElement(FBCheckbox, {
+      return React__default.createElement(FBCheckbox, {
         onChangeValue: () => {
           if (possibility.value.enum && possibility.value.enum[0]) {
             onChange(
@@ -183,30 +176,30 @@ function ValueSelector({
     // object type
     if (parentType === "object") {
       const enumArr = possibility.value.enum;
-      return /*#__PURE__*/ React__default.createElement(
+      return React__default.createElement(
         "div",
         null,
         enumArr.map((combination, index) =>
-          /*#__PURE__*/ React__default.createElement(
+          React__default.createElement(
             "li",
             {
               key: `${elementId}_possibleValue${index}`,
             },
             Object.keys(combination).map((key) => {
               const val = combination[key];
-              return /*#__PURE__*/ React__default.createElement(
+              return React__default.createElement(
                 "div",
                 {
                   key: key,
                 },
-                /*#__PURE__*/ React__default.createElement(
-                  "h5",
-                  null,
+                React__default.createElement(
+                  Mui.Typography,
+                  { variant: "h6" },
                   key,
                   ":"
                 ),
                 {
-                  string: /*#__PURE__*/ React__default.createElement(Input, {
+                  string: React__default.createElement(Mui.Input, {
                     value: val || "",
                     placeholder: "String value",
                     type: "string",
@@ -229,7 +222,7 @@ function ValueSelector({
                     },
                     className: "card-modal-text",
                   }),
-                  number: /*#__PURE__*/ React__default.createElement(Input, {
+                  number: React__default.createElement(Mui.Input, {
                     value: val || "",
                     placeholder: "Number value",
                     type: "number",
@@ -252,7 +245,7 @@ function ValueSelector({
                     },
                     className: "card-modal-number",
                   }),
-                  array: /*#__PURE__*/ React__default.createElement(Input, {
+                  array: React__default.createElement(Mui.Input, {
                     value: JSON.stringify(val) || "",
                     placeholder: "Array in JSON",
                     type: "string",
@@ -261,7 +254,6 @@ function ValueSelector({
                       try {
                         newVal = JSON.parse(ev.target.value);
                       } catch (error) {
-                        // eslint-disable-next-line no-console
                         console.error("invalid JSON array input");
                       }
                       const oldCombo = possibility.value.enum[index];
@@ -281,7 +273,7 @@ function ValueSelector({
                     },
                     className: "card-modal-text",
                   }),
-                  object: /*#__PURE__*/ React__default.createElement(Input, {
+                  object: React__default.createElement(Mui.Input, {
                     value: JSON.stringify(val) || "",
                     placeholder: "Object in JSON",
                     type: "string",
@@ -313,8 +305,7 @@ function ValueSelector({
                 }[typeof val]
               );
             }),
-            /*#__PURE__*/ React__default.createElement(FontAwesomeIcon, {
-              icon: faTimes,
+            React__default.createElement(Icon.Close, {
               onClick: () =>
                 onChange(
                   _extends({}, possibility, {
@@ -329,8 +320,7 @@ function ValueSelector({
             })
           )
         ),
-        /*#__PURE__*/ React__default.createElement(FontAwesomeIcon, {
-          icon: faPlus,
+        React__default.createElement(Icon.Add, {
           onClick: () => {
             const newCase = {};
             const propArr = parentSchema ? parentSchema.properties : {};
@@ -362,7 +352,7 @@ function ValueSelector({
         })
       );
     }
-    return /*#__PURE__*/ React__default.createElement(CardEnumOptions, {
+    return React__default.createElement(CardEnumOptions, {
       initialValues: possibility.value.enum,
       onChange: (newEnum) =>
         onChange(
@@ -376,9 +366,9 @@ function ValueSelector({
       showNames: false,
     });
   } else {
-    return /*#__PURE__*/ React__default.createElement(
-      "h5",
-      null,
+    return React__default.createElement(
+      Mui.Typography,
+      { variant: "h5" },
       " Appear if defined "
     );
   }
@@ -397,23 +387,23 @@ function DependencyPossibility({
   parentSchema,
 }) {
   const [elementId] = useState(getRandomId());
-  return /*#__PURE__*/ React__default.createElement(
+  return React__default.createElement(
     "div",
     {
       className: "form-dependency-condition",
     },
-    /*#__PURE__*/ React__default.createElement(
-      "h5",
-      null,
+    React__default.createElement(
+      Mui.Typography,
+      { variant: "h5" },
       "Display the following:",
       " ",
-      /*#__PURE__*/ React__default.createElement(Example, {
+      React__default.createElement(Example, {
         id: `${elementId}_bulk`,
         type: "help",
         text: "Choose the other form elements that depend on this one",
       })
     ),
-    /*#__PURE__*/ React__default.createElement(CardSelector, {
+    React__default.createElement(CardSelector, {
       possibleChoices:
         neighborNames.filter((name) => name !== parentName) || [],
       chosenChoices: possibility.children,
@@ -426,33 +416,34 @@ function DependencyPossibility({
       placeholder: "Choose a dependent...",
       path: path,
     }),
-    /*#__PURE__*/ React__default.createElement(
-      "h5",
-      null,
+    React__default.createElement(
+      Mui.Typography,
+      { variant: "h5" },
       'If "',
       parentName,
       '" has ',
       possibility.value ? "the value:" : "a value."
     ),
-    /*#__PURE__*/ React__default.createElement(
-      "div",
-      {
-        style: {
-          display: possibility.value ? "block" : "none",
-        },
-      },
-      /*#__PURE__*/ React__default.createElement(ValueSelector, {
-        possibility: possibility,
-        onChange: (newPossibility) => onChange(newPossibility),
-        parentEnums: parentEnums,
-        parentType: parentType,
-        parentName: parentName,
-        parentSchema: parentSchema,
-        path: path,
-      })
-    ),
-    /*#__PURE__*/ React__default.createElement(FontAwesomeIcon, {
-      icon: faTimes,
+    possibility.value
+      ? React__default.createElement(
+          "div",
+          {
+            style: {
+              display: possibility.value ? "block" : "none",
+            },
+          },
+          React__default.createElement(ValueSelector, {
+            possibility: possibility,
+            onChange: (newPossibility) => onChange(newPossibility),
+            parentEnums: parentEnums,
+            parentType: parentType,
+            parentName: parentName,
+            parentSchema: parentSchema,
+            path: path,
+          })
+        )
+      : null,
+    React__default.createElement(Icon.Close, {
       onClick: () => onDelete(),
     })
   );
@@ -494,26 +485,26 @@ function DependencyWarning({ parameters }) {
         if (!definedVals.has(val)) undefinedVals.push(val);
       });
     if (undefinedVals.length === 0) return null;
-    return /*#__PURE__*/ React__default.createElement(
+    return React__default.createElement(
       React__default.Fragment,
       null,
-      /*#__PURE__*/ React__default.createElement(
+      React__default.createElement(
         "p",
         null,
         "Warning! The following values do not have associated dependency values:",
         " ",
-        /*#__PURE__*/ React__default.createElement(Example, {
+        React__default.createElement(Example, {
           id: `${elementId}_valuewarning`,
           type: "help",
           text: "Each possible value for a value-based dependency must be defined to work properly",
         })
       ),
-      /*#__PURE__*/ React__default.createElement(
-        "ul",
+      React__default.createElement(
+        Mui.List,
         null,
         undefinedVals.map((val, index) =>
-          /*#__PURE__*/ React__default.createElement(
-            "li",
+          React__default.createElement(
+            Mui.ListItem,
             {
               key: index,
             },
@@ -530,17 +521,17 @@ function DependencyField({ parameters, onChange }) {
   const [elementId] = useState(getRandomId());
   const classes = useStyles$7();
   const valueBased = checkIfValueBasedDependency(parameters.dependents || []);
-  return /*#__PURE__*/ React__default.createElement(
+  return React__default.createElement(
     "div",
     {
       className: `form-dependency ${classes.dependencyField}`,
     },
-    /*#__PURE__*/ React__default.createElement(
-      "h4",
-      null,
-      "Dependencies",
+    React__default.createElement(
+      Mui.Typography,
+      { variant: "h5" },
+      "Dependencias",
       " ",
-      /*#__PURE__*/ React__default.createElement(Example, {
+      React__default.createElement(Example, {
         id: `${elementId}_dependent`,
         type: "help",
         text: "Control whether other form elements show based on this one",
@@ -548,10 +539,10 @@ function DependencyField({ parameters, onChange }) {
     ),
     !!parameters.dependents &&
       parameters.dependents.length > 0 &&
-      /*#__PURE__*/ React__default.createElement(
+      React__default.createElement(
         React__default.Fragment,
         null,
-        /*#__PURE__*/ React__default.createElement(FBRadioGroup, {
+        React__default.createElement(FBRadioGroup, {
           defaultValue: valueBased ? "value" : "definition",
           horizontal: false,
           options: [
@@ -561,12 +552,12 @@ function DependencyField({ parameters, onChange }) {
             },
             {
               value: "value",
-              label: /*#__PURE__*/ React__default.createElement(
+              label: React__default.createElement(
                 React__default.Fragment,
                 null,
                 "Specific value dependency",
                 " ",
-                /*#__PURE__*/ React__default.createElement(Example, {
+                React__default.createElement(Example, {
                   id: `${elementId}_valuebased`,
                   type: "help",
                   text: "Specify whether these elements should show based on this element's value",
@@ -601,17 +592,17 @@ function DependencyField({ parameters, onChange }) {
           },
         })
       ),
-    /*#__PURE__*/ React__default.createElement(DependencyWarning, {
+    React__default.createElement(DependencyWarning, {
       parameters: parameters,
     }),
-    /*#__PURE__*/ React__default.createElement(
+    React__default.createElement(
       "div",
       {
         className: "form-dependency-conditions",
       },
       parameters.dependents
         ? parameters.dependents.map((possibility, index) =>
-            /*#__PURE__*/ React__default.createElement(DependencyPossibility, {
+            React__default.createElement(DependencyPossibility, {
               possibility: possibility,
               neighborNames: parameters.neighborNames || [],
               parentEnums: parameters.enum,
@@ -647,14 +638,14 @@ function DependencyField({ parameters, onChange }) {
             })
           )
         : "",
-      /*#__PURE__*/ React__default.createElement(
-        "span",
+      React__default.createElement(
+        Mui.Tooltip,
         {
-          className: "plus",
+          title:
+            "Add another dependency relation linking this element and other form elements",
           id: `${elementId}_adddependency`,
         },
-        /*#__PURE__*/ React__default.createElement(FontAwesomeIcon, {
-          icon: faPlus,
+        React__default.createElement(Icon.Add, {
           onClick: () => {
             const newDependents = parameters.dependents
               ? [...parameters.dependents]
@@ -674,14 +665,6 @@ function DependencyField({ parameters, onChange }) {
             );
           },
         })
-      ),
-      /*#__PURE__*/ React__default.createElement(
-        UncontrolledTooltip,
-        {
-          placement: "top",
-          target: `${elementId}_adddependency`,
-        },
-        "Add another dependency relation linking this element and other form elements"
       )
     )
   );
@@ -701,110 +684,118 @@ export default function CardModal({
   React.useEffect(() => {
     setComponentProps(componentProps);
   }, [componentProps]);
-  return /*#__PURE__*/ React.createElement(
-    Modal,
+
+  return React.createElement(
+    Mui.Dialog,
     {
-      isOpen: isOpen,
-      "data-test": "card-modal",
-      className: classes.cardModal,
+      open: isOpen,
+      children: {},
     },
-    /*#__PURE__*/ React.createElement(
-      ModalHeader,
-      {
-        className: "card-modal-header",
-      },
-      /*#__PURE__*/ React.createElement(
+    React.createElement(
+      Mui.Container,
+      null,
+      React.createElement(
         "div",
         {
-          style: {
-            display: componentProps.hideKey ? "none" : "initial",
-          },
+          className: "card-modal-header",
         },
-        /*#__PURE__*/ React.createElement("h3", null, "Additional Settings")
-      )
-    ),
-    /*#__PURE__*/ React.createElement(
-      ModalBody,
-      {
-        className: "card-modal-entries",
-      },
-      /*#__PURE__*/ React.createElement(TypeSpecificParameters, {
-        parameters: componentPropsState,
-        onChange: (newState) => {
-          setComponentProps(_extends({}, componentPropsState, newState));
-        },
-      }),
-      /*#__PURE__*/ React.createElement(
-        "div",
-        null,
-        /*#__PURE__*/ React.createElement(
-          "h4",
-          null,
-          "Column Size",
-          " ",
-          /*#__PURE__*/ React.createElement(
-            "a",
-            {
-              href: "https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Grid_Layout/Basic_Concepts_of_Grid_Layout",
-              target: "_blank",
-              rel: "noopener noreferrer",
+        React.createElement(
+          "div",
+          {
+            style: {
+              display: componentProps.hideKey ? "none" : "initial",
             },
-            /*#__PURE__*/ React.createElement(Example, {
-              id: "column_size_tooltip",
-              type: "help",
-              text: "Set the column size of the input",
-            })
-          )
-        ),
-        /*#__PURE__*/ React.createElement(Input, {
-          value: componentPropsState["ui:column"]
-            ? componentPropsState["ui:column"]
-            : "",
-          placeholder: "Column size",
-          key: "ui:column",
-          type: "number",
-          min: 0,
-          onChange: (ev) => {
-            setComponentProps(
-              _extends({}, componentPropsState, {
-                "ui:column": ev.target.value,
-              })
-            );
           },
-          className: "card-modal-text",
+          React.createElement(
+            Mui.Typography,
+            { variant: "h4" },
+            "Additional Settings"
+          )
+        )
+      ),
+      React.createElement(
+        "div",
+        {
+          className: "card-modal-entries",
+        },
+        React.createElement(TypeSpecificParameters, {
+          parameters: componentPropsState,
+          onChange: (newState) => {
+            setComponentProps(_extends({}, componentPropsState, newState));
+          },
+        }),
+        React.createElement(
+          "div",
+          null,
+          React.createElement(
+            Mui.Typography,
+            { variant: "h5" },
+            "Tamaño de la Columna",
+            " ",
+            React.createElement(
+              "a",
+              {
+                href: "https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Grid_Layout/Basic_Concepts_of_Grid_Layout",
+                target: "_blank",
+                rel: "noopener noreferrer",
+              },
+              React.createElement(Example, {
+                id: "column_size_tooltip",
+                type: "help",
+                text: "Set the column size of the input",
+              })
+            )
+          ),
+          React.createElement(Mui.Input, {
+            value: componentPropsState["ui:column"]
+              ? componentPropsState["ui:column"]
+              : "",
+            placeholder: "Tamaño de la columna",
+            key: "ui:column",
+            type: "number",
+            min: 0,
+            onChange: (ev) => {
+              setComponentProps(
+                _extends({}, componentPropsState, {
+                  "ui:column": ev.target.value,
+                })
+              );
+            },
+            className: "card-modal-text",
+          })
+        ),
+        React.createElement(DependencyField, {
+          parameters: componentPropsState,
+          onChange: (newState) => {
+            setComponentProps(_extends({}, componentPropsState, newState));
+          },
         })
       ),
-      /*#__PURE__*/ React.createElement(DependencyField, {
-        parameters: componentPropsState,
-        onChange: (newState) => {
-          setComponentProps(_extends({}, componentPropsState, newState));
-        },
-      })
-    ),
-    /*#__PURE__*/ React.createElement(
-      ModalFooter,
-      null,
-      /*#__PURE__*/ React.createElement(
-        Button,
-        {
-          onClick: () => {
-            onClose();
-            onChange(componentPropsState);
+      React.createElement(
+        Mui.Container,
+        null,
+        React.createElement(
+          Mui.Button,
+          {
+            onClick: () => {
+              onClose();
+              onChange(componentPropsState);
+            },
+            color: "primary",
           },
-          color: "primary",
-        },
-        "Save"
-      ),
-      /*#__PURE__*/ React.createElement(
-        Button,
-        {
-          onClick: () => {
-            onClose();
-            setComponentProps(componentProps);
+          "Guardar"
+        ),
+        React.createElement(
+          Mui.Button,
+          {
+            onClick: () => {
+              onClose();
+              setComponentProps(componentProps);
+            },
+            color: "secondary",
           },
-          color: "secondary",
-        },
-        "Cancel"
+          "Cancelar"
+        )
       )
     )
   );

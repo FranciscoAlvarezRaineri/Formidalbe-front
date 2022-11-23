@@ -151,8 +151,10 @@ export default function Card({
           React.Fragment,
           null,
           React.createElement(
-            "span",
+            Mui.Typography,
             {
+              variant: "h5",
+              display: "inline",
               onClick: () => setCardOpen(!cardOpen),
             },
             componentProps.title || componentProps.name,
@@ -173,8 +175,9 @@ export default function Card({
               : ""
           ),
           React.createElement(
-            Mui.Container,
+            "span",
             {
+              display: "inline",
               id: `${elementId}_arrows`,
             },
             React.createElement(
