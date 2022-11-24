@@ -1,5 +1,5 @@
 import React__default, { useState } from "react";
-
+import * as Mui from "@material-ui/core";
 import { createUseStyles } from "react-jss";
 import classnames from "classnames";
 
@@ -24,7 +24,7 @@ function FBRadioButton(props) {
       className: classes,
       key: value,
     },
-    /*#__PURE__*/ React__default.createElement("input", {
+    /*#__PURE__*/ React__default.createElement(Mui.Radio, { //pasar a material 
       id: id,
       type: "radio",
       name: name,

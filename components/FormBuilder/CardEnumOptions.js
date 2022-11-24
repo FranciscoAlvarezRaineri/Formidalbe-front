@@ -1,5 +1,6 @@
 import * as React from "react";
-
+import * as Mui from "@material-ui/core"
+import * as Icon from "@material-ui/icons"
 import { Input } from "reactstrap";
 import { createUseStyles } from "react-jss";
 import { faTimes, faPlus } from "@fortawesome/free-solid-svg-icons";
@@ -45,7 +46,7 @@ export default function CardEnumOptions({
           key: index,
           className: classes.cardEnumOption,
         },
-        /*#__PURE__*/ React.createElement(Input, {
+        /*#__PURE__*/ React.createElement(Mui.Input, {
           value: value === undefined || value === null ? "" : value,
           placeholder: "Possible Value",
           key: `val-${index}`,
@@ -77,7 +78,7 @@ export default function CardEnumOptions({
           },
           className: "card-text",
         }),
-        /*#__PURE__*/ React.createElement(Input, {
+        /*#__PURE__*/ React.createElement(Mui.Input, {
           value: name || "",
           placeholder: "Label",
           key: `name-${index}`,
@@ -100,8 +101,8 @@ export default function CardEnumOptions({
           {
             className: "delete-button",
           },
-          /*#__PURE__*/ React.createElement(FontAwesomeIcon, {
-            icon: faTimes,
+          /*#__PURE__*/ React.createElement(Icon.Close, {
+            
             onClick: () => {
               // remove this value
               onChange(
@@ -123,8 +124,8 @@ export default function CardEnumOptions({
     React.Fragment,
     null,
     possibleValues,
-    /*#__PURE__*/ React.createElement(FontAwesomeIcon, {
-      icon: faPlus,
+    /*#__PURE__*/ React.createElement(Icon.Add, {
+      
       onClick: () => {
         // add a new dropdown option
         onChange(
