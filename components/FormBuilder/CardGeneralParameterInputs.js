@@ -1,6 +1,18 @@
-import * as React from "react";
-import React__default from "react";
-import * as Mui from "@material-ui/core";
+
+import React, {  createElement, useState } from "react";
+
+
+// import { Input, FormGroup, FormFeedback } from "reactstrap";
+import  FormGroup  from '@material-ui/core/FormGroup'
+import  Input  from '@material-ui/core/Input'
+import  FormHelperText  from '@material-ui/core/FormHelperText'
+import Container from '@material-ui/core/Container'
+import Typography from '@material-ui/core/Typography'
+
+
+
+
+
 
 import classnames from "classnames";
 import Select from "react-select";
@@ -55,10 +67,10 @@ function GeneralParameterInputs({
   allFormInputs,
 }) {
   const CardBody = getCardBody(category, allFormInputs);
-  return /*#__PURE__*/ React.createElement(
-    "div",
+  return /*#__PURE__*/ createElement(
+    Container,
     null,
-    /*#__PURE__*/ React.createElement(CardBody, {
+    /*#__PURE__*/ createElement(CardBody, {
       parameters: parameters,
       onChange: onChange,
       mods: mods || {},
@@ -74,13 +86,13 @@ export default function CardGeneralParameterInputs({
   mods,
   showObjectNameInput = true,
 }) {
-  const [keyState, setKeyState] = React__default.useState(parameters.name);
-  const [keyError, setKeyError] = React__default.useState(null);
-  const [titleState, setTitleState] = React__default.useState(parameters.title);
-  const [descriptionState, setDescriptionState] = React__default.useState(
+  const [keyState, setKeyState] = useState(parameters.name);
+  const [keyError, setKeyError] = useState(null);
+  const [titleState, setTitleState] = useState(parameters.title);
+  const [descriptionState, setDescriptionState] = useState(
     parameters.description
   );
-  const [elementId] = React__default.useState(getRandomId());
+  const [elementId] = useState(getRandomId());
   const categoryMap = categoryToNameMap(parameters.category, allFormInputs);
   const fetchLabel = (labelName, defaultLabel) => {
     return mods && mods.labels && typeof mods.labels[labelName] === "string"
@@ -109,25 +121,26 @@ export default function CardGeneralParameterInputs({
       }))
       .sort((a, b) => a.label.localeCompare(b.label));
   };
-  return /*#__PURE__*/ React__default.createElement(
-    React__default.Fragment,
+  return /*#__PURE__*/ createElement(
+    React.Fragment,
     null,
-    /*#__PURE__*/ React__default.createElement(
-      "div",
+    /*#__PURE__*/ createElement(
+      Container,
       {
         //className: "card-entry-row",
       },
       showObjectNameInput &&
-        /*#__PURE__*/ React__default.createElement(
-          "div",
+        /*#__PURE__*/ createElement(
+          Container,
           {
             className: "card-entry",
           },
-          /*#__PURE__*/ React__default.createElement(
-            "h5",
+          /*#__PURE__*/ createElement(
+            Typography, 
+      {variant:"h5"},
             null,
             `${objectNameLabel} `,
-            /*#__PURE__*/ React__default.createElement(Example, {
+            /*#__PURE__*/ createElement(Example, {
               text:
                 mods &&
                 mods.tooltipDescriptions &&
@@ -138,10 +151,10 @@ export default function CardGeneralParameterInputs({
               type: "help",
             })
           ),
-          /*#__PURE__*/ React__default.createElement(
-            Mui.FormGroup,
+          /*#__PURE__*/ createElement(
+            FormGroup,
             null,
-            /*#__PURE__*/ React__default.createElement(Mui.Input, {
+            /*#__PURE__*/ createElement(Input, {
               invalid: keyError !== null,
               value: keyState || "",
               placeholder: "Key",
@@ -170,25 +183,26 @@ export default function CardGeneralParameterInputs({
               },
               className: "card-text",
             }),
-            /*#__PURE__*/ React__default.createElement(
-              Mui.FormHelperText,
+            /*#__PURE__*/ createElement(
+              FormHelperText,
               null,
               keyError
             )
           )
         ),
-      /*#__PURE__*/ React__default.createElement(
-        "div",
+      /*#__PURE__*/ createElement(
+        Container,
         {
           className: `card-entry ${
             parameters.$ref === undefined ? "" : "disabled-input"
           }`,
         },
-        /*#__PURE__*/ React__default.createElement(
-          "h5",
+        /*#__PURE__*/ createElement(
+          Typography, 
+      {variant:"h5"},
           null,
           `${displayNameLabel} `,
-          /*#__PURE__*/ React__default.createElement(Example, {
+          /*#__PURE__*/ createElement(Example, {
             text:
               mods &&
               mods.tooltipDescriptions &&
@@ -199,7 +213,7 @@ export default function CardGeneralParameterInputs({
             type: "help",
           })
         ),
-        /*#__PURE__*/ React__default.createElement(Mui.Input, {
+        /*#__PURE__*/ createElement(Input, {
           value: titleState || "",
           placeholder: "Title",
           type: "text",
@@ -215,21 +229,22 @@ export default function CardGeneralParameterInputs({
         })
       )
     ),
-    /*#__PURE__*/ React__default.createElement(
-      "div",
+    /*#__PURE__*/ createElement(
+      Container,
       {
         className: "card-entry-row",
       },
-      /*#__PURE__*/ React__default.createElement(
-        "div",
+      /*#__PURE__*/ createElement(
+        Container,
         {
           className: `card-entry ${parameters.$ref ? "disabled-input" : ""}`,
         },
-        /*#__PURE__*/ React__default.createElement(
-          "h5",
+        /*#__PURE__*/ createElement(
+          Typography, 
+      {variant:"h5"},
           null,
           `${descriptionLabel} `,
-          /*#__PURE__*/ React__default.createElement(Example, {
+          /*#__PURE__*/ createElement(Example, {
             text:
               mods &&
               mods.tooltipDescriptions &&
@@ -240,10 +255,10 @@ export default function CardGeneralParameterInputs({
             type: "help",
           })
         ),
-        /*#__PURE__*/ React__default.createElement(
-          Mui.FormGroup,
+        /*#__PURE__*/ createElement(
+          FormGroup,
           null,
-          /*#__PURE__*/ React__default.createElement(Mui.Input, {
+          /*#__PURE__*/ createElement(Input, {
             value: descriptionState || "",
             placeholder: "Description",
             type: "text",
@@ -259,18 +274,19 @@ export default function CardGeneralParameterInputs({
           })
         )
       ),
-      /*#__PURE__*/ React__default.createElement(
-        "div",
+      /*#__PURE__*/ createElement(
+        Container,
         {
           className: classnames("card-entry", {
             "wide-card-entry": !showObjectNameInput,
           }),
         },
-        /*#__PURE__*/ React__default.createElement(
-          "h5",
+        /*#__PURE__*/ createElement(
+          Typography, 
+      {variant:"h5"},
           null,
           `${inputTypeLabel} `,
-          /*#__PURE__*/ React__default.createElement(Example, {
+          /*#__PURE__*/ createElement(Example, {
             text:
               mods &&
               mods.tooltipDescriptions &&
@@ -281,7 +297,7 @@ export default function CardGeneralParameterInputs({
             type: "help",
           })
         ),
-        /*#__PURE__*/ React__default.createElement(Select, {
+        /*#__PURE__*/ createElement(Select, {
           value: {
             value: parameters.category,
             label: categoryMap[parameters.category],
@@ -318,12 +334,12 @@ export default function CardGeneralParameterInputs({
         })
       )
     ),
-    /*#__PURE__*/ React__default.createElement(
-      "div",
+    /*#__PURE__*/ createElement(
+      Container,
       {
         className: "card-category-options",
       },
-      /*#__PURE__*/ React__default.createElement(GeneralParameterInputs, {
+      /*#__PURE__*/ createElement(GeneralParameterInputs, {
         category: parameters.category,
         parameters: parameters,
         onChange: onChange,

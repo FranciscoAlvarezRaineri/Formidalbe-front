@@ -1,6 +1,8 @@
 import Input from "@material-ui/core/Input";
+import Container from '@material-ui/core/Container'
+import Typography from '@material-ui/core/Typography'
 
-import React__default, { useState } from "react";
+import React, { useState, createElement } from "react";
 
 // Importar componentes:
 import FBCheckbox from "./FBCheckbox";
@@ -13,21 +15,21 @@ import _extends from "../FormBuilderUtils/_extends";
 // specify the inputs required for a number type object
 export default function CardNumberParameterInputs({ parameters, onChange }) {
   const [elementId] = useState(getRandomId());
-  return React__default.createElement(
-    "div",
+  return createElement(
+    Container,
     null,
-    React__default.createElement(
-      "h4",
+    createElement(
+      Typography,{variant:"h4"},
       null,
       "Multiple of",
       " ",
-      React__default.createElement(Example, {
+      createElement(Example, {
         id: `${elementId}_multiple`,
         type: "help",
         text: "Require number to be a multiple of this number",
       })
     ),
-    React__default.createElement(Input, {
+    createElement(Input, {
       value: parameters.multipleOf ? parameters.multipleOf : "",
       placeholder: "ex: 2",
       key: "multipleOf",
@@ -43,8 +45,8 @@ export default function CardNumberParameterInputs({ parameters, onChange }) {
       },
       className: "card-modal-number",
     }),
-    React__default.createElement("h4", null, "Minimum"),
-    React__default.createElement(Input, {
+    createElement(Typography,{variant:"h4"}, null, "Minimum"),
+    createElement(Input, {
       value: parameters.minimum || parameters.exclusiveMinimum || "",
       placeholder: "ex: 3",
       key: "minimum",
@@ -71,12 +73,12 @@ export default function CardNumberParameterInputs({ parameters, onChange }) {
       },
       className: "card-modal-number",
     }),
-    React__default.createElement(
-      "div",
+    createElement(
+      Container,
       {
         className: "card-modal-boolean",
       },
-      React__default.createElement(FBCheckbox, {
+      createElement(FBCheckbox, {
         key: "exclusiveMinimum",
         onChangeValue: () => {
           const newMin = parameters.minimum || parameters.exclusiveMinimum;
@@ -101,8 +103,8 @@ export default function CardNumberParameterInputs({ parameters, onChange }) {
         label: "Exclusive Minimum",
       })
     ),
-    React__default.createElement("h4", null, "Maximum"),
-    React__default.createElement(Input, {
+    createElement(Typography,{variant:"h4"}, null, "Maximum"),
+    createElement(Input, {
       value: parameters.maximum || parameters.exclusiveMaximum || "",
       placeholder: "ex: 8",
       key: "maximum",
@@ -129,12 +131,12 @@ export default function CardNumberParameterInputs({ parameters, onChange }) {
       },
       className: "card-modal-number",
     }),
-    React__default.createElement(
-      "div",
+    createElement(
+      Container,
       {
         className: "card-modal-boolean",
       },
-      React__default.createElement(FBCheckbox, {
+      createElement(FBCheckbox, {
         key: "exclusiveMaximum",
         onChangeValue: () => {
           const newMax = parameters.maximum || parameters.exclusiveMaximum;

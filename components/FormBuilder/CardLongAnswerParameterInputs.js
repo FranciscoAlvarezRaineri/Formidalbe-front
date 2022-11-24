@@ -1,11 +1,14 @@
 import Input from "@material-ui/core/Input";
 
-import React__default, { useState } from "react";
+import React, { useState, createElement } from "react";
+
+import Container from '@material-ui/core/Container'
+import Typography from '@material-ui/core/Typography'
+import Link from '@material-ui/core/Link'
 
 // Importar componentes:
 import FBCheckbox from "./FBCheckbox";
 import Example from "./Example";
-
 import PlaceholderInput from "./PlaceholderInput";
 
 // Importar Utils:
@@ -18,11 +21,11 @@ export default function CardLongAnswerParameterInputs({
   onChange,
 }) {
   const [elementId] = useState(getRandomId());
-  return React__default.createElement(
-    "div",
+  return createElement(
+    Container,
     null,
-    React__default.createElement("h4", null, "Minimum Length"),
-    React__default.createElement(Input, {
+    createElement(Typography,{variant:"h4"}, null, "Minimum Length"),
+    createElement(Input, {
       value: parameters.minLength ? parameters.minLength : "",
       placeholder: "Minimum Length",
       key: "minLength",
@@ -36,8 +39,8 @@ export default function CardLongAnswerParameterInputs({
       },
       className: "card-modal-number",
     }),
-    React__default.createElement("h4", null, "Maximum Length"),
-    React__default.createElement(Input, {
+    createElement(Typography,{variant:"h4"}, null, "Maximum Length"),
+    createElement(Input, {
       value: parameters.maxLength ? parameters.maxLength : "",
       placeholder: "Maximum Length",
       key: "maxLength",
@@ -51,24 +54,25 @@ export default function CardLongAnswerParameterInputs({
       },
       className: "card-modal-number",
     }),
-    React__default.createElement(
-      "h4",
+    createElement(
+      Typography,
+      {variant:"h4"},
       null,
       "Regular Expression Pattern",
       " ",
-      React__default.createElement(
-        "a",
+      createElement(
+        Link,
         {
           href: "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions",
         },
-        React__default.createElement(Example, {
+        createElement(Example, {
           id: `${elementId}_regex`,
           type: "help",
           text: "Regular expression pattern that this must satisfy",
         })
       )
     ),
-    React__default.createElement(Input, {
+    createElement(Input, {
       value: parameters.pattern ? parameters.pattern : "",
       placeholder: "Regular Expression Pattern",
       key: "pattern",
@@ -82,16 +86,16 @@ export default function CardLongAnswerParameterInputs({
       },
       className: "card-modal-text",
     }),
-    React__default.createElement(PlaceholderInput, {
+    createElement(PlaceholderInput, {
       parameters: parameters,
       onChange: onChange,
     }),
-    React__default.createElement(
-      "div",
+    createElement(
+      Container,
       {
         className: "card-modal-boolean",
       },
-      React__default.createElement(FBCheckbox, {
+      createElement(FBCheckbox, {
         onChangeValue: () => {
           onChange(
             _extends({}, parameters, {

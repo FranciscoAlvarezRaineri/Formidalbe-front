@@ -1,8 +1,11 @@
-import * as React from "react";
+import React, { useState, createElement } from "react";
 import { createUseStyles } from "react-jss";
 
 import FBCheckbox from "./FBCheckbox";
 import CardEnumOptions from "./CardEnumOptions";
+
+import Container from '@material-ui/core/Container'
+import Typography from '@material-ui/core/Typography'
 
 import getRandomId from "../FormBuilderUtils/getRandomId";
 import _extends from "../FormBuilderUtils/_extends";
@@ -21,17 +24,17 @@ export default function MultipleChoice({ parameters, onChange }) {
   const containsString =
     containsUnparsableString ||
     enumArray.some((val) => typeof val === "string");
-  const [isNumber, setIsNumber] = React.useState(
+  const [isNumber, setIsNumber] = useState(
     !!enumArray.length && !containsString
   );
-  const [elementId] = React.useState(getRandomId());
-  return /*#__PURE__*/ React.createElement(
-    "div",
+  const [elementId] = useState(getRandomId());
+  return /*#__PURE__*/ createElement(
+    Container,
     {
       className: "card-enum",
     },
-    /*#__PURE__*/ React.createElement("h3", null, "Possible Values"),
-    /*#__PURE__*/ React.createElement(FBCheckbox, {
+    /*#__PURE__*/ createElement(Typography,{variant:"h3"}, null, "Possible Values"),
+    /*#__PURE__*/ createElement(FBCheckbox, {
       onChangeValue: () => {
         if (Array.isArray(parameters.enumNames)) {
           // remove the enumNames
@@ -53,13 +56,13 @@ export default function MultipleChoice({ parameters, onChange }) {
       label: "Display label is different from value",
       id: `${elementId}_different`,
     }),
-    /*#__PURE__*/ React.createElement(
-      "div",
+    /*#__PURE__*/ createElement(
+      Container,
       {
         className:
           containsUnparsableString || !enumArray.length ? classes.hidden : "",
       },
-      /*#__PURE__*/ React.createElement(FBCheckbox, {
+      /*#__PURE__*/ createElement(FBCheckbox, {
         onChangeValue: () => {
           if (containsString || !isNumber) {
             // attempt converting enum values into numbers
@@ -98,7 +101,7 @@ export default function MultipleChoice({ parameters, onChange }) {
         id: `${elementId}_forceNumber`,
       })
     ),
-    /*#__PURE__*/ React.createElement(CardEnumOptions, {
+    /*#__PURE__*/ createElement(CardEnumOptions, {
       initialValues: enumArray,
       names: Array.isArray(parameters.enumNames)
         ? parameters.enumNames.map((val) => `${val}`)

@@ -1,6 +1,8 @@
-import React__default from "react";
+import React, { createElement } from "react";
 
 import Select from "react-select";
+import Container from '@material-ui/core/Container'
+// import Select from '@material-ui/core/Select'
 
 import _extends from "../FormBuilderUtils/_extends";
 
@@ -13,15 +15,15 @@ export default function RefChoice({ parameters, onChange }) {
     (parameters.definitionData || {})[pathArr[2]]
       ? parameters.definitionData[pathArr[2]].title || parameters.$ref
       : parameters.$ref;
-  return /*#__PURE__*/ React__default.createElement(
-    "div",
+  return /*#__PURE__*/ createElement(
+    Container,
     {
       className: "card-select",
     },
-    /*#__PURE__*/ React__default.createElement(Select, {
+    /*#__PURE__*/ createElement(Select, {
       value: {
         value: parameters.$ref,
-        label: currentValueLabel,
+        label: currentValueLabel, 
       },
       placeholder: "Reference",
       options: Object.keys(parameters.definitionData || {}).map((key) => ({
