@@ -13,7 +13,7 @@ function getNewElementDefaultDataOptions(i, mods) {
     });
   } else {
     return {
-      title: `New Input ${i}`,
+      title: `Nuevo Elemento ${i}`,
       type: "string",
       default: "",
     };
