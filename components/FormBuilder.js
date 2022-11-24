@@ -1,15 +1,16 @@
+import { useState, createElement, Fragment } from "react";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+
+// Material UI
 import Alert from "@material-ui/lab/Alert";
 import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
-import ListItem from "@material-ui/core//ListItem";
+import ListItem from "@material-ui/core/ListItem";
 import Grid from "@material-ui/core/Grid";
 import Input from "@material-ui/core/Input";
 
-import * as React from "react";
-import React__default, { useState } from "react";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
-// Importar componentes:
+// Componentes:
 import FBCheckbox from "./FormBuilder/FBCheckbox";
 import RefChoice from "./FormBuilder/RefChoice";
 import CardReferenceParameterInputs from "./FormBuilder/CardReferenceParameterInputs";
@@ -28,7 +29,7 @@ import CardLongAnswerParameterInputs from "./FormBuilder/CardLongAnswerParameter
 import CardNumberParameterInputs from "./FormBuilder/CardNumberParameterInputs";
 import CardDefaultParameterInputs from "./FormBuilder/CardDefaultParameterInputs";
 
-// Importar Utils:
+// Utils:
 import getRandomId from "./FormBuilderUtils/getRandomId";
 import checkForUnsupportedFeatures from "./FormBuilderUtils/checkForUnsupportedFeatures";
 import countElementsFromSchema from "./FormBuilderUtils/countElementsFromSchema";
@@ -43,11 +44,11 @@ import excludeKeys from "./FormBuilderUtils/excludeKeys";
 
 const getInputCardBodyComponent = ({ type }) =>
   function InputCardBodyComponent({ parameters, onChange }) {
-    return React.createElement(
-      React.Fragment,
+    return createElement(
+      Fragment,
       null,
-      React.createElement("h5", null, "Default value"),
-      React.createElement(Input, {
+      createElement("h5", null, "Default value"),
+      createElement(Input, {
         value: parameters.default || "",
         placeholder: "Default",
         type: type,
@@ -283,16 +284,16 @@ function getInnerCardComponent({ defaultFormInputs }) {
       ? parameters.definitionData
       : {};
     const definitionUi = parameters.definitionUi ? parameters.definitionUi : {};
-    const [cardOpen, setCardOpen] = React__default.useState(false);
+    const [cardOpen, setCardOpen] = useState(false);
     if (parameters.type !== "array") {
-      return React__default.createElement("h4", null, "Not an array ");
+      return createElement("h4", null, "Not an array ");
     }
-    return React__default.createElement(
+    return createElement(
       "div",
       {
         className: "card-array",
       },
-      React__default.createElement(FBCheckbox, {
+      createElement(FBCheckbox, {
         onChangeValue: () => {
           if (newDataProps.items.type === "object") {
             onChange(
@@ -343,7 +344,7 @@ function getInnerCardComponent({ defaultFormInputs }) {
         mods,
         categoryHash: generateCategoryHash(allFormInputs),
         Card: (props) =>
-          React__default.createElement(
+          createElement(
             Card,
             _extends({}, props, {
               showObjectNameInput: false,
@@ -433,7 +434,7 @@ const DEFAULT_FORM_INPUTS = _extends(
   numberInputs,
   ArrayInputs
 );
-
+// Esta es la función principal que genera el Form Builder
 export default function FormBuilder({ schema, uischema, onChange, mods }) {
   const schemaData = parse(schema) || {};
   schemaData.type = "object";
@@ -453,29 +454,23 @@ export default function FormBuilder({ schema, uischema, onChange, mods }) {
   );
   const elementNum = countElementsFromSchema(schemaData);
   const defaultCollapseStates = [...Array(elementNum)].map(() => false);
-  const [cardOpenArray, setCardOpenArray] = React.useState(
-    defaultCollapseStates
-  );
+  const [cardOpenArray, setCardOpenArray] = useState(defaultCollapseStates);
   const categoryHash = generateCategoryHash(allFormInputs);
   // Esta sección genera las alertas:
-  return React.createElement(
+  return createElement(
     Container,
     null,
     unsupportedFeatures.length === 0
       ? null
-      : React.createElement(
+      : createElement(
           Alert,
           {
             display: unsupportedFeatures.length === 0 ? "none" : "block",
             color: "warning",
           },
-          React__default.createElement(
-            Typography,
-            { variant: "h5" },
-            "Unsupported Features:"
-          ),
+          createElement(Typography, { variant: "h5" }, "Unsupported Features:"),
           unsupportedFeatures.map((message, index) =>
-            React__default.createElement(
+            createElement(
               ListItem,
               {
                 key: `${elementId}_${message}`,
@@ -486,7 +481,7 @@ export default function FormBuilder({ schema, uischema, onChange, mods }) {
         ),
     // Esta sección genera el Header, con el título y la descripción:
     (!mods || mods.showFormHead !== false) &&
-      React.createElement(
+      createElement(
         Grid,
         {
           //className: classes.formHead,
@@ -498,10 +493,10 @@ export default function FormBuilder({ schema, uischema, onChange, mods }) {
           //"data-test": "form-head",
         },
         // Esta sección genera el input para cambiar el título del formulario
-        React.createElement(
+        createElement(
           Grid,
           { item: true, align: "center" },
-          React.createElement(
+          createElement(
             "h5",
             {
               "data-test": "form-name-label",
@@ -510,7 +505,7 @@ export default function FormBuilder({ schema, uischema, onChange, mods }) {
               ? mods.labels.formNameLabel
               : "Form Name"
           ),
-          React.createElement(Input, {
+          createElement(Input, {
             value: schemaData.title || "",
             placeholder: "Title",
             type: "text",
@@ -528,10 +523,10 @@ export default function FormBuilder({ schema, uischema, onChange, mods }) {
           })
         ),
         // Esta sección genera el input para cambiar la descripición del formulario
-        React.createElement(
+        createElement(
           Grid,
           { item: true, align: "center" },
-          React.createElement(
+          createElement(
             "h5",
             {
               "data-test": "form-description-label",
@@ -542,7 +537,7 @@ export default function FormBuilder({ schema, uischema, onChange, mods }) {
               ? mods.labels.formDescriptionLabel
               : "Form Description"
           ),
-          React.createElement(Input, {
+          createElement(Input, {
             value: schemaData.description || "",
             placeholder: "Description",
             type: "text",
@@ -560,13 +555,13 @@ export default function FormBuilder({ schema, uischema, onChange, mods }) {
         )
       ),
     // Esta sección genera el cuerpo del editor de formularios:
-    React.createElement(
+    createElement(
       Container,
       {
         //className: `form-body ${classes.formBody}`,
       },
       // "DragDropContext" es un componenete del módulo "beautiful-dnd" y habilita las acciones de drag and drop.
-      React.createElement(
+      createElement(
         DragDropContext,
         {
           onDragEnd: (result) =>
@@ -582,14 +577,14 @@ export default function FormBuilder({ schema, uischema, onChange, mods }) {
           // className: "form-body",
         },
         // "Droppable" es un componenete del módulo "beautiful-dnd" que habilita un área donde un elemento puede dropearse.
-        React.createElement(
+        createElement(
           Droppable,
           {
             droppableId: "droppable",
           },
           // Cada Dropabble va a tener dentro un input del form
           (providedDroppable) =>
-            React.createElement(
+            createElement(
               "div",
               _extends(
                 {
@@ -616,7 +611,7 @@ export default function FormBuilder({ schema, uischema, onChange, mods }) {
               }).map((element, index) =>
                 // Mapea el array y crea un elemento con cada uno.
                 // "Draggable" es un elemento arrastrable del módulo "beautiful-dnd".
-                React.createElement(
+                createElement(
                   Draggable,
                   {
                     key: element.key,
@@ -624,7 +619,7 @@ export default function FormBuilder({ schema, uischema, onChange, mods }) {
                     index: index,
                   },
                   (providedDraggable) =>
-                    React.createElement(
+                    createElement(
                       "div",
                       _extends(
                         {
@@ -643,12 +638,12 @@ export default function FormBuilder({ schema, uischema, onChange, mods }) {
       )
     ),
     // Esta sección genera el footer:
-    React.createElement(
+    createElement(
       Container,
       {
         //className: `form-footer ${classes.formFooter}`,
       },
-      React.createElement(Add, {
+      createElement(Add, {
         tooltipDescription: ((mods || {}).tooltipDescriptions || {}).add,
         addElem: (choice) => {
           if (choice === "card") {
