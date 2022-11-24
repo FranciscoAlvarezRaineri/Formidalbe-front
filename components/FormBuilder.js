@@ -1,23 +1,20 @@
-import * as Mui from "@material-ui/core";
-import * as Icons from "@material-ui/icons";
-import { Alert } from "@material-ui/lab";
-
-import { Input } from "reactstrap";
+import Alert from "@material-ui/lab/Alert";
+import Container from "@material-ui/core/Container";
+import Typography from "@material-ui/core/Typography";
+import ListItem from "@material-ui/core//ListItem";
+import Grid from "@material-ui/core/Grid";
+import Input from "@material-ui/core/Input";
 
 import * as React from "react";
 import React__default, { useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
-import { createUseStyles } from "react-jss";
-
 // Importar componentes:
 import FBCheckbox from "./FormBuilder/FBCheckbox";
-import Example from "./FormBuilder/Example";
 import RefChoice from "./FormBuilder/RefChoice";
 import CardReferenceParameterInputs from "./FormBuilder/CardReferenceParameterInputs";
 import CardArrayParameterInputs from "./FormBuilder/CardArrayParameterInput";
 import CardShortAnswerParameterInputs from "./FormBuilder/CardShortAnswerParameterInputs";
-import PlaceholderInput from "./FormBuilder/PlaceholderInput";
 import Add from "./FormBuilder/Add";
 import Card from "./FormBuilder/Card";
 import Section from "./FormBuilder/Section";
@@ -27,6 +24,9 @@ import MultipleChoice from "./FormBuilder/MultipleChoice";
 import Password from "./FormBuilder/Password";
 import LongAnswer from "./FormBuilder/LongAnswer";
 import NumberField from "./FormBuilder/NumberField";
+import CardLongAnswerParameterInputs from "./FormBuilder/CardLongAnswerParameterInputs";
+import CardNumberParameterInputs from "./FormBuilder/CardNumberParameterInputs";
+import CardDefaultParameterInputs from "./FormBuilder/CardDefaultParameterInputs";
 
 // Importar Utils:
 import getRandomId from "./FormBuilderUtils/getRandomId";
@@ -41,17 +41,13 @@ import onDragEnd from "./FormBuilderUtils/onDragEnd";
 import generateCategoryHash from "./FormBuilderUtils/generateCategoryHash";
 import excludeKeys from "./FormBuilderUtils/excludeKeys";
 
-// specify the inputs required for a string type object
-function CardDefaultParameterInputs({ parameters, onChange }) {
-  return /*#__PURE__*/ React.createElement("div", null);
-}
 const getInputCardBodyComponent = ({ type }) =>
   function InputCardBodyComponent({ parameters, onChange }) {
-    return /*#__PURE__*/ React.createElement(
+    return React.createElement(
       React.Fragment,
       null,
-      /*#__PURE__*/ React.createElement("h5", null, "Default value"),
-      /*#__PURE__*/ React.createElement(Input, {
+      React.createElement("h5", null, "Default value"),
+      React.createElement(Input, {
         value: parameters.default || "",
         placeholder: "Default",
         type: type,
@@ -171,21 +167,6 @@ const defaultInputs = {
   },
 };
 
-const arrows = {
-  "& .arrows": {
-    float: "right",
-    "& .fa-arrow-up, & .fa-arrow-down": {
-      "border-radius": "4px",
-      padding: ".25em",
-      margin: "0 .5em 0 0",
-      border: "1px solid #1d71ad",
-      color: "#1d71ad",
-      height: "28px",
-      width: "28px",
-    },
-  },
-};
-
 const shortAnswerInput = {
   shortAnswer: {
     displayName: "Short Answer",
@@ -222,101 +203,6 @@ const shortAnswerInput = {
   },
 };
 
-// specify the inputs required for a string type object
-function CardLongAnswerParameterInputs({ parameters, onChange }) {
-  const [elementId] = useState(getRandomId());
-  return /*#__PURE__*/ React__default.createElement(
-    "div",
-    null,
-    /*#__PURE__*/ React__default.createElement("h4", null, "Minimum Length"),
-    /*#__PURE__*/ React__default.createElement(Input, {
-      value: parameters.minLength ? parameters.minLength : "",
-      placeholder: "Minimum Length",
-      key: "minLength",
-      type: "number",
-      onChange: (ev) => {
-        onChange(
-          _extends({}, parameters, {
-            minLength: parseInt(ev.target.value, 10),
-          })
-        );
-      },
-      className: "card-modal-number",
-    }),
-    /*#__PURE__*/ React__default.createElement("h4", null, "Maximum Length"),
-    /*#__PURE__*/ React__default.createElement(Input, {
-      value: parameters.maxLength ? parameters.maxLength : "",
-      placeholder: "Maximum Length",
-      key: "maxLength",
-      type: "number",
-      onChange: (ev) => {
-        onChange(
-          _extends({}, parameters, {
-            maxLength: parseInt(ev.target.value, 10),
-          })
-        );
-      },
-      className: "card-modal-number",
-    }),
-    /*#__PURE__*/ React__default.createElement(
-      "h4",
-      null,
-      "Regular Expression Pattern",
-      " ",
-      /*#__PURE__*/ React__default.createElement(
-        "a",
-        {
-          href: "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions",
-        },
-        /*#__PURE__*/ React__default.createElement(Example, {
-          id: `${elementId}_regex`,
-          type: "help",
-          text: "Regular expression pattern that this must satisfy",
-        })
-      )
-    ),
-    /*#__PURE__*/ React__default.createElement(Input, {
-      value: parameters.pattern ? parameters.pattern : "",
-      placeholder: "Regular Expression Pattern",
-      key: "pattern",
-      type: "text",
-      onChange: (ev) => {
-        onChange(
-          _extends({}, parameters, {
-            pattern: ev.target.value,
-          })
-        );
-      },
-      className: "card-modal-text",
-    }),
-    /*#__PURE__*/ React__default.createElement(PlaceholderInput, {
-      parameters: parameters,
-      onChange: onChange,
-    }),
-    /*#__PURE__*/ React__default.createElement(
-      "div",
-      {
-        className: "card-modal-boolean",
-      },
-      /*#__PURE__*/ React__default.createElement(FBCheckbox, {
-        onChangeValue: () => {
-          onChange(
-            _extends({}, parameters, {
-              "ui:autofocus": parameters["ui:autofocus"]
-                ? parameters["ui:autofocus"] !== true
-                : true,
-            })
-          );
-        },
-        isChecked: parameters["ui:autofocus"]
-          ? parameters["ui:autofocus"] === true
-          : false,
-        label: "Auto Focus",
-      })
-    )
-  );
-}
-
 const longAnswerInput = {
   longAnswer: {
     displayName: "Long Answer",
@@ -335,158 +221,6 @@ const longAnswerInput = {
     modalBody: CardLongAnswerParameterInputs,
   },
 };
-
-// specify the inputs required for a number type object
-function CardNumberParameterInputs({ parameters, onChange }) {
-  const [elementId] = useState(getRandomId());
-  return /*#__PURE__*/ React__default.createElement(
-    "div",
-    null,
-    /*#__PURE__*/ React__default.createElement(
-      "h4",
-      null,
-      "Multiple of",
-      " ",
-      /*#__PURE__*/ React__default.createElement(Example, {
-        id: `${elementId}_multiple`,
-        type: "help",
-        text: "Require number to be a multiple of this number",
-      })
-    ),
-    /*#__PURE__*/ React__default.createElement(Input, {
-      value: parameters.multipleOf ? parameters.multipleOf : "",
-      placeholder: "ex: 2",
-      key: "multipleOf",
-      type: "number",
-      onChange: (ev) => {
-        let newVal = parseFloat(ev.target.value);
-        if (Number.isNaN(newVal)) newVal = null;
-        onChange(
-          _extends({}, parameters, {
-            multipleOf: newVal,
-          })
-        );
-      },
-      className: "card-modal-number",
-    }),
-    /*#__PURE__*/ React__default.createElement("h4", null, "Minimum"),
-    /*#__PURE__*/ React__default.createElement(Input, {
-      value: parameters.minimum || parameters.exclusiveMinimum || "",
-      placeholder: "ex: 3",
-      key: "minimum",
-      type: "number",
-      onChange: (ev) => {
-        let newVal = parseFloat(ev.target.value);
-        if (Number.isNaN(newVal)) newVal = null;
-        // change either min or exclusiveMin depending on which one is active
-        if (parameters.exclusiveMinimum) {
-          onChange(
-            _extends({}, parameters, {
-              exclusiveMinimum: newVal,
-              minimum: null,
-            })
-          );
-        } else {
-          onChange(
-            _extends({}, parameters, {
-              minimum: newVal,
-              exclusiveMinimum: null,
-            })
-          );
-        }
-      },
-      className: "card-modal-number",
-    }),
-    /*#__PURE__*/ React__default.createElement(
-      "div",
-      {
-        className: "card-modal-boolean",
-      },
-      /*#__PURE__*/ React__default.createElement(FBCheckbox, {
-        key: "exclusiveMinimum",
-        onChangeValue: () => {
-          const newMin = parameters.minimum || parameters.exclusiveMinimum;
-          if (parameters.exclusiveMinimum) {
-            onChange(
-              _extends({}, parameters, {
-                exclusiveMinimum: null,
-                minimum: newMin,
-              })
-            );
-          } else {
-            onChange(
-              _extends({}, parameters, {
-                exclusiveMinimum: newMin,
-                minimum: null,
-              })
-            );
-          }
-        },
-        isChecked: !!parameters.exclusiveMinimum,
-        disabled: !parameters.minimum && !parameters.exclusiveMinimum,
-        label: "Exclusive Minimum",
-      })
-    ),
-    /*#__PURE__*/ React__default.createElement("h4", null, "Maximum"),
-    /*#__PURE__*/ React__default.createElement(Input, {
-      value: parameters.maximum || parameters.exclusiveMaximum || "",
-      placeholder: "ex: 8",
-      key: "maximum",
-      type: "number",
-      onChange: (ev) => {
-        let newVal = parseFloat(ev.target.value);
-        if (Number.isNaN(newVal)) newVal = null;
-        // change either max or exclusiveMax depending on which one is active
-        if (parameters.exclusiveMinimum) {
-          onChange(
-            _extends({}, parameters, {
-              exclusiveMaximum: newVal,
-              maximum: null,
-            })
-          );
-        } else {
-          onChange(
-            _extends({}, parameters, {
-              maximum: newVal,
-              exclusiveMaximum: null,
-            })
-          );
-        }
-      },
-      className: "card-modal-number",
-    }),
-    /*#__PURE__*/ React__default.createElement(
-      "div",
-      {
-        className: "card-modal-boolean",
-      },
-      /*#__PURE__*/ React__default.createElement(FBCheckbox, {
-        key: "exclusiveMaximum",
-        onChangeValue: () => {
-          const newMax = parameters.maximum || parameters.exclusiveMaximum;
-          if (parameters.exclusiveMaximum) {
-            onChange(
-              _extends({}, parameters, {
-                exclusiveMaximum: null,
-                maximum: newMax,
-              })
-            );
-          } else {
-            onChange(
-              _extends({}, parameters, {
-                exclusiveMaximum: newMax,
-                maximum: null,
-              })
-            );
-          }
-        },
-        isChecked: !!parameters.exclusiveMaximum,
-        disabled: !parameters.maximum && !parameters.exclusiveMaximum,
-        label: "Exclusive Maximum",
-      })
-    )
-  );
-}
 
 const numberInputs = {
   integer: {
@@ -551,18 +285,14 @@ function getInnerCardComponent({ defaultFormInputs }) {
     const definitionUi = parameters.definitionUi ? parameters.definitionUi : {};
     const [cardOpen, setCardOpen] = React__default.useState(false);
     if (parameters.type !== "array") {
-      return /*#__PURE__*/ React__default.createElement(
-        "h4",
-        null,
-        "Not an array "
-      );
+      return React__default.createElement("h4", null, "Not an array ");
     }
-    return /*#__PURE__*/ React__default.createElement(
+    return React__default.createElement(
       "div",
       {
         className: "card-array",
       },
-      /*#__PURE__*/ React__default.createElement(FBCheckbox, {
+      React__default.createElement(FBCheckbox, {
         onChangeValue: () => {
           if (newDataProps.items.type === "object") {
             onChange(
@@ -613,7 +343,7 @@ function getInnerCardComponent({ defaultFormInputs }) {
         mods,
         categoryHash: generateCategoryHash(allFormInputs),
         Card: (props) =>
-          /*#__PURE__*/ React__default.createElement(
+          React__default.createElement(
             Card,
             _extends({}, props, {
               showObjectNameInput: false,
@@ -631,6 +361,7 @@ const defaultFormInputs = _extends(
   longAnswerInput,
   numberInputs
 );
+
 defaultFormInputs.array = {
   displayName: "Array",
   matchIf: [
@@ -703,186 +434,7 @@ const DEFAULT_FORM_INPUTS = _extends(
   ArrayInputs
 );
 
-const useStyles$1 = createUseStyles({
-  formBuilder: _extends(
-    {
-      "text-align": "center",
-      "& .fa": {
-        cursor: "pointer",
-      },
-      "& .fa-question-circle, & .fa-circle-question": {
-        color: "gray",
-      },
-      "& .fa-asterisk": {
-        "font-size": ".9em",
-        color: "green",
-      },
-      "& .fa-plus-square, & .fa-square-plus": {
-        color: "green",
-        "font-size": "1.5em",
-        margin: "0 auto",
-      },
-    },
-    arrows,
-    {
-      "& .card-container": {
-        "&:hover": {
-          border: "1px solid green",
-        },
-        display: "block",
-        width: "70%",
-        "min-width": "400px",
-        margin: "2em auto",
-        border: "1px solid gray",
-        "border-radius": "4px",
-        "background-color": "white",
-        "& h4": {
-          width: "100%",
-          "text-align": "left",
-          display: "inline-block",
-          color: "#138AC2",
-          margin: "0.25em .5em 0 .5em",
-          "font-size": "18px",
-        },
-        "& .d-flex": {
-          "border-bottom": "1px solid gray",
-        },
-        "& .label": {
-          float: "left",
-        },
-      },
-      "& .card-container:hover": {
-        border: "1px solid green",
-      },
-      "& .card-dependent": {
-        border: "1px dashed gray",
-      },
-      "& .card-requirements": {
-        border: "1px dashed black",
-      },
-      "& .section-container": {
-        "&:hover": {
-          border: "1px solid green",
-        },
-        display: "block",
-        width: "90%",
-        "min-width": "400px",
-        margin: "2em auto",
-        border: "1px solid gray",
-        "border-radius": "4px",
-        "background-color": "white",
-        "& h4": {
-          width: "100%",
-          "text-align": "left",
-          display: "inline-block",
-          color: "#138AC2",
-          margin: "0.25em .5em 0 .5em",
-          "font-size": "18px",
-        },
-        "& .d-flex": {
-          "border-bottom": "1px solid gray",
-        },
-        "& .label": {
-          float: "left",
-        },
-      },
-      "& .section-container:hover": {
-        border: "1px solid green",
-      },
-      "& .section-dependent": {
-        border: "1px dashed gray",
-      },
-      "& .section-requirements": {
-        border: "1px dashed black",
-      },
-      "& .alert": {
-        textAlign: "left",
-        width: "70%",
-        margin: "1em auto",
-        "& h5": {
-          color: "black",
-          fontSize: "16px",
-          fontWeight: "bold",
-          margin: "0",
-        },
-        "& .fa": {
-          fontSize: "14px",
-        },
-      },
-      "& .disabled-unchecked-checkbox": {
-        color: "gray",
-        "& div::before": {
-          backgroundColor: "lightGray",
-        },
-      },
-      "& .disabled-input": {
-        "& input": {
-          backgroundColor: "lightGray",
-        },
-        "& input:focus": {
-          backgroundColor: "lightGray",
-          border: "1px solid gray",
-        },
-      },
-    }
-  ),
-  formHead: {
-    display: "block",
-    margin: "0 auto",
-    "background-color": "#EBEBEB",
-    border: "1px solid #858F96",
-    "border-radius": "4px",
-    width: "70%",
-    padding: "10px",
-    "& div": {
-      width: "30%",
-      display: "inline-block",
-      "text-align": "left",
-      padding: "10px",
-    },
-    "& .form-title": {
-      "text-align": "left",
-    },
-    "& .form-description": {
-      "text-align": "left",
-    },
-    "& h5": {
-      "font-size": "14px",
-      "line-height": "21px",
-      "font-weight": "bold",
-    },
-  },
-  formBody: {
-    display: "flex",
-    flexDirection: "column",
-    "& .fa-pencil-alt, & .fa-pencil": {
-      border: "1px solid #1d71ad",
-      color: "#1d71ad",
-    },
-    "& .modal-body": {
-      maxHeight: "500px",
-      overflowY: "scroll",
-    },
-    "& .card-add": {
-      cursor: "pointer",
-      display: "block",
-      color: "$green",
-      fontSize: "1.5em",
-    },
-  },
-  formFooter: {
-    marginTop: "1em",
-    textAlign: "center",
-    "& .fa": {
-      cursor: "pointer",
-      color: "$green",
-      fontSize: "1.5em",
-    },
-  },
-});
-
 export default function FormBuilder({ schema, uischema, onChange, mods }) {
-  const classes = useStyles$1();
   const schemaData = parse(schema) || {};
   schemaData.type = "object";
   const uiSchemaData = parse(uischema) || {};
@@ -906,8 +458,8 @@ export default function FormBuilder({ schema, uischema, onChange, mods }) {
   );
   const categoryHash = generateCategoryHash(allFormInputs);
   // Esta sección genera las alertas:
-  return /*#__PURE__*/ React.createElement(
-    Mui.Container,
+  return React.createElement(
+    Container,
     null,
     unsupportedFeatures.length === 0
       ? null
@@ -918,13 +470,13 @@ export default function FormBuilder({ schema, uischema, onChange, mods }) {
             color: "warning",
           },
           React__default.createElement(
-            Mui.Typography,
+            Typography,
             { variant: "h5" },
             "Unsupported Features:"
           ),
           unsupportedFeatures.map((message, index) =>
             React__default.createElement(
-              Mui.ListItem,
+              ListItem,
               {
                 key: `${elementId}_${message}`,
               },
@@ -934,8 +486,8 @@ export default function FormBuilder({ schema, uischema, onChange, mods }) {
         ),
     // Esta sección genera el Header, con el título y la descripción:
     (!mods || mods.showFormHead !== false) &&
-      /*#__PURE__*/ React.createElement(
-        Mui.Grid,
+      React.createElement(
+        Grid,
         {
           //className: classes.formHead,
           container: true,
@@ -946,10 +498,10 @@ export default function FormBuilder({ schema, uischema, onChange, mods }) {
           //"data-test": "form-head",
         },
         // Esta sección genera el input para cambiar el título del formulario
-        /*#__PURE__*/ React.createElement(
-          Mui.Grid,
+        React.createElement(
+          Grid,
           { item: true, align: "center" },
-          /*#__PURE__*/ React.createElement(
+          React.createElement(
             "h5",
             {
               "data-test": "form-name-label",
@@ -958,7 +510,7 @@ export default function FormBuilder({ schema, uischema, onChange, mods }) {
               ? mods.labels.formNameLabel
               : "Form Name"
           ),
-          /*#__PURE__*/ React.createElement(Mui.Input, {
+          React.createElement(Input, {
             value: schemaData.title || "",
             placeholder: "Title",
             type: "text",
@@ -976,10 +528,10 @@ export default function FormBuilder({ schema, uischema, onChange, mods }) {
           })
         ),
         // Esta sección genera el input para cambiar la descripición del formulario
-        /*#__PURE__*/ React.createElement(
-          Mui.Grid,
+        React.createElement(
+          Grid,
           { item: true, align: "center" },
-          /*#__PURE__*/ React.createElement(
+          React.createElement(
             "h5",
             {
               "data-test": "form-description-label",
@@ -990,7 +542,7 @@ export default function FormBuilder({ schema, uischema, onChange, mods }) {
               ? mods.labels.formDescriptionLabel
               : "Form Description"
           ),
-          /*#__PURE__*/ React.createElement(Mui.Input, {
+          React.createElement(Input, {
             value: schemaData.description || "",
             placeholder: "Description",
             type: "text",
@@ -1008,13 +560,13 @@ export default function FormBuilder({ schema, uischema, onChange, mods }) {
         )
       ),
     // Esta sección genera el cuerpo del editor de formularios:
-    /*#__PURE__*/ React.createElement(
-      Mui.Container,
+    React.createElement(
+      Container,
       {
         //className: `form-body ${classes.formBody}`,
       },
       // "DragDropContext" es un componenete del módulo "beautiful-dnd" y habilita las acciones de drag and drop.
-      /*#__PURE__*/ React.createElement(
+      React.createElement(
         DragDropContext,
         {
           onDragEnd: (result) =>
@@ -1030,14 +582,14 @@ export default function FormBuilder({ schema, uischema, onChange, mods }) {
           // className: "form-body",
         },
         // "Droppable" es un componenete del módulo "beautiful-dnd" que habilita un área donde un elemento puede dropearse.
-        /*#__PURE__*/ React.createElement(
+        React.createElement(
           Droppable,
           {
             droppableId: "droppable",
           },
           // Cada Dropabble va a tener dentro un input del form
           (providedDroppable) =>
-            /*#__PURE__*/ React.createElement(
+            React.createElement(
               "div",
               _extends(
                 {
@@ -1064,7 +616,7 @@ export default function FormBuilder({ schema, uischema, onChange, mods }) {
               }).map((element, index) =>
                 // Mapea el array y crea un elemento con cada uno.
                 // "Draggable" es un elemento arrastrable del módulo "beautiful-dnd".
-                /*#__PURE__*/ React.createElement(
+                React.createElement(
                   Draggable,
                   {
                     key: element.key,
@@ -1072,7 +624,7 @@ export default function FormBuilder({ schema, uischema, onChange, mods }) {
                     index: index,
                   },
                   (providedDraggable) =>
-                    /*#__PURE__*/ React.createElement(
+                    React.createElement(
                       "div",
                       _extends(
                         {
@@ -1091,12 +643,12 @@ export default function FormBuilder({ schema, uischema, onChange, mods }) {
       )
     ),
     // Esta sección genera el footer:
-    /*#__PURE__*/ React.createElement(
-      Mui.Container,
+    React.createElement(
+      Container,
       {
         //className: `form-footer ${classes.formFooter}`,
       },
-      /*#__PURE__*/ React.createElement(Add, {
+      React.createElement(Add, {
         tooltipDescription: ((mods || {}).tooltipDescriptions || {}).add,
         addElem: (choice) => {
           if (choice === "card") {
