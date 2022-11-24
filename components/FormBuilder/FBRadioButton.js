@@ -1,7 +1,7 @@
 import React__default, { useState } from "react";
 import * as Mui from "@material-ui/core";
 import classnames from "classnames";
-
+import _extends from "../FormBuilderUtils/_extends";
 export default function FBRadioButton(props) {
   const {
     label,
@@ -19,13 +19,12 @@ export default function FBRadioButton(props) {
   });
   return /*#__PURE__*/ React__default.createElement(
     "div",
-    {
-      className: classes,
-      key: value,
-    },
+    // {
+    //   className: classes,
+    //   key: value,
+    // },
     /*#__PURE__*/ React__default.createElement(Mui.Radio, { 
       id: id,
-      type: "radio",
       name: name,
       value: value,
       checked: checked,
