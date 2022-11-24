@@ -1,6 +1,6 @@
-import React__default, { useState } from "react";
+import  { useState , createElement , Fragment } from "react";
 import Delete from "@material-ui/icons/Delete";
-
+import List from "@material-ui/core"
 import Select from "react-select";
 
 // Importar componentes:
@@ -15,21 +15,21 @@ export default function CardSelector({
   path,
 }) {
   const [elementId] = useState(getRandomId());
-  return /*#__PURE__*/ React__default.createElement(
-    React__default.Fragment,
+  return /*#__PURE__*/ createElement(
+    Fragment,
     null,
-    /*#__PURE__*/ React__default.createElement(
-      "ul",
+    /*#__PURE__*/ createElement(
+      List,
       null,
       chosenChoices.map((chosenChoice, index) =>
-        /*#__PURE__*/ React__default.createElement(
-          "li",
+        /*#__PURE__*/ createElement(
+          List,
           {
             key: `${elementId}_neighbor_${index}`,
           },
           chosenChoice,
           " ",
-          /*#__PURE__*/ React__default.createElement(Delete, {
+          /*#__PURE__*/ createElement(Delete, {
             onClick: () =>
               onChange([
                 ...chosenChoices.slice(0, index),
@@ -39,7 +39,7 @@ export default function CardSelector({
         )
       )
     ),
-    /*#__PURE__*/ React__default.createElement(Select, {
+    /*#__PURE__*/ createElement(Select, {
       value: {
         value: "",
         label: "",

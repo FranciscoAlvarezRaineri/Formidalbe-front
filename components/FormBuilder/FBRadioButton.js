@@ -1,5 +1,5 @@
-import React__default, { useState } from "react";
-import * as Mui from "@material-ui/core";
+import React__default, { useState , createElement} from "react";
+import {Radio, Container, InputLabel} from "@material-ui/core";
 import classnames from "classnames";
 import _extends from "../FormBuilderUtils/_extends";
 export default function FBRadioButton(props) {
@@ -17,13 +17,13 @@ export default function FBRadioButton(props) {
   const classes = classnames("fb-radio-button", {
     disabled,
   });
-  return /*#__PURE__*/ React__default.createElement(
-    "div",
+  return /*#__PURE__*/ createElement(
+    Container,
     // {
     //   className: classes,
     //   key: value,
     // },
-    /*#__PURE__*/ React__default.createElement(Mui.Radio, { 
+    /*#__PURE__*/ createElement(Radio, { 
       id: id,
       name: name,
       value: value,
@@ -33,8 +33,8 @@ export default function FBRadioButton(props) {
       autoFocus: autoFocus,
       onChange: () => onChange(value),
     }),
-    /*#__PURE__*/ React__default.createElement(
-      "label",
+    /*#__PURE__*/ createElement(
+    InputLabel,
       {
         htmlFor: id,
       },

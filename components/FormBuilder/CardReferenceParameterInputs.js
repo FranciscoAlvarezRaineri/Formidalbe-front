@@ -1,12 +1,12 @@
-import React__default from "react";
+import {createElement} from "react";
 
 import PlaceholderInput from "./PlaceholderInput";
 
 export default function CardReferenceParameterInputs({ parameters, onChange }) {
-  return /*#__PURE__*/ React__default.createElement(
+  return /*#__PURE__*/ createElement(
     "div",
     null,
-    /*#__PURE__*/ React__default.createElement(PlaceholderInput, {
+    /*#__PURE__*/ createElement(PlaceholderInput, {
       parameters: parameters,
       onChange: onChange,
     })

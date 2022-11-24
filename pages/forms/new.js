@@ -5,9 +5,11 @@ import axios from "../../axios";
 import Router from "next/router";
 
 import Form from "@rjsf/material-ui";
-
 import Editor from "@monaco-editor/react";
-import { Grid, Paper, Button } from "@material-ui/core";
+
+import Grid from "@material-ui/core/Grid";
+import Paper from "@material-ui/core/Paper";
+import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 import dynamic from "next/dynamic";
 
@@ -16,12 +18,6 @@ import dynamic from "next/dynamic";
 const FormBuilder = dynamic(() => import("../../components/FormBuilder.js"), {
   ssr: false,
 });
-const PredefinedGallery = dynamic(
-  () => import("../../components/PredefinedGallery.js"),
-  {
-    ssr: false,
-  }
-);
 
 export default function NewForm() {
   const [schema, setSchema] = useState({});
@@ -61,24 +57,24 @@ export default function NewForm() {
           title: "Condiciones generales obligatorias",
           properties: {
             "Indumentaria acorde a la tarea a realizar": {
-              $ref: "#/definitions/yes-no",
+              type: "boolean",
               title: "¿Tiene indumentaria acorde a la tarea?",
             },
             "Retiro de materiales al final de la jornada": {
-              $ref: "#/definitions/yes-no",
+              type: "boolean",
               title: "Se retiraron los materiales al final de la jornada",
             },
             "Indumentaria en buenas condiciones de limpieza": {
-              $ref: "#/definitions/yes-no",
+              type: "boolean",
               title: "Tiene indumentaria en buenas condiciones de limpieza",
             },
             "Colocar vallados y sectorizar el área de trabajo": {
-              $ref: "#/definitions/yes-no",
+              type: "boolean",
               title:
                 "Se colocaron los vallados y se sectorizo el área de trabajo",
             },
             "Respetar procedimiento de circulación para contratistas": {
-              $ref: "#/definitions/yes-no",
+              type: "boolean",
               title:
                 "Se ha respetado el procedimiento de circulación libre para contratistas",
             },
@@ -126,70 +122,58 @@ export default function NewForm() {
   const classes = useStyles();
 
   return (
-    <>
-      <Grid container justifyContent="space-evenly" spacing={3}>
-        <Grid item lg={6} md={12}>
-          <FormBuilder
-            schema={JSON.stringify(schema)}
-            uischema={JSON.stringify(uischema)}
-            onChange={(newSchema, newUiSchema) => {
-              setSchema(JSON.parse(newSchema));
-              setUischema(JSON.parse(newUiSchema));
-            }}
-          />
-          {/* <PredefinedGallery
+    <Grid container justifyContent="space-evenly" spacing={3}>
+      <Grid item lg={6} md={12}>
+        <FormBuilder
           schema={JSON.stringify(schema)}
           uischema={JSON.stringify(uischema)}
           onChange={(newSchema, newUiSchema) => {
             setSchema(JSON.parse(newSchema));
             setUischema(JSON.parse(newUiSchema));
           }}
-        /> */}
-        </Grid>
-        <Grid item lg={6} md={12}>
-          <>
-            <h3>Schema:</h3>
-            <Paper className={classes.item}>
-              <Editor
-                height="500px"
-                width="600px"
-                language="json"
-                value={JSON.stringify(schema, null, 2)}
-                onChange={(e) => {
-                  setSchema(JSON.parse(e));
-                }}
-              />
-            </Paper>
-            <h3>UISchema:</h3>
-            <Paper className={classes.item}>
-              <Editor
-                height="500px"
-                width="600px"
-                language="json"
-                value={JSON.stringify(uischema, null, 2)}
-                onChange={(e) => {
-                  setUischema(JSON.parse(e));
-                }}
-              />
-            </Paper>
-            <Button
-              className={classes.backButton}
-              variant="contained"
-              color="primary"
-              onClick={() => {
-                Router.push("/forms");
-              }}
-            >
-              Atras
-            </Button>
-          </>
-        </Grid>
-        {/*<Grid item lg={6} md={12}>
+        />
+        <Paper className={classes.item}>
+          <Form
+            schema={schema}
+            uiSchema={uischema}
+            children={true} // Evitar que se muestre el boton de Submit.
+          />
+        </Paper>
+        <Button
+          className={classes.backButton}
+          variant="contained"
+          color="primary"
+          onClick={() => {
+            createForm();
+          }}
+        >
+          Crear Formulario
+        </Button>
+      </Grid>
+      <Grid item lg={6} md={12}>
+        <>
+          <h3>Schema:</h3>
           <Paper className={classes.item}>
-            <Form
-              schema={schema}
-              uiSchema={uischema}
-              children={true} // Evitar que se muestre el boton de Submit.
+            <Editor
+              height="500px"
+              width="600px"
+              language="json"
+              value={JSON.stringify(schema, null, 2)}
+              onChange={(e) => {
+                setSchema(JSON.parse(e));
+              }}
+            />
+          </Paper>
+          <h3>UISchema:</h3>
+          <Paper className={classes.item}>
+            <Editor
+              height="500px"
+              width="600px"
+              language="json"
+              value={JSON.stringify(uischema, null, 2)}
+              onChange={(e) => {
+                setUischema(JSON.parse(e));
+              }}
             />
           </Paper>
           <Button
@@ -197,13 +181,13 @@ export default function NewForm() {
             variant="contained"
             color="primary"
             onClick={() => {
-              createForm();
+              Router.push("/forms");
             }}
           >
-            Crear Formulario
+            Atras
           </Button>
-        </Grid> */}
+        </>
       </Grid>
-    </>
+    </Grid>
   );
 }
