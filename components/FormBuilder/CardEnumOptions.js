@@ -1,10 +1,7 @@
 import * as React from "react";
-import * as Mui from "@material-ui/core"
-import * as Icon from "@material-ui/icons"
-import { Input } from "reactstrap";
+import * as Mui from "@material-ui/core";
+import * as Icon from "@material-ui/icons";
 import { createUseStyles } from "react-jss";
-import { faTimes, faPlus } from "@fortawesome/free-solid-svg-icons";
-import FontAwesomeIcon from "./FontAwesomeIcon";
 
 const useStyles$8 = createUseStyles({
   cardEnumOption: {
@@ -102,7 +99,6 @@ export default function CardEnumOptions({
             className: "delete-button",
           },
           /*#__PURE__*/ React.createElement(Icon.Close, {
-            
             onClick: () => {
               // remove this value
               onChange(
@@ -125,7 +121,6 @@ export default function CardEnumOptions({
     null,
     possibleValues,
     /*#__PURE__*/ React.createElement(Icon.Add, {
-      
       onClick: () => {
         // add a new dropdown option
         onChange(
