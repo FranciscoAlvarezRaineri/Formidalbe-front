@@ -16,7 +16,6 @@ import Collapse from "./Collapse";
 import FBCheckbox from "./FBCheckbox";
 import CardModal from "./CardModal";
 
-
 import checkForUnsupportedFeatures from "../FormBuilderUtils/checkForUnsupportedFeatures";
 import countElementsFromSchema from "../FormBuilderUtils/countElementsFromSchema";
 import getRandomId from "../FormBuilderUtils/getRandomId";
@@ -25,10 +24,7 @@ import generateElementComponentsFromSchemas from "../FormBuilderUtils/generateEl
 import onDragEnd from "../FormBuilderUtils/onDragEnd";
 import addCardObj from "../FormBuilderUtils/addCardObj";
 import addSectionObj from "../FormBuilderUtils/addSectionObj";
-
-function CardDefaultParameterInputs({ parameters, onChange }) {
-  return React.createElement("div", null);
-}
+import CardDefaultParameterInputs from "./CardDefaultParameterInputs";
 
 const useStyles$2 = createUseStyles({
   sectionContainer: {
