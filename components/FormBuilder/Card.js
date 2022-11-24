@@ -14,6 +14,7 @@ import Add from "./Add";
 
 // Importar Utils:
 import getRandomId from "../FormBuilderUtils/getRandomId";
+import _extends from "../FormBuilderUtils/_extends";
 
 const useStyles$4 = createUseStyles({
   cardEntries: {

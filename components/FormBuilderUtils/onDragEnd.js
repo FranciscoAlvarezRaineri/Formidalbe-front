@@ -12,7 +12,7 @@ export default function onDragEnd(result, details) {
     categoryHash,
   } = details;
   const src = result.source.index;
-  const dest = result.destination.index;
+  const dest = result.destination?.index || 0;
   const newElementObjArr = generateElementPropsFromSchemas({
     schema,
     uischema,
