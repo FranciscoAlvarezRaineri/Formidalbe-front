@@ -1,10 +1,8 @@
-import * as React from "react";
-import * as Mui from "@material-ui/core"
-import * as Icon from "@material-ui/icons"
-import { Input } from "reactstrap";
+import {createElement,Fragment} from "react";
+import {Close, Add} from "@material-ui/icons"
+import { Input } from "@material-ui/core";
 import { createUseStyles } from "react-jss";
-import { faTimes, faPlus } from "@fortawesome/free-solid-svg-icons";
-import FontAwesomeIcon from "./FontAwesomeIcon";
+
 
 const useStyles$8 = createUseStyles({
   cardEnumOption: {
@@ -40,13 +38,13 @@ export default function CardEnumOptions({
     let name = `${value}`;
     if (names && index < names.length) name = names[index];
     possibleValues.push(
-      /*#__PURE__*/ React.createElement(
+      /*#__PURE__*/ createElement(
         "div",
         {
           key: index,
           className: classes.cardEnumOption,
         },
-        /*#__PURE__*/ React.createElement(Mui.Input, {
+        /*#__PURE__*/ createElement(Input, {
           value: value === undefined || value === null ? "" : value,
           placeholder: "Possible Value",
           key: `val-${index}`,
@@ -78,7 +76,7 @@ export default function CardEnumOptions({
           },
           className: "card-text",
         }),
-        /*#__PURE__*/ React.createElement(Mui.Input, {
+        /*#__PURE__*/ createElement(Input, {
           value: name || "",
           placeholder: "Label",
           key: `name-${index}`,
@@ -96,12 +94,12 @@ export default function CardEnumOptions({
             display: showNames ? "initial" : "none",
           },
         }),
-        /*#__PURE__*/ React.createElement(
+        /*#__PURE__*/ createElement(
           "div",
           {
             className: "delete-button",
           },
-          /*#__PURE__*/ React.createElement(Icon.Close, {
+          /*#__PURE__*/ createElement(Close, {
             
             onClick: () => {
               // remove this value
@@ -120,11 +118,11 @@ export default function CardEnumOptions({
       )
     );
   }
-  return /*#__PURE__*/ React.createElement(
-    React.Fragment,
+  return /*#__PURE__*/ createElement(
+    Fragment,
     null,
     possibleValues,
-    /*#__PURE__*/ React.createElement(Icon.Add, {
+    /*#__PURE__*/ createElement(Add, {
       
       onClick: () => {
         // add a new dropdown option
