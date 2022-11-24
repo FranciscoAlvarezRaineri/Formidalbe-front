@@ -9,7 +9,6 @@ import ListItem from "@material-ui/core/ListItem";
 import Grid from "@material-ui/core/Grid";
 import Input from "@material-ui/core/Input";
 
-
 // Componentes:
 import FBCheckbox from "./FormBuilder/FBCheckbox";
 import RefChoice from "./FormBuilder/RefChoice";
@@ -284,7 +283,7 @@ function getInnerCardComponent({ defaultFormInputs }) {
       ? parameters.definitionData
       : {};
     const definitionUi = parameters.definitionUi ? parameters.definitionUi : {};
-    const [cardOpen, setCardOpen] = useState(false);
+    const [cardOpen, setCardOpen] = useState(true);
     if (parameters.type !== "array") {
       return createElement("h4", null, "Not an array ");
     }
