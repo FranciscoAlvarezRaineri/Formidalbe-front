@@ -10,12 +10,12 @@ import Edit from "@material-ui/icons/Edit";
 import Delete from "@material-ui/icons/Delete";
 
 // Importar componentes:
-import FBCheckbox from "./FBCheckbox";
 import Collapse from "./Collapse";
 import Example from "./Example";
+import Add from "./Add";
+import FBCheckbox from "./FBCheckbox";
 import CardModal from "./CardModal";
 import CardGeneralParameterInputs from "./CardGeneralParameterInputs";
-import Add from "./Add";
 
 // Importar Utils:
 import getRandomId from "../FormBuilderUtils/getRandomId";

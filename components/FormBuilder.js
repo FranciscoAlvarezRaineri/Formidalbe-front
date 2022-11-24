@@ -556,9 +556,7 @@ export default function FormBuilder({ schema, uischema, onChange, mods }) {
     // Esta sección genera el cuerpo del editor de formularios:
     createElement(
       Container,
-      {
-        //className: `form-body ${classes.formBody}`,
-      },
+      null,
       // "DragDropContext" es un componenete del módulo "beautiful-dnd" y habilita las acciones de drag and drop.
       createElement(
         DragDropContext,
@@ -573,7 +571,6 @@ export default function FormBuilder({ schema, uischema, onChange, mods }) {
               definitionUi: uiSchemaData.definitions,
               categoryHash,
             }),
-          // className: "form-body",
         },
         // "Droppable" es un componenete del módulo "beautiful-dnd" que habilita un área donde un elemento puede dropearse.
         createElement(
@@ -581,7 +578,6 @@ export default function FormBuilder({ schema, uischema, onChange, mods }) {
           {
             droppableId: "droppable",
           },
-          // Cada Dropabble va a tener dentro un input del form
           (providedDroppable) =>
             createElement(
               "div",
@@ -605,10 +601,8 @@ export default function FormBuilder({ schema, uischema, onChange, mods }) {
                 allFormInputs,
                 mods,
                 categoryHash,
-                Card,
-                Section,
               }).map((element, index) =>
-                // Mapea el array y crea un elemento con cada uno.
+                // Mapea el array y crea un draggable con cada uno.
                 // "Draggable" es un elemento arrastrable del módulo "beautiful-dnd".
                 createElement(
                   Draggable,
@@ -639,9 +633,7 @@ export default function FormBuilder({ schema, uischema, onChange, mods }) {
     // Esta sección genera el footer:
     createElement(
       Container,
-      {
-        //className: `form-footer ${classes.formFooter}`,
-      },
+      null,
       createElement(Add, {
         tooltipDescription: ((mods || {}).tooltipDescriptions || {}).add,
         addElem: (choice) => {
