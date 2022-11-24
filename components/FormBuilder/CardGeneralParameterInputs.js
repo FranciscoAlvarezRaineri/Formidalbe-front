@@ -1,6 +1,6 @@
 import * as React from "react";
 import React__default from "react";
-
+import * as Mui from "@material-ui/core";
 import { Input, FormGroup, FormFeedback } from "reactstrap";
 
 import classnames from "classnames";
@@ -116,7 +116,7 @@ export default function CardGeneralParameterInputs({
     /*#__PURE__*/ React__default.createElement(
       "div",
       {
-        className: "card-entry-row",
+        //className: "card-entry-row",
       },
       showObjectNameInput &&
         /*#__PURE__*/ React__default.createElement(
@@ -140,9 +140,9 @@ export default function CardGeneralParameterInputs({
             })
           ),
           /*#__PURE__*/ React__default.createElement(
-            FormGroup,
+            Mui.FormGroup,
             null,
-            /*#__PURE__*/ React__default.createElement(Input, {
+            /*#__PURE__*/ React__default.createElement(Mui.Input, {
               invalid: keyError !== null,
               value: keyState || "",
               placeholder: "Key",
@@ -172,7 +172,7 @@ export default function CardGeneralParameterInputs({
               className: "card-text",
             }),
             /*#__PURE__*/ React__default.createElement(
-              FormFeedback,
+              Mui.FormHelperText,
               null,
               keyError
             )
@@ -200,7 +200,7 @@ export default function CardGeneralParameterInputs({
             type: "help",
           })
         ),
-        /*#__PURE__*/ React__default.createElement(Input, {
+        /*#__PURE__*/ React__default.createElement(Mui.Input, {
           value: titleState || "",
           placeholder: "Title",
           type: "text",
@@ -242,9 +242,9 @@ export default function CardGeneralParameterInputs({
           })
         ),
         /*#__PURE__*/ React__default.createElement(
-          FormGroup,
+          Mui.FormGroup,
           null,
-          /*#__PURE__*/ React__default.createElement(Input, {
+          /*#__PURE__*/ React__default.createElement(Mui.Input, {
             value: descriptionState || "",
             placeholder: "Description",
             type: "text",

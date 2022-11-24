@@ -1,5 +1,5 @@
 import React__default from "react";
-
+import * as Mui from "@material-ui/core"
 import { Input } from "reactstrap";
 
 // specify the inputs required for a string type object
@@ -8,7 +8,7 @@ export default function CardArrayParameterInputs({ parameters, onChange }) {
     "div",
     null,
     /*#__PURE__*/ React__default.createElement("h4", null, "Minimum Items"),
-    /*#__PURE__*/ React__default.createElement(Input, {
+    /*#__PURE__*/ React__default.createElement(Mui.Input, {
       value: parameters.minItems || "",
       placeholder: "ex: 2",
       key: "minimum",
@@ -23,7 +23,7 @@ export default function CardArrayParameterInputs({ parameters, onChange }) {
       className: "card-modal-number",
     }),
     /*#__PURE__*/ React__default.createElement("h4", null, "Maximum Items"),
-    /*#__PURE__*/ React__default.createElement(Input, {
+    /*#__PURE__*/ React__default.createElement(Mui.Input, {
       value: parameters.maxItems || "",
       placeholder: "ex: 2",
       key: "maximum",
