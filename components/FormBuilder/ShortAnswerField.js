@@ -1,7 +1,8 @@
-import React__default from "react";
+import React,{ createElement } from "react";
 
 // import { Input } from "reactstrap";
-import { Input } from '@material-ui/core'
+import  Input  from '@material-ui/core/Input'
+import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
 
 import _extends from "../FormBuilderUtils/_extends";
@@ -30,11 +31,11 @@ export default function ShortAnswerField({ parameters, onChange }){
 
   const classses = useStyles();
 
-  return /*#__PURE__*/ React__default.createElement(
-    React__default.Fragment,
+  return /*#__PURE__*/ createElement(
+    React.Fragment,
     null,
-    /*#__PURE__*/ React__default.createElement("h5", null, "Default value"),
-    /*#__PURE__*/ React__default.createElement(Input, {
+    /*#__PURE__*/ createElement(Typography,{variant:"h5"}, null, "Default value"),
+    /*#__PURE__*/ createElement(Input, {
       className:`${classses.root}`,
       value: parameters.default,
       placeholder: "Default",

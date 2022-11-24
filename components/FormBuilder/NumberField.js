@@ -1,8 +1,9 @@
-import React__default from "react";
+import React, { createElement } from "react";
 
 // import { Input } from "reactstrap";
 // import * as Mui from "@material-ui/core";
-import { Input } from '@material-ui/core'
+import  Input  from '@material-ui/core/Input'
+import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles({
@@ -25,11 +26,11 @@ export default function NumberField({ parameters, onChange }) {
   const classses = useStyles();
 
 
-  return /*#__PURE__*/ React__default.createElement(
-    React__default.Fragment,
+  return /*#__PURE__*/ createElement(
+    React.Fragment,
     null,
-    /*#__PURE__*/ React__default.createElement("h5", null, "Default number"),
-    /*#__PURE__*/ React__default.createElement(Input, {
+    /*#__PURE__*/ createElement(Typography,{variant:"h5"}, null, "Default number"),
+    /*#__PURE__*/ createElement(Input, {
       value: parameters.default,
       className:`${classses.root}`,
       // id:"standard-secondary",

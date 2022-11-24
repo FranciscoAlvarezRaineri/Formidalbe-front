@@ -1,6 +1,7 @@
-import React__default from "react";
+import React, { createElement } from "react";
 import Checkbox from "@material-ui/core/Checkbox";
 import InputLabel from "@material-ui/core/InputLabel";
+import Container from '@material-ui/core/Container'
 
 export default function FBCheckbox({
   onChangeValue,
@@ -15,13 +16,13 @@ export default function FBCheckbox({
 }) {
   const potentialCheckboxId = id !== "" ? id : label;
   const checkboxId = potentialCheckboxId !== "" ? potentialCheckboxId : null;
-  return /*#__PURE__*/ React__default.createElement(
-    "div",
+  return /*#__PURE__*/ createElement(
+    Container,
     null,
-    React__default.createElement(
+    createElement(
       InputLabel,
       null,
-      React__default.createElement(Checkbox, {
+      createElement(Checkbox, {
         id: checkboxId,
         onChange: disabled ? () => {} : onChangeValue,
         value: value,

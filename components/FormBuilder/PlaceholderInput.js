@@ -1,6 +1,8 @@
-import React__default, { useState } from "react";
+import React, { useState, createElement } from "react";
 
 import Input from "@material-ui/core/Input";
+import Typography from '@material-ui/core/Typography'
+import Link from '@material-ui/core/Link'
 
 // Importar componentes:
 import Example from "./Example";
@@ -9,29 +11,30 @@ import _extends from "../FormBuilderUtils/_extends";
 
 export default function PlaceholderInput({ parameters, onChange }) {
   const [elementId] = useState(getRandomId());
-  return /*#__PURE__*/ React__default.createElement(
-    React__default.Fragment,
+  return /*#__PURE__*/ createElement(
+    React.Fragment,
     null,
-    /*#__PURE__*/ React__default.createElement(
-      "h4",
+    /*#__PURE__*/ createElement(
+      Typography,
+      {variant:"h4"},
       null,
       "Placeholder",
       " ",
-      /*#__PURE__*/ React__default.createElement(
-        "a",
+      /*#__PURE__*/ createElement(
+        Link,
         {
           href: "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-placeholder",
           target: "_blank",
           rel: "noopener noreferrer",
         },
-        /*#__PURE__*/ React__default.createElement(Example, {
+        /*#__PURE__*/ createElement(Example, {
           id: `${elementId}_placeholder`,
           type: "help",
           text: "Hint to the user as to what kind of information is expected in the field",
         })
       )
     ),
-    /*#__PURE__*/ React__default.createElement(Input, {
+    /*#__PURE__*/ createElement(Input, {
       value: parameters["ui:placeholder"],
       placeholder: "Placeholder",
       key: "placeholder",

@@ -1,7 +1,10 @@
-import React__default, { useState } from "react";
+import React, { useState, createElement } from "react";
 
 // import { Input } from "reactstrap";
-import { Input } from '@material-ui/core'
+import  Input  from '@material-ui/core/Input'
+import Container from '@material-ui/core/Container'
+import Typography from '@material-ui/core/Typography'
+import Link from '@material-ui/core/Link'
 import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles({
@@ -51,11 +54,11 @@ export default function CardShortAnswerParameterInputs({
   const [elementId] = useState(getRandomId());
 
   const classses = useStyles();
-  return /*#__PURE__*/ React__default.createElement(
-    "div",
+  return /*#__PURE__*/ createElement(
+    Container,
     null,
-    /*#__PURE__*/ React__default.createElement("h4", null, "Minimum Length"),
-    /*#__PURE__*/ React__default.createElement(Input, {
+    /*#__PURE__*/ createElement(Typography,{variant:"h4"}, null, "Minimum Length"),
+    /*#__PURE__*/ createElement(Input, {
       value: parameters.minLength ? parameters.minLength : "",
       placeholder: "Minimum Length",
       key: "minLength",
@@ -70,8 +73,8 @@ export default function CardShortAnswerParameterInputs({
       },
       className: "card-modal-number",
     }),
-    /*#__PURE__*/ React__default.createElement("h4", null, "Maximum Length"),
-    /*#__PURE__*/ React__default.createElement(Input, {
+    /*#__PURE__*/ createElement(Typography,{variant:"h4"}, null, "Maximum Length"),
+    /*#__PURE__*/ createElement(Input, {
       value: parameters.maxLength ? parameters.maxLength : "",
       placeholder: "Maximum Length",
       key: "maxLength",
@@ -85,26 +88,27 @@ export default function CardShortAnswerParameterInputs({
       },
       className: "card-modal-number",
     }),
-    /*#__PURE__*/ React__default.createElement(
-      "h4",
+    /*#__PURE__*/createElement(
+      Typography, 
+      {variant:"h4"},
       null,
       "Regular Expression Pattern",
       " ",
-      /*#__PURE__*/ React__default.createElement(
-        "a",
+      /*#__PURE__*/ createElement(
+        Link,
         {
           href: "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions",
           target: "_blank",
           rel: "noopener noreferrer",
         },
-        /*#__PURE__*/ React__default.createElement(Example, {
+        /*#__PURE__*/ createElement(Example, {
           id: `${elementId}_regex`,
           type: "help",
           text: "Regular expression pattern that this must satisfy",
         })
       )
     ),
-    /*#__PURE__*/ React__default.createElement(Input, {
+    /*#__PURE__*/ createElement(Input, {
       value: parameters.pattern ? parameters.pattern : "",
       placeholder: "Regular Expression Pattern",
       key: "pattern",
@@ -118,18 +122,19 @@ export default function CardShortAnswerParameterInputs({
       },
       className: "card-modal-text",
     }),
-    /*#__PURE__*/ React__default.createElement(
-      "h4",
+    /*#__PURE__*/ createElement(
+      Typography,
+      {variant:"h4"},
       null,
       "Format",
       " ",
-      /*#__PURE__*/ React__default.createElement(Example, {
+      /*#__PURE__*/ createElement(Example, {
         id: `${elementId}_format`,
         type: "help",
         text: "Require string input to match a certain common format",
       })
     ),
-    /*#__PURE__*/ React__default.createElement(Select, {
+    /*#__PURE__*/ createElement(Select, {
       value: {
         value: parameters.format
           ? formatDictionary[
@@ -157,26 +162,27 @@ export default function CardShortAnswerParameterInputs({
       },
       className: "card-modal-select",
     }),
-    /*#__PURE__*/ React__default.createElement(
-      "h5",
+    /*#__PURE__*/ createElement(
+      Typography,
+      {variant:"h5"},
       null,
       "Auto Complete Category",
       " ",
-      /*#__PURE__*/ React__default.createElement(
-        "a",
+      /*#__PURE__*/ createElement(
+        Link,
         {
           href: "https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete",
           target: "_blank",
           rel: "noopener noreferrer",
         },
-        /*#__PURE__*/ React__default.createElement(Example, {
+        /*#__PURE__*/ createElement(Example, {
           id: `${elementId}_autocomplete`,
           type: "help",
           text: "Suggest entries based on the user's browser history",
         })
       )
     ),
-    /*#__PURE__*/ React__default.createElement(Select, {
+    /*#__PURE__*/ createElement(Select, {
       value: {
         value: parameters["ui:autocomplete"]
           ? autoDictionary[
@@ -208,30 +214,31 @@ export default function CardShortAnswerParameterInputs({
       },
       className: "card-modal-select",
     }),
-    /*#__PURE__*/ React__default.createElement(PlaceholderInput, {
+    /*#__PURE__*/ createElement(PlaceholderInput, {
       parameters: parameters,
       onChange: onChange,
     }),
-    /*#__PURE__*/ React__default.createElement(
-      "h4",
+    /*#__PURE__*/ createElement(
+      Typography,
+      {variant:"h4"},
       null,
       "Column Size",
       " ",
-      /*#__PURE__*/ React__default.createElement(
-        "a",
+      /*#__PURE__*/ createElement(
+        Link,
         {
           href: "https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Grid_Layout/Basic_Concepts_of_Grid_Layout",
           target: "_blank",
           rel: "noopener noreferrer",
         },
-        /*#__PURE__*/ React__default.createElement(Example, {
+        /*#__PURE__*/ createElement(Example, {
           id: `${elementId}_column_size`,
           type: "help",
           text: "Set the column size of the input",
         })
       )
     ),
-    /*#__PURE__*/ React__default.createElement(Input, {
+    /*#__PURE__*/ createElement(Input, {
       value: parameters["ui:column"] ? parameters["ui:column"] : "",
       placeholder: "Column size",
       key: "ui:column",
@@ -245,12 +252,12 @@ export default function CardShortAnswerParameterInputs({
       },
       className: "card-modal-text",
     }),
-    /*#__PURE__*/ React__default.createElement(
-      "div",
-      {
-        className: "card-modal-boolean",
-      },
-      /*#__PURE__*/ React__default.createElement(FBCheckbox, {
+    /*#__PURE__*/ createElement(
+      Container,
+      // {
+      //   className: "card-modal-boolean",
+      // },
+      /*#__PURE__*/ createElement(FBCheckbox, {
         onChangeValue: () => {
           onChange(
             _extends({}, parameters, {
