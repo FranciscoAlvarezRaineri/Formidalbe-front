@@ -1,10 +1,11 @@
 import React__default, { useState } from "react";
 
-import { Input } from "reactstrap";
+import Input from "@material-ui/core/Input";
 
 // Importar componentes:
 import Example from "./Example";
 import getRandomId from "../FormBuilderUtils/getRandomId";
+import _extends from "../FormBuilderUtils/_extends";
 
 export default function PlaceholderInput({ parameters, onChange }) {
   const [elementId] = useState(getRandomId());

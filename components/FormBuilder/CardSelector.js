@@ -1,11 +1,9 @@
 import React__default, { useState } from "react";
-
-import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import Delete from "@material-ui/icons/Delete";
 
 import Select from "react-select";
 
 // Importar componentes:
-import FontAwesomeIcon from "./FontAwesomeIcon";
 import getRandomId from "../FormBuilderUtils/getRandomId";
 
 // a field that lets you choose adjacent blocks
@@ -31,8 +29,7 @@ export default function CardSelector({
           },
           chosenChoice,
           " ",
-          /*#__PURE__*/ React__default.createElement(FontAwesomeIcon, {
-            icon: faTimes,
+          /*#__PURE__*/ React__default.createElement(Delete, {
             onClick: () =>
               onChange([
                 ...chosenChoices.slice(0, index),

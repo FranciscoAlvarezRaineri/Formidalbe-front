@@ -1,6 +1,5 @@
 import React__default from "react";
-
-import { Input } from "reactstrap";
+import Input from "@material-ui/core/Input";
 
 import _extends from "../FormBuilderUtils/_extends";
 
