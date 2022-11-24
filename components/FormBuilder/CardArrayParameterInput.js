@@ -1,6 +1,7 @@
 import React__default from "react";
-import * as Mui from "@material-ui/core"
-import { Input } from "reactstrap";
+import * as Mui from "@material-ui/core";
+
+import _extends from "../FormBuilderUtils/_extends";
 
 // specify the inputs required for a string type object
 export default function CardArrayParameterInputs({ parameters, onChange }) {
