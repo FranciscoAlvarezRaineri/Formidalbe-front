@@ -1,7 +1,7 @@
-import * as React from "react";
-import React__default, { useState } from "react";
-import * as Mui from "@material-ui/core";
-import * as Icon from "@material-ui/icons";
+
+import  { useState, createElement, Fragment, useEffect } from "react";
+import {Input, Typography, List, Tooltip , Dialog , ListItem, Container, Button} from "@material-ui/core";
+import {Close, Add} from "@material-ui/icons";
 
 import { createUseStyles } from "react-jss";
 
@@ -117,7 +117,7 @@ function ValueSelector({
     if (parentEnums) {
       const enumType = typeof parentEnums[0] === "number" ? "number" : "string";
       if (enumType === "string")
-        return React__default.createElement(CardSelector, {
+        return createElement(CardSelector, {
           possibleChoices: parentEnums.map((val) => `${val}`),
           chosenChoices: possibility.value.enum,
           onChange: (chosenChoices) =>
@@ -132,7 +132,7 @@ function ValueSelector({
           path: path,
         });
       if (enumType === "number")
-        return React__default.createElement(CardSelector, {
+        return createElement(CardSelector, {
           possibleChoices: parentEnums.map((val) => `${val}`),
           chosenChoices: possibility.value.enum,
           onChange: (chosenChoices) =>
@@ -149,7 +149,7 @@ function ValueSelector({
     }
     // check box type
     if (parentType === "boolean") {
-      return React__default.createElement(FBCheckbox, {
+      return createElement(FBCheckbox, {
         onChangeValue: () => {
           if (possibility.value.enum && possibility.value.enum[0]) {
             onChange(
@@ -176,30 +176,30 @@ function ValueSelector({
     // object type
     if (parentType === "object") {
       const enumArr = possibility.value.enum;
-      return React__default.createElement(
+      return createElement(
         "div",
         null,
         enumArr.map((combination, index) =>
-          React__default.createElement(
+          createElement(
             "li",
             {
               key: `${elementId}_possibleValue${index}`,
             },
             Object.keys(combination).map((key) => {
               const val = combination[key];
-              return React__default.createElement(
+              return createElement(
                 "div",
                 {
                   key: key,
                 },
-                React__default.createElement(
-                  Mui.Typography,
+                createElement(
+                  Typography,
                   { variant: "h6" },
                   key,
                   ":"
                 ),
                 {
-                  string: React__default.createElement(Mui.Input, {
+                  string: createElement(Input, {
                     value: val || "",
                     placeholder: "String value",
                     type: "string",
@@ -222,7 +222,7 @@ function ValueSelector({
                     },
                     className: "card-modal-text",
                   }),
-                  number: React__default.createElement(Mui.Input, {
+                  number: createElement(Input, {
                     value: val || "",
                     placeholder: "Number value",
                     type: "number",
@@ -245,7 +245,7 @@ function ValueSelector({
                     },
                     className: "card-modal-number",
                   }),
-                  array: React__default.createElement(Mui.Input, {
+                  array: createElement(Input, {
                     value: JSON.stringify(val) || "",
                     placeholder: "Array in JSON",
                     type: "string",
@@ -273,7 +273,7 @@ function ValueSelector({
                     },
                     className: "card-modal-text",
                   }),
-                  object: React__default.createElement(Mui.Input, {
+                  object: createElement(Input, {
                     value: JSON.stringify(val) || "",
                     placeholder: "Object in JSON",
                     type: "string",
@@ -305,7 +305,7 @@ function ValueSelector({
                 }[typeof val]
               );
             }),
-            React__default.createElement(Icon.Close, {
+            createElement(Close, {
               onClick: () =>
                 onChange(
                   _extends({}, possibility, {
@@ -320,7 +320,7 @@ function ValueSelector({
             })
           )
         ),
-        React__default.createElement(Icon.Add, {
+        createElement(Add, {
           onClick: () => {
             const newCase = {};
             const propArr = parentSchema ? parentSchema.properties : {};
@@ -352,7 +352,7 @@ function ValueSelector({
         })
       );
     }
-    return React__default.createElement(CardEnumOptions, {
+    return createElement(CardEnumOptions, {
       initialValues: possibility.value.enum,
       onChange: (newEnum) =>
         onChange(
@@ -366,8 +366,8 @@ function ValueSelector({
       showNames: false,
     });
   } else {
-    return React__default.createElement(
-      Mui.Typography,
+    return createElement(
+      Typography,
       { variant: "h5" },
       " Appear if defined "
     );
@@ -387,23 +387,23 @@ function DependencyPossibility({
   parentSchema,
 }) {
   const [elementId] = useState(getRandomId());
-  return React__default.createElement(
+  return createElement(
     "div",
     {
       className: "form-dependency-condition",
     },
-    React__default.createElement(
-      Mui.Typography,
+    createElement(
+      Typography,
       { variant: "h5" },
       "Display the following:",
       " ",
-      React__default.createElement(Example, {
+      createElement(Example, {
         id: `${elementId}_bulk`,
         type: "help",
         text: "Choose the other form elements that depend on this one",
       })
     ),
-    React__default.createElement(CardSelector, {
+    createElement(CardSelector, {
       possibleChoices:
         neighborNames.filter((name) => name !== parentName) || [],
       chosenChoices: possibility.children,
@@ -416,8 +416,8 @@ function DependencyPossibility({
       placeholder: "Choose a dependent...",
       path: path,
     }),
-    React__default.createElement(
-      Mui.Typography,
+    createElement(
+      Typography,
       { variant: "h5" },
       'If "',
       parentName,
@@ -425,14 +425,14 @@ function DependencyPossibility({
       possibility.value ? "the value:" : "a value."
     ),
     possibility.value
-      ? React__default.createElement(
+      ? createElement(
           "div",
           {
             style: {
               display: possibility.value ? "block" : "none",
             },
           },
-          React__default.createElement(ValueSelector, {
+          createElement(ValueSelector, {
             possibility: possibility,
             onChange: (newPossibility) => onChange(newPossibility),
             parentEnums: parentEnums,
@@ -443,7 +443,7 @@ function DependencyPossibility({
           })
         )
       : null,
-    React__default.createElement(Icon.Close, {
+    createElement(Close, {
       onClick: () => onDelete(),
     })
   );
@@ -485,26 +485,26 @@ function DependencyWarning({ parameters }) {
         if (!definedVals.has(val)) undefinedVals.push(val);
       });
     if (undefinedVals.length === 0) return null;
-    return React__default.createElement(
-      React__default.Fragment,
+    return createElement(
+      Fragment,
       null,
-      React__default.createElement(
+      createElement(
         "p",
         null,
         "Warning! The following values do not have associated dependency values:",
         " ",
-        React__default.createElement(Example, {
+        createElement(Example, {
           id: `${elementId}_valuewarning`,
           type: "help",
           text: "Each possible value for a value-based dependency must be defined to work properly",
         })
       ),
-      React__default.createElement(
-        Mui.List,
+      createElement(
+        List,
         null,
         undefinedVals.map((val, index) =>
-          React__default.createElement(
-            Mui.ListItem,
+          createElement(
+            ListItem,
             {
               key: index,
             },
@@ -521,17 +521,17 @@ function DependencyField({ parameters, onChange }) {
   const [elementId] = useState(getRandomId());
   const classes = useStyles$7();
   const valueBased = checkIfValueBasedDependency(parameters.dependents || []);
-  return React__default.createElement(
+  return createElement(
     "div",
     {
       className: `form-dependency ${classes.dependencyField}`,
     },
-    React__default.createElement(
-      Mui.Typography,
+    createElement(
+      Typography,
       { variant: "h5" },
       "Dependencias",
       " ",
-      React__default.createElement(Example, {
+      createElement(Example, {
         id: `${elementId}_dependent`,
         type: "help",
         text: "Control whether other form elements show based on this one",
@@ -539,10 +539,10 @@ function DependencyField({ parameters, onChange }) {
     ),
     !!parameters.dependents &&
       parameters.dependents.length > 0 &&
-      React__default.createElement(
-        React__default.Fragment,
+      createElement(
+        Fragment,
         null,
-        React__default.createElement(FBRadioGroup, {
+        createElement(FBRadioGroup, {
           defaultValue: valueBased ? "value" : "definition",
           horizontal: false,
           options: [
@@ -552,12 +552,12 @@ function DependencyField({ parameters, onChange }) {
             },
             {
               value: "value",
-              label: React__default.createElement(
-                React__default.Fragment,
+              label: createElement(
+                Fragment,
                 null,
                 "Specific value dependency",
                 " ",
-                React__default.createElement(Example, {
+                createElement(Example, {
                   id: `${elementId}_valuebased`,
                   type: "help",
                   text: "Specify whether these elements should show based on this element's value",
@@ -592,17 +592,17 @@ function DependencyField({ parameters, onChange }) {
           },
         })
       ),
-    React__default.createElement(DependencyWarning, {
+    createElement(DependencyWarning, {
       parameters: parameters,
     }),
-    React__default.createElement(
+    createElement(
       "div",
       {
         className: "form-dependency-conditions",
       },
       parameters.dependents
         ? parameters.dependents.map((possibility, index) =>
-            React__default.createElement(DependencyPossibility, {
+            createElement(DependencyPossibility, {
               possibility: possibility,
               neighborNames: parameters.neighborNames || [],
               parentEnums: parameters.enum,
@@ -638,14 +638,14 @@ function DependencyField({ parameters, onChange }) {
             })
           )
         : "",
-      React__default.createElement(
-        Mui.Tooltip,
+      createElement(
+        Tooltip,
         {
           title:
             "Add another dependency relation linking this element and other form elements",
           id: `${elementId}_adddependency`,
         },
-        React__default.createElement(Icon.Add, {
+        createElement(Add, {
           onClick: () => {
             const newDependents = parameters.dependents
               ? [...parameters.dependents]
@@ -680,73 +680,73 @@ export default function CardModal({
   const classes = useStyles$6();
   // assign state values for parameters that should only change on hitting "Save"
   const [componentPropsState, setComponentProps] =
-    React.useState(componentProps);
-  React.useEffect(() => {
+  useState(componentProps);
+  useEffect(() => {
     setComponentProps(componentProps);
   }, [componentProps]);
 
-  return React.createElement(
-    Mui.Dialog,
+  return createElement(
+    Dialog,
     {
       open: isOpen,
       children: {},
     },
-    React.createElement(
-      Mui.Container,
+    createElement(
+      Container,
       null,
-      React.createElement(
+      createElement(
         "div",
         {
           className: "card-modal-header",
         },
-        React.createElement(
+        createElement(
           "div",
           {
             style: {
               display: componentProps.hideKey ? "none" : "initial",
             },
           },
-          React.createElement(
-            Mui.Typography,
-            { variant: "h4" },
+          createElement(
+            Typography,
+            { variant: "h5" },
             "Additional Settings"
           )
         )
       ),
-      React.createElement(
+      createElement(
         "div",
         {
           className: "card-modal-entries",
         },
-        React.createElement(TypeSpecificParameters, {
+        createElement(TypeSpecificParameters, {
           parameters: componentPropsState,
           onChange: (newState) => {
             setComponentProps(_extends({}, componentPropsState, newState));
           },
         }),
-        React.createElement(
+        createElement(
           "div",
           null,
-          React.createElement(
-            Mui.Typography,
-            { variant: "h5" },
+          createElement(
+            Typography,
+            { variant: "h6" },
             "Tamaño de la Columna",
             " ",
-            React.createElement(
+            createElement(
               "a",
               {
                 href: "https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Grid_Layout/Basic_Concepts_of_Grid_Layout",
                 target: "_blank",
                 rel: "noopener noreferrer",
               },
-              React.createElement(Example, {
+              createElement(Example, {
                 id: "column_size_tooltip",
                 type: "help",
                 text: "Set the column size of the input",
               })
             )
           ),
-          React.createElement(Mui.Input, {
+          createElement(Input, {
             value: componentPropsState["ui:column"]
               ? componentPropsState["ui:column"]
               : "",
@@ -764,18 +764,18 @@ export default function CardModal({
             className: "card-modal-text",
           })
         ),
-        React.createElement(DependencyField, {
+        createElement(DependencyField, {
           parameters: componentPropsState,
           onChange: (newState) => {
             setComponentProps(_extends({}, componentPropsState, newState));
           },
         })
       ),
-      React.createElement(
-        Mui.Container,
+      createElement(
+        Container,
         null,
-        React.createElement(
-          Mui.Button,
+        createElement(
+          Button,
           {
             onClick: () => {
               onClose();
@@ -785,8 +785,8 @@ export default function CardModal({
           },
           "Guardar"
         ),
-        React.createElement(
-          Mui.Button,
+        createElement(
+          Button,
           {
             onClick: () => {
               onClose();

@@ -1,15 +1,16 @@
-import React__default from "react";
-import * as Mui from "@material-ui/core";
-
+import {createElement} from "react";
 import _extends from "../FormBuilderUtils/_extends";
+import { Input , Typography} from "@material-ui/core";
 
 // specify the inputs required for a string type object
 export default function CardArrayParameterInputs({ parameters, onChange }) {
-  return /*#__PURE__*/ React__default.createElement(
+  return /*#__PURE__*/ createElement(
     "div",
     null,
-    /*#__PURE__*/ React__default.createElement("h4", null, "Minimum Items"),
-    /*#__PURE__*/ React__default.createElement(Mui.Input, {
+    /*#__PURE__*/ createElement(
+      Typography,{variant:"h6"}
+      , null, "Minimum Items"),
+    /*#__PURE__*/ createElement(Input, {
       value: parameters.minItems || "",
       placeholder: "ex: 2",
       key: "minimum",
@@ -23,8 +24,9 @@ export default function CardArrayParameterInputs({ parameters, onChange }) {
       },
       className: "card-modal-number",
     }),
-    /*#__PURE__*/ React__default.createElement("h4", null, "Maximum Items"),
-    /*#__PURE__*/ React__default.createElement(Mui.Input, {
+    /*#__PURE__*/ createElement(Typography,{variant:"h6"}
+      , null, "Maximum Items"),
+    /*#__PURE__*/ createElement(Input, {
       value: parameters.maxItems || "",
       placeholder: "ex: 2",
       key: "maximum",
