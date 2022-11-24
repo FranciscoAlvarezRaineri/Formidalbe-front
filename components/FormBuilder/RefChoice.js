@@ -2,6 +2,8 @@ import React__default from "react";
 
 import Select from "react-select";
 
+import _extends from "../FormBuilderUtils/_extends";
+
 export default function RefChoice({ parameters, onChange }) {
   const pathArr = (parameters.$ref || "").split("/");
   const currentValueLabel =
