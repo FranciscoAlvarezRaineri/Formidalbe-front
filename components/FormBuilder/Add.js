@@ -11,8 +11,8 @@ import getRandomId from "../FormBuilderUtils/getRandomId";
 
 // Esta función controla el boton para agregar un nuevo elemento:
 export default function Add({ addElem }) {
-  const [popoverOpen, setPopoverOpen] = useState(false);
   const [elementId] = useState(getRandomId());
+  const [popoverOpen, setPopoverOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState({});
 
   return createElement(

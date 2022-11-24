@@ -16,10 +16,10 @@ import ArrowDownward from "@material-ui/icons/ArrowDownward";
 import Edit from "@material-ui/icons/Edit";
 import Delete from "@material-ui/icons/Delete";
 
+import Collapse from "./Collapse";
+import Example from "./Example";
 import Card from "./Card";
 import Add from "./Add";
-import Example from "./Example";
-import Collapse from "./Collapse";
 import FBCheckbox from "./FBCheckbox";
 import CardModal from "./CardModal";
 

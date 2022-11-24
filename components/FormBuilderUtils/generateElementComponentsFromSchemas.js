@@ -4,9 +4,9 @@ import _extends from "./_extends";
 import { parse, stringify } from "./json";
 
 import generateElementPropsFromSchemas from "./generateElementPropsFromSchemas";
-import addCardObj from "../FormBuilderUtils/addCardObj";
 import updateSchemas from "./updateSchemas";
-import addSectionObj from "./addSectionObj";
+import Card from "../FormBuilder/Card";
+import Section from "../FormBuilder/Section";
 
 function getCardParameterInputComponentForType(category, allFormInputs) {
   return (
@@ -30,8 +30,6 @@ export default function generateElementComponentsFromSchemas(parameters) {
     allFormInputs,
     mods,
     categoryHash,
-    Card,
-    Section,
   } = parameters;
   const schema = parse(stringify(schemaData));
   const uischema = parse(stringify(uiSchemaData));
@@ -55,7 +53,7 @@ export default function generateElementComponentsFromSchemas(parameters) {
       );
 
       // add a fully defined card component to the list of components
-      return /*#__PURE__*/ React.createElement(Card, {
+      return React.createElement(Card, {
         componentProps: Object.assign(
           {
             name: elementPropArr[index].name,
@@ -191,32 +189,7 @@ export default function generateElementComponentsFromSchemas(parameters) {
             definitionUi,
             onChange,
           });
-        } /*
-        addElem: (choice) => {
-          if (choice === "card") {
-            addCardObj({
-              schema,
-              uischema,
-              mods,
-              onChange,
-              definitionData: definitionData || {},
-              definitionUi: definitionUi || {},
-              index,
-              categoryHash,
-            });
-          } else if (choice === "section") {
-            addSectionObj({
-              schema,
-              uischema,
-              onChange,
-              definitionData: definitionData || {},
-              definitionUi: definitionUi || {},
-              index,
-              categoryHash,
-            });
-          }
-          setCardOpenArray([...cardOpenArray, false]);
-        },*/,
+        },
         cardOpen: expanded,
         setCardOpen: (newState) =>
           setCardOpenArray([
@@ -229,7 +202,7 @@ export default function generateElementComponentsFromSchemas(parameters) {
       });
     } else if (elementProp.propType === "section") {
       // create a section with the appropriate schemas here
-      return /*#__PURE__*/ React.createElement(Section, {
+      return React.createElement(Section, {
         schema: elementProp.schema,
         uischema: elementProp.uischema,
         onChange: (newSchema, newUiSchema, newRef) => {
@@ -392,32 +365,6 @@ export default function generateElementComponentsFromSchemas(parameters) {
         dependents: elementProp.dependents,
         dependent: elementProp.dependent,
         parent: elementProp.parent,
-        /*
-        addElem: (choice) => {
-          if (choice === "card") {
-            addCardObj({
-              schema,
-              uischema,
-              mods,
-              onChange,
-              definitionData: definitionData || {},
-              definitionUi: definitionUi || {},
-              index,
-              categoryHash,
-            });
-          } else if (choice === "section") {
-            addSectionObj({
-              schema,
-              uischema,
-              onChange,
-              definitionData: definitionData || {},
-              definitionUi: definitionUi || {},
-              index,
-              categoryHash,
-            });
-          }
-          setCardOpenArray([...cardOpenArray, false]);
-        },*/
         cardOpen: expanded,
         setCardOpen: (newState) =>
           setCardOpenArray([
@@ -430,10 +377,10 @@ export default function generateElementComponentsFromSchemas(parameters) {
         mods: mods,
       });
     } else {
-      return /*#__PURE__*/ React.createElement(
+      return React.createElement(
         "div",
         null,
-        /*#__PURE__*/ React.createElement("h2", null, " Error parsing element ")
+        React.createElement("h2", null, " Error parsing element ")
       );
     }
   });
