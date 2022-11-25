@@ -43,7 +43,6 @@ export default function FormsTable() {
     axios
       .get("/forms")
       .then((res) => {
-        console.log(res.data);
         setRows(res.data);
       })
       .catch((err) => {
@@ -93,7 +92,7 @@ export default function FormsTable() {
                   <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
                     {
                       <>
-                        <TableCell key="_id" align="left">
+                        <TableCell key={row._id} align="left">
                           <Link href={`/forms/${row._id}`}>
                             {row.schema?.title || row._id}
                           </Link>

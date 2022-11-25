@@ -1,7 +1,7 @@
-import React, { createElement } from "react";
+import { createElement } from "react";
 import Checkbox from "@material-ui/core/Checkbox";
 import InputLabel from "@material-ui/core/InputLabel";
-import Container from '@material-ui/core/Container'
+import Container from "@material-ui/core/Container";
 
 export default function FBCheckbox({
   onChangeValue,
