@@ -1,10 +1,7 @@
-
-import {createElement,Fragment} from "react";
-import {Close, Add} from "@material-ui/icons"
+import { createElement, Fragment } from "react";
+import { Close, Add } from "@material-ui/icons";
 import { Input } from "@material-ui/core";
 import { createUseStyles } from "react-jss";
-
-
 
 const useStyles$8 = createUseStyles({
   cardEnumOption: {
@@ -103,8 +100,6 @@ export default function CardEnumOptions({
           },
 
           /*#__PURE__*/ createElement(Close, {
-            
-
             onClick: () => {
               // remove this value
               onChange(
@@ -128,8 +123,6 @@ export default function CardEnumOptions({
     possibleValues,
 
     /*#__PURE__*/ createElement(Add, {
-      
-
       onClick: () => {
         // add a new dropdown option
         onChange(
