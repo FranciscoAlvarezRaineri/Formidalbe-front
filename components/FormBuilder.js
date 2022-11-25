@@ -13,7 +13,6 @@ import Input from "@material-ui/core/Input";
 import FBCheckbox from "./FormBuilder/FBCheckbox";
 import RefChoice from "./FormBuilder/RefChoice";
 import CardReferenceParameterInputs from "./FormBuilder/CardReferenceParameterInputs";
-import CardArrayParameterInputs from "./FormBuilder/CardArrayParameterInput";
 import CardShortAnswerParameterInputs from "./FormBuilder/CardShortAnswerParameterInputs";
 import Add from "./FormBuilder/Add";
 import Card from "./FormBuilder/Card";
@@ -40,6 +39,44 @@ import addSectionObj from "./FormBuilderUtils/addSectionObj";
 import onDragEnd from "./FormBuilderUtils/onDragEnd";
 import generateCategoryHash from "./FormBuilderUtils/generateCategoryHash";
 import excludeKeys from "./FormBuilderUtils/excludeKeys";
+
+// specify the inputs required for a string type object
+function CardArrayParameterInputs({ parameters, onChange }) {
+  return createElement(
+    "div",
+    null,
+    createElement(Typography, { variant: "h6" }, null, "Minimum Items"),
+    createElement(Input, {
+      value: parameters.minItems || "",
+      placeholder: "ex: 2",
+      key: "minimum",
+      type: "number",
+      onChange: (ev) => {
+        onChange(
+          _extends({}, parameters, {
+            minItems: parseInt(ev.target.value, 10),
+          })
+        );
+      },
+      className: "card-modal-number",
+    }),
+    createElement(Typography, { variant: "h6" }, null, "Maximum Items"),
+    createElement(Input, {
+      value: parameters.maxItems || "",
+      placeholder: "ex: 2",
+      key: "maximum",
+      type: "number",
+      onChange: (ev) => {
+        onChange(
+          _extends({}, parameters, {
+            maxItems: parseInt(ev.target.value, 10),
+          })
+        );
+      },
+      className: "card-modal-number",
+    })
+  );
+}
 
 const getInputCardBodyComponent = ({ type }) =>
   function InputCardBodyComponent({ parameters, onChange }) {

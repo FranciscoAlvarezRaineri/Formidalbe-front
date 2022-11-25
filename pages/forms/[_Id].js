@@ -3,10 +3,9 @@ import { Button, Grid, Paper } from "@material-ui/core";
 import axios from "../../axios";
 
 export async function getServerSideProps(context) {
-  const response = await axios.get(`/forms/form/${context.params._id}`);
-  /* const form = fakeForms().filter(
-    (form) => form.formID === context.params.formID
-  )[0];*/
+  console.log("context", context.params._Id);
+  const response = await axios.get(`/forms/${context.params._Id}`);
+  console.log(response);
   const form = response.data;
   return {
     props: { form },

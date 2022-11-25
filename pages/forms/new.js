@@ -13,8 +13,6 @@ import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 import dynamic from "next/dynamic";
 
-//import { FormBuilder } from "../../components/FormBuilder";
-
 const FormBuilder = dynamic(() => import("../../components/FormBuilder.js"), {
   ssr: false,
 });
@@ -36,7 +34,7 @@ export default function NewForm() {
       .catch((err) => console.log(err));
   }
 
-  useEffect(() => {
+  /* useEffect(() => {
     setUischema({
       "ui:order": [
         "Condiciones generales obligatorias",
@@ -106,7 +104,7 @@ export default function NewForm() {
       },
       description: "hola, esto es un formulario",
     });
-  }, []);
+  }, []); */
 
   const useStyles = makeStyles((theme) => ({
     item: {
