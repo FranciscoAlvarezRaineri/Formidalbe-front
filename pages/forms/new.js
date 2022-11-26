@@ -13,9 +13,12 @@ import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 import dynamic from "next/dynamic";
 
-const FormBuilder = dynamic(() => import("../../components/FormBuilder.js"), {
-  ssr: false,
-});
+const FormBuilder = dynamic(
+  () => import("../../components/formBuilder/FormBuilder"),
+  {
+    ssr: false,
+  }
+);
 
 export default function NewForm() {
   const [schema, setSchema] = useState({});
