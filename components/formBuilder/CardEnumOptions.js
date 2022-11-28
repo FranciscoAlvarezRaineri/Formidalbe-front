@@ -1,5 +1,6 @@
 import { createElement, Fragment } from "react";
-import { Close, Add } from "@material-ui/icons";
+import Add from "@material-ui/icons/Add";
+import Close from "@material-ui/icons/Close";
 import Input from "@material-ui/core/Input";
 
 // Input field corresponding to an array of values, add and remove
@@ -71,27 +72,21 @@ export default function CardEnumOptions({
             display: showNames ? "initial" : "none",
           },
         }),
-        createElement(
-          "div",
-          {
-            className: "delete-button",
+        createElement(Close, {
+          className: "delete-button",
+          onClick: () => {
+            // remove this value
+            onChange(
+              [
+                ...initialValues.slice(0, index),
+                ...initialValues.slice(index + 1),
+              ],
+              names
+                ? [...names.slice(0, index), ...names.slice(index + 1)]
+                : undefined
+            );
           },
-
-          createElement(Close, {
-            onClick: () => {
-              // remove this value
-              onChange(
-                [
-                  ...initialValues.slice(0, index),
-                  ...initialValues.slice(index + 1),
-                ],
-                names
-                  ? [...names.slice(0, index), ...names.slice(index + 1)]
-                  : undefined
-              );
-            },
-          })
-        )
+        })
       )
     );
   }

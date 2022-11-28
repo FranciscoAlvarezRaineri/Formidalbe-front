@@ -1,6 +1,8 @@
 import { useState, createElement } from "react";
-import { Input, Typography } from "@material-ui/core";
-import { Close, Add } from "@material-ui/icons";
+import Input from "@material-ui/core/Input";
+import Typography from "@material-ui/core/Typography";
+import Add from "@material-ui/icons/Add";
+import Close from "@material-ui/icons/Close";
 
 // Importar componentes:
 import CardSelector from "./CardSelector";

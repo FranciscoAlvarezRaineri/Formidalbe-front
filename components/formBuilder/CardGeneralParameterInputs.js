@@ -19,7 +19,6 @@ import {
   getRandomId,
 } from "./utils";
 
-// Reemplazar
 import Select from "react-select";
 
 // specify the inputs required for any type of object

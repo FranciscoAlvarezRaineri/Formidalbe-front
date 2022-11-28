@@ -143,16 +143,15 @@ function NumberField({ parameters, onChange }) {
     createElement(Typography, { variant: "h5" }, null, "Default number"),
     createElement(Input, {
       value: parameters.default,
-      // id:"standard-secondary",
+      id: "standard-secondary",
       required: true,
       color: "primary",
-      // label:"Standard secondary",
-      // placeholder: "Default",
+      label: "Standard secondary",
+      placeholder: "Default",
       type: "number",
-      // fullWidth: false,
       onChange: (ev) =>
         onChange({ ...parameters, default: parseFloat(ev.target.value) }),
-      // className: "card-number",
+      className: "card-number",
     })
   );
 }

@@ -1,5 +1,6 @@
 import { useState, createElement } from "react";
-import { Radio, InputLabel } from "@material-ui/core";
+import Radio from "@material-ui/core/Radio";
+import InputLabel from "@material-ui/core/InputLabel";
 
 export default function FBRadioButton(props) {
   const {

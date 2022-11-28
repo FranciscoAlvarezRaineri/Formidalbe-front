@@ -30,12 +30,12 @@ const getInputCardBodyComponent = ({ type }) =>
   };
 
 function Checkbox({ parameters, onChange }) {
-  return /*#__PURE__*/ createElement(
+  return createElement(
     Container,
     {
-      // className: "card-boolean",
+      className: "card-boolean",
     },
-    /*#__PURE__*/ createElement(FBCheckbox, {
+    createElement(FBCheckbox, {
       onChangeValue: () => {
         onChange({
           ...parameters,
@@ -58,18 +58,13 @@ function MultipleChoice({ parameters, onChange }) {
     !!enumArray.length && !containsString
   );
   const [elementId] = useState(getRandomId());
-  return /*#__PURE__*/ createElement(
+  return createElement(
     Container,
     {
       className: "card-enum",
     },
-    /*#__PURE__*/ createElement(
-      Typography,
-      { variant: "h3" },
-      null,
-      "Possible Values"
-    ),
-    /*#__PURE__*/ createElement(FBCheckbox, {
+    createElement(Typography, { variant: "h3" }, null, "Possible Values"),
+    createElement(FBCheckbox, {
       onChangeValue: () => {
         if (Array.isArray(parameters.enumNames)) {
           // remove the enumNames
@@ -89,10 +84,10 @@ function MultipleChoice({ parameters, onChange }) {
       label: "Display label is different from value",
       id: `${elementId}_different`,
     }),
-    /*#__PURE__*/ createElement(
+    createElement(
       Container,
       null,
-      /*#__PURE__*/ createElement(FBCheckbox, {
+      createElement(FBCheckbox, {
         onChangeValue: () => {
           if (containsString || !isNumber) {
             // attempt converting enum values into numbers
@@ -129,7 +124,7 @@ function MultipleChoice({ parameters, onChange }) {
         id: `${elementId}_forceNumber`,
       })
     ),
-    /*#__PURE__*/ createElement(CardEnumOptions, {
+    createElement(CardEnumOptions, {
       initialValues: enumArray,
       names: Array.isArray(parameters.enumNames)
         ? parameters.enumNames.map((val) => `${val}`)

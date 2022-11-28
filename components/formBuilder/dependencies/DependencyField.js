@@ -1,5 +1,6 @@
-import { useState, createElement, Fragment, useEffect } from "react";
-import { Typography, Tooltip } from "@material-ui/core";
+import { useState, createElement, Fragment } from "react";
+import Tooltip from "@material-ui/core/Tooltip";
+import Typography from "@material-ui/core/Typography";
 import Add from "@material-ui/icons/Add";
 
 // Importar componentes:
