@@ -1,11 +1,10 @@
 import { useState, createElement, useEffect } from "react";
-import {
-  Input,
-  Typography,
-  Dialog,
-  Container,
-  Button,
-} from "@material-ui/core";
+
+import Input from "@material-ui/core/Input";
+import Typography from "@material-ui/core/Typography";
+import Dialog from "@material-ui/core/Dialog";
+import Container from "@material-ui/core/Container";
+import Button from "@material-ui/core/Button";
 
 // Importar componentes:
 import Example from "./Tooltip";

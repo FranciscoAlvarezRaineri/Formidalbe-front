@@ -135,82 +135,33 @@ export default function Section({
       createElement(
         Container,
         null,
-        /*reference
-            ? createElement(
-                "div",
-                {
-                  className: "section-entry section-reference",
+        reference
+          ? createElement(
+              "div",
+              {
+                className: "section-entry section-reference",
+              },
+              createElement(
+                Typography,
+                { variant: "h5", display: "inline" },
+                "Sección de Referencia"
+              ),
+              createElement(Select, {
+                value: {
+                  value: reference,
+                  label: reference,
                 },
-                createElement(
-                  Typography,
-                  { variant: "h5", display: "inline" },
-                  "Sección de Referencia"
-                ),
-                createElement(Select, {
-                  value: {
-                    value: reference,
-                    label: reference,
-                  },
-                  placeholder: "Referencia",
-                  options: Object.keys(definitionData).map((key) => ({
-                    value: `#/definitions/${key}`,
-                    label: `#/definitions/${key}`,
-                  })),
-                  onChange: (val) => {
-                    onChange(schema, uischema, val.value);
-                  },
-                })
-              )
-            : "",
-        /*createElement(
-            "div",
-            null,
-            createElement(
-              Typography,
-              { variant: "subtitle1" },
-              "Nombre de la Sección",
-              " ",
-              createElement(Example, {
-                text:
-                  mods &&
-                  mods.tooltipDescriptions &&
-                  mods.tooltipDescriptions &&
-                  typeof mods.tooltipDescriptions.cardSectionObjectName ===
-                    "string"
-                    ? mods.tooltipDescriptions.cardSectionObjectName
-                    : "The key to the object that will represent this form section.",
-                id: `${elementId}_nameinfo`,
-                type: "help",
+                placeholder: "Referencia",
+                options: Object.keys(definitionData).map((key) => ({
+                  value: `#/definitions/${key}`,
+                  label: `#/definitions/${key}`,
+                })),
+                onChange: (val) => {
+                  onChange(schema, uischema, val.value);
+                },
               })
-            ),
-            createElement(
-              FormGroup,
-              null,
-              createElement(Input, {
-                invalid: keyError !== null,
-                value: keyName || "",
-                placeholder: "Key",
-                type: "text",
-                onChange: (ev) => setKeyName(ev.target.value),
-                onBlur: (ev) => {
-                  const { value } = ev.target;
-                  if (
-                    value === name ||
-                    !(neighborNames && neighborNames.includes(value))
-                  ) {
-                    setKeyError(null);
-                    onNameChange(value);
-                  } else {
-                    setKeyName(name);
-                    setKeyError(`"${value}" ya está en uso.`);
-                    onNameChange(name);
-                  }
-                },
-                readOnly: hideKey,
-              }),
-              createElement(FormHelperText, null, keyError)
             )
-          ),*/
+          : "",
         createElement(
           "div",
           null,
@@ -224,10 +175,59 @@ export default function Section({
                 mods &&
                 mods.tooltipDescriptions &&
                 mods.tooltipDescriptions &&
+                typeof mods.tooltipDescriptions.cardSectionObjectName ===
+                  "string"
+                  ? mods.tooltipDescriptions.cardSectionObjectName
+                  : "El nombre que representa a la sección en el JSON.",
+              id: `${elementId}_nameinfo`,
+              type: "help",
+            })
+          ),
+          createElement(
+            FormGroup,
+            null,
+            createElement(Input, {
+              invalid: keyError !== null,
+              value: keyName || "",
+              placeholder: "Key",
+              type: "text",
+              onChange: (ev) => setKeyName(ev.target.value),
+              onBlur: (ev) => {
+                const { value } = ev.target;
+                if (
+                  value === name ||
+                  !(neighborNames && neighborNames.includes(value))
+                ) {
+                  setKeyError(null);
+                  onNameChange(value);
+                } else {
+                  setKeyName(name);
+                  setKeyError(`"${value}" ya está en uso.`);
+                  onNameChange(name);
+                }
+              },
+              readOnly: hideKey,
+            }),
+            createElement(FormHelperText, null, keyError)
+          )
+        ),
+        createElement(
+          "div",
+          null,
+          createElement(
+            Typography,
+            { variant: "h6" },
+            "Título de la Sección",
+            " ",
+            createElement(Example, {
+              text:
+                mods &&
+                mods.tooltipDescriptions &&
+                mods.tooltipDescriptions &&
                 typeof mods.tooltipDescriptions.cardSectionDisplayName ===
                   "string"
                   ? mods.tooltipDescriptions.cardSectionDisplayName
-                  : "El nombre de la sección que se mostrará al usuario",
+                  : "El título de la sección que se mostrará al usuario.",
               id: `${elementId}_titleinfo`,
               type: "help",
             })
@@ -279,7 +279,7 @@ export default function Section({
                 typeof mods.tooltipDescriptions.cardSectionDescription ===
                   "string"
                   ? mods.tooltipDescriptions.cardSectionDescription
-                  : "Una descripción corta de la sección",
+                  : "Una descripción corta de la sección.",
               id: `${elementId}_descriptioninfo`,
               type: "help",
             })

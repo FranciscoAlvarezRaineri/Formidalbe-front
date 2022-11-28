@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { List, ListItem } from "@material-ui/core";
-// Importar componentes:
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+
 import Example from "../Tooltip";
 
 import { getRandomId } from "../utils";

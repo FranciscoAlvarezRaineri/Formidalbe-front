@@ -10,30 +10,30 @@ import { getRandomId } from "../utils";
 
 export default function PlaceholderInput({ parameters, onChange }) {
   const [elementId] = useState(getRandomId());
-  return /*#__PURE__*/ createElement(
+  return createElement(
     Fragment,
     null,
-    /*#__PURE__*/ createElement(
+    createElement(
       Typography,
       { variant: "h4" },
       null,
       "Placeholder",
       " ",
-      /*#__PURE__*/ createElement(
+      createElement(
         Link,
         {
           href: "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-placeholder",
           target: "_blank",
           rel: "noopener noreferrer",
         },
-        /*#__PURE__*/ createElement(Example, {
+        createElement(Example, {
           id: `${elementId}_placeholder`,
           type: "help",
           text: "Hint to the user as to what kind of information is expected in the field",
         })
       )
     ),
-    /*#__PURE__*/ createElement(Input, {
+    createElement(Input, {
       value: parameters["ui:placeholder"],
       placeholder: "Placeholder",
       key: "placeholder",

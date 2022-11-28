@@ -16,7 +16,7 @@ export default function FBCheckbox({
 }) {
   const potentialCheckboxId = id !== "" ? id : label;
   const checkboxId = potentialCheckboxId !== "" ? potentialCheckboxId : null;
-  return /*#__PURE__*/ createElement(
+  return createElement(
     Container,
     null,
     createElement(

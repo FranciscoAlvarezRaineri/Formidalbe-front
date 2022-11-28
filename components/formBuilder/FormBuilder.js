@@ -79,23 +79,19 @@ export default function FormBuilder({ schema, uischema, onChange, mods }) {
       createElement(
         Grid,
         {
-          //className: classes.formHead,
           container: true,
           columns: 2,
           spacing: 10,
           justifyContent: "center",
           marginTop: 25,
-          //"data-test": "form-head",
         },
         // Esta sección genera el input para cambiar el título del formulario
         createElement(
           Grid,
           { item: true, align: "center" },
           createElement(
-            "h5",
-            {
-              "data-test": "form-name-label",
-            },
+            Typography,
+            { variant: "h5" },
             mods && mods.labels && typeof mods.labels.formNameLabel === "string"
               ? mods.labels.formNameLabel
               : "Form Name"
@@ -113,7 +109,7 @@ export default function FormBuilder({ schema, uischema, onChange, mods }) {
                 uischema
               );
             },
-            //className: "form-title",
+            className: "form-title",
           })
         ),
         // Esta sección genera el input para cambiar la descripición del formulario
@@ -143,7 +139,7 @@ export default function FormBuilder({ schema, uischema, onChange, mods }) {
                 }),
                 uischema
               ),
-            //className: "form-description",
+            className: "form-description",
           })
         )
       ),
