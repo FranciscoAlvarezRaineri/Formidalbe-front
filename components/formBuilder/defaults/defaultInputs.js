@@ -63,7 +63,7 @@ function MultipleChoice({ parameters, onChange }) {
     {
       className: "card-enum",
     },
-    createElement(Typography, { variant: "h3" }, null, "Possible Values"),
+    createElement(Typography, { variant: "h6" }, null, "Possible Values"),
     createElement(FBCheckbox, {
       onChangeValue: () => {
         if (Array.isArray(parameters.enumNames)) {
