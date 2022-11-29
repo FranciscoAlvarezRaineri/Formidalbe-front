@@ -17,13 +17,12 @@ import {
   TableBody,
   Table,
   Paper,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
 } from "@material-ui/core";
 import Collapse from "@material-ui/core/Collapse";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
+import Dialog from "@material-ui/core/Dialog";
+
 import Delete from "@material-ui/icons/Delete";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import ExpandLess from "@material-ui/icons/ExpandLess";
@@ -31,6 +30,7 @@ import Share from "@material-ui/icons/Share";
 import Edit from "@material-ui/icons/Edit";
 
 import { makeStyles } from "@material-ui/core/styles";
+import Response from "../../components/response";
 
 export default function FormsTable() {
   const classes = useStyles();
@@ -38,15 +38,8 @@ export default function FormsTable() {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [rows, setRows] = useState([]);
 
-  const [selectedIndex, setSelectedIndex] = React.useState("");
-
-  const handleOpenClose = (index) => {
-    if (selectedIndex === index) {
-      setSelectedIndex("");
-    } else {
-      setSelectedIndex(index);
-    }
-  };
+  const [selectedIndex, setSelectedIndex] = useState("");
+  const [selectedPopUp, setSelectedPopUp] = useState("");
 
   useEffect(() => {
     axios
@@ -59,6 +52,22 @@ export default function FormsTable() {
         console.log(err);
       });
   }, []);
+
+  const handleOpenClose = (index) => {
+    if (selectedIndex === index) {
+      setSelectedIndex("");
+    } else {
+      setSelectedIndex(index);
+    }
+  };
+
+  const handlePopUp = (index) => {
+    if (selectedIndex === index) {
+      setSelectedPopUp("");
+    } else {
+      setSelectedPopUp(index);
+    }
+  };
 
   function handleDelete(_id) {
     axios
@@ -136,11 +145,21 @@ export default function FormsTable() {
                             )}
                             <Collapse in={index === selectedIndex}>
                               <List id={`res-${form._id}`}>
-                                {form.responses?.map((response) => {
+                                {form.responses?.map((response, index) => {
                                   return (
                                     <ListItem key={response._id}>
-                                      {response.formData["Datos Personales"]
-                                        ?.nombre || response._id}
+                                      <Button
+                                        onClick={() => handlePopUp(index)}
+                                      >
+                                        {response.formData["Datos Personales"]
+                                          ?.nombre || response._id}
+                                      </Button>
+                                      <Dialog open={index === selectedPopUp}>
+                                        <Response _id={response._id}></Response>
+                                        <Button onClick={() => handlePopUp("")}>
+                                          Salir
+                                        </Button>
+                                      </Dialog>
                                     </ListItem>
                                   );
                                 })}
