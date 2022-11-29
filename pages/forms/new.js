@@ -29,7 +29,6 @@ export default function NewForm() {
       .post("/forms/create", {
         schema,
         uischema,
-        answers: [],
       })
       .then(() => {
         Router.push("/forms");

@@ -3,7 +3,7 @@
 // Al clickear en una fila redirigir a /forms/[formID]/manage.
 
 import React, { useState, useEffect } from "react";
-import Link from "next/link";
+import Router from "next/router";
 import axios from "../../axios";
 
 import {
@@ -17,24 +17,19 @@ import {
   TableBody,
   Table,
   Paper,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
 } from "@material-ui/core";
+import Delete from "@material-ui/icons/Delete";
+import ExpandMore from "@material-ui/icons/ExpandMore";
+import Share from "@material-ui/icons/Share";
+import Edit from "@material-ui/icons/Edit";
 
 import { makeStyles } from "@material-ui/core/styles";
 
-const columns = [
-  { id: "_id", label: "Nombre", minWidth: 100, align: "left" },
-  { id: "createdAt", label: "Fecha de Creación", minWidth: 100, align: "left" },
-  {
-    id: "answers",
-    label: "Respuestas",
-    minWidth: 30,
-    align: "right",
-  },
-];
-
 export default function FormsTable() {
   const classes = useStyles();
-
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [rows, setRows] = useState([]);
@@ -43,12 +38,26 @@ export default function FormsTable() {
     axios
       .get("/forms")
       .then((res) => {
+        console.log(res);
         setRows(res.data);
       })
       .catch((err) => {
         console.log(err);
       });
   }, []);
+
+  function handleDelete(_id) {
+    axios
+      .delete(`/forms/${_id}`)
+      .then(() => {
+        axios.get("/forms").then((res) => {
+          setRows(res.data);
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 
   return (
     <Paper className={classes.root}>
@@ -74,11 +83,20 @@ export default function FormsTable() {
                   <TableCell key="_id" align="left">
                     Formulario
                   </TableCell>
+                  <TableCell key="answers" align="right">
+                    Respuestas
+                  </TableCell>
                   <TableCell key="createdAt" align="center">
                     Fecha de Creación
                   </TableCell>
-                  <TableCell key="answers" align="right">
-                    Respuestas
+                  <TableCell key="share" align="right">
+                    Compartir
+                  </TableCell>
+                  <TableCell key="edit" align="right">
+                    Editar
+                  </TableCell>
+                  <TableCell key="remove" align="right">
+                    Eliminar
                   </TableCell>
                 </>
               }
@@ -87,21 +105,57 @@ export default function FormsTable() {
           <TableBody>
             {rows
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row) => {
+              .map((form) => {
                 return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                  <TableRow hover role="checkbox" tabIndex={-1} key={form._id}>
                     {
                       <>
-                        <TableCell key={row._id} align="left">
-                          <Link href={`/forms/${row._id}`}>
-                            {row.schema?.title || row._id}
-                          </Link>
-                        </TableCell>
-                        <TableCell key="createdAt" align="center">
-                          {row.createdAt?.split("T")[0]}
+                        <TableCell key={form._id} align="left">
+                          {form.schema?.title || form._id}
                         </TableCell>
                         <TableCell key="answers" align="right">
-                          {row.answers?.length}
+                          <Accordion>
+                            <AccordionSummary expandIcon={<ExpandMore />}>
+                              {form.responses?.length}
+                            </AccordionSummary>
+                            <AccordionDetails>
+                              {form.responses?.map((response) => (
+                                <>{response.user || response._id}</>
+                              ))}
+                            </AccordionDetails>
+                          </Accordion>
+                        </TableCell>
+                        <TableCell key="createdAt" align="center">
+                          {form.createdAt?.split("T")[0]}
+                        </TableCell>
+                        <TableCell key="share" align="right">
+                          <Button
+                            onClick={() => {
+                              navigator.clipboard.writeText(
+                                `http://localhost:3000/forms/${form._id}`
+                              );
+                            }}
+                          >
+                            <Share />
+                          </Button>
+                        </TableCell>
+                        <TableCell key="edit" align="right">
+                          <Button
+                            onClick={() => {
+                              Router.push(`/forms/${form._id}/manage`);
+                            }}
+                          >
+                            <Edit />
+                          </Button>
+                        </TableCell>
+                        <TableCell key="remove" align="right">
+                          <Button
+                            onClick={() => {
+                              handleDelete(form._id);
+                            }}
+                          >
+                            <Delete />
+                          </Button>
                         </TableCell>
                       </>
                     }
