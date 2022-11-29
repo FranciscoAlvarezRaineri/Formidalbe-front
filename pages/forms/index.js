@@ -21,8 +21,12 @@ import {
   AccordionSummary,
   AccordionDetails,
 } from "@material-ui/core";
+import Collapse from "@material-ui/core/Collapse";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
 import Delete from "@material-ui/icons/Delete";
 import ExpandMore from "@material-ui/icons/ExpandMore";
+import ExpandLess from "@material-ui/icons/ExpandLess";
 import Share from "@material-ui/icons/Share";
 import Edit from "@material-ui/icons/Edit";
 
@@ -33,6 +37,16 @@ export default function FormsTable() {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [rows, setRows] = useState([]);
+
+  const [selectedIndex, setSelectedIndex] = React.useState("");
+
+  const handleOpenClose = (index) => {
+    if (selectedIndex === index) {
+      setSelectedIndex("");
+    } else {
+      setSelectedIndex(index);
+    }
+  };
 
   useEffect(() => {
     axios
@@ -105,7 +119,7 @@ export default function FormsTable() {
           <TableBody>
             {rows
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((form) => {
+              .map((form, index) => {
                 return (
                   <TableRow hover role="checkbox" tabIndex={-1} key={form._id}>
                     {
@@ -114,16 +128,25 @@ export default function FormsTable() {
                           {form.schema?.title || form._id}
                         </TableCell>
                         <TableCell key="answers" align="right">
-                          <Accordion>
-                            <AccordionSummary expandIcon={<ExpandMore />}>
-                              {form.responses?.length}
-                            </AccordionSummary>
-                            <AccordionDetails>
-                              {form.responses?.map((response) => (
-                                <>{response.user || response._id}</>
-                              ))}
-                            </AccordionDetails>
-                          </Accordion>
+                          <div onClick={() => handleOpenClose(index)}>
+                            {index === selectedIndex ? (
+                              <ExpandLess />
+                            ) : (
+                              <ExpandMore />
+                            )}
+                            <Collapse in={index === selectedIndex}>
+                              <List id={`res-${form._id}`}>
+                                {form.responses?.map((response) => {
+                                  return (
+                                    <ListItem key={response._id}>
+                                      {response.formData["Datos Personales"]
+                                        ?.nombre || response._id}
+                                    </ListItem>
+                                  );
+                                })}
+                              </List>
+                            </Collapse>
+                          </div>
                         </TableCell>
                         <TableCell key="createdAt" align="center">
                           {form.createdAt?.split("T")[0]}
