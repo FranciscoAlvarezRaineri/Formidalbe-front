@@ -1,12 +1,21 @@
 import Form from "@rjsf/material-ui";
-import { Button, Grid, Paper } from "@material-ui/core";
+import {
+  Box,
+  Button,
+  Container,
+  Dialog,
+  Grid,
+  Paper,
+  Typography,
+} from "@material-ui/core";
+import Card from "@material-ui/core/Card";
 import axios from "../../axios";
-import { useEffect } from "react";
+import { useState } from "react";
 
 export async function getServerSideProps(context) {
-  const response = await axios.get(`/forms/${context.params.formId}`);
-  const form = response.data;
-  // Información adicional que requiere el formulario.
+  let form = await axios.get(`/forms/${context.params.formId}`);
+  form = form.data;
+  // Información adicional que requiere el formulario para pedir nombre e email.
   form.schema.properties = {
     ...form.schema.properties,
     "Datos Personales": {
@@ -47,21 +56,33 @@ export async function getServerSideProps(context) {
 }
 
 export default function OneForm({ form }) {
+  const [open, setOpen] = useState(false);
+  const [disable, setDisable] = useState(false);
+  const [data, setData] = useState({});
+
   function handleSubmit(formData) {
-    axios.post("responses/create", { formData, form_id: form._id });
+    axios.post("responses/create", { formData, form: form._id });
+    setOpen(true);
+    setDisable(true);
+    setData(formData);
   }
 
   return (
-    <>
-      <Grid container justifyContent="center"></Grid>
-      <Paper>
+    <Container maxWidth={"sm"}>
+      <Paper elevation={3}>
         <Form
           schema={form.schema}
           uiSchema={form.uischema}
-          onSubmit={({ formData }) => handleSubmit(formData)}
+          formData={data}
+          disabled={disable}
+          onSubmit={({ formData }) => (disable ? null : handleSubmit(formData))}
         />
       </Paper>
-      <Button></Button>
-    </>
+      <Dialog open={open} onClick={() => setOpen(false)}>
+        <Card minWidth="300">
+          <Typography variant={"h6"}>Fromulario enviado</Typography>
+        </Card>
+      </Dialog>
+    </Container>
   );
 }

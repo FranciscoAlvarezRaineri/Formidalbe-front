@@ -156,7 +156,7 @@ export default function NewForm() {
           <Paper className={classes.item}>
             <Editor
               height="500px"
-              width="600px"
+              width="100%"
               language="json"
               value={JSON.stringify(schema, null, 2)}
               onChange={(e) => {
@@ -168,7 +168,7 @@ export default function NewForm() {
           <Paper className={classes.item}>
             <Editor
               height="500px"
-              width="600px"
+              width="100%"
               language="json"
               value={JSON.stringify(uischema, null, 2)}
               onChange={(e) => {
