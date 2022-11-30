@@ -134,7 +134,10 @@ export default function DependencyField({ parameters, onChange }) {
                   : [];
                 onChange({
                   ...parameters,
-                  dependents: newDependents,
+                  dependents: [
+                    ...newDependents.slice(0, index),
+                    ...newDependents.slice(index + 1),
+                  ],
                 });
               },
             })
