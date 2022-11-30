@@ -30,12 +30,12 @@ export default function DependencyPossibility({
     createElement(
       Typography,
       { variant: "h5" },
-      "Display the following:",
+      " Exhibir lo siguiente:",
       " ",
       createElement(Example, {
         id: `${elementId}_bulk`,
         type: "help",
-        text: "Choose the other form elements that depend on this one",
+        text: "Elija los otros elementos del formulario que dependan de este",
       })
     ),
     createElement(CardSelector, {
@@ -50,10 +50,10 @@ export default function DependencyPossibility({
     createElement(
       Typography,
       { variant: "h5" },
-      'If "',
+      'Si "',
       parentName,
-      '" has ',
-      possibility.value ? "the value:" : "a value."
+      '" tiene ',
+      possibility.value ? "el valor:" : "a value."
     ),
     possibility.value
       ? createElement(

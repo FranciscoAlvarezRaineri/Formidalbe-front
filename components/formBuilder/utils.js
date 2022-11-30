@@ -1481,6 +1481,7 @@ export function getNewElementDefaultDataOptions(i, mods) {
       title: `Nuevo Elemento ${i}`,
       type: "string",
       default: "",
+  
     };
   }
 }
