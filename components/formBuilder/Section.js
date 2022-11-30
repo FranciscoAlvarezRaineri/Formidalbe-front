@@ -2,7 +2,7 @@ import { createElement, useState, Fragment } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 //import Select from "react-select";
-
+import {Select} from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import Tooltip from "@material-ui/core/Tooltip";
 import Container from "@material-ui/core/Container";
@@ -146,20 +146,36 @@ export default function Section({
                 { variant: "h5", display: "inline" },
                 "Sección de Referencia"
               ),
-              createElement(Select, {
-                value: {
-                  value: reference,
-                  label: reference,
-                },
-                placeholder: "Referencia",
-                options: Object.keys(definitionData).map((key) => ({
+ <Select
+    labelId="Referencia"
+    options={Object.keys(definitionData).map((key) => ({
                   value: `#/definitions/${key}`,
                   label: `#/definitions/${key}`,
-                })),
-                onChange: (val) => {
+                }))}
+    getOptionLabel={(option) => option.label}
+    style={{ width: "100%" }}
+    
+    onChange={(val) => {
                   onChange(schema, uischema, val.value);
-                },
-              })
+                }}
+    
+  />
+
+              /////////////////ORIGINAL ////////////////////////
+              // createElement(Select, {
+              //   value: {
+              //     value: reference,
+              //     label: reference,
+              //   },
+              //   placeholder: "Referencia",
+              //   options: Object.keys(definitionData).map((key) => ({
+              //     value: `#/definitions/${key}`,
+              //     label: `#/definitions/${key}`,
+              //   })),
+              //   onChange: (val) => {
+              //     onChange(schema, uischema, val.value);
+              //   },
+              // })
             )
           : "",
         createElement(

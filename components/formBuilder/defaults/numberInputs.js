@@ -19,19 +19,19 @@ function CardNumberParameterInputs({ parameters, onChange }) {
     null,
     createElement(
       Typography,
-      { variant: "h4" },
+      { variant: "h5" },
       null,
-      "Multiple of",
+      "Múltiplo de",
       " ",
       createElement(Example, {
         id: `${elementId}_multiple`,
         type: "help",
-        text: "Require number to be a multiple of this number",
+        text: "El número requerido debe ser un multiplo de este número",
       })
     ),
     createElement(Input, {
       value: parameters.multipleOf ? parameters.multipleOf : "",
-      placeholder: "ex: 2",
+      placeholder: "ej: 2",
       key: "multipleOf",
       type: "number",
       onChange: (ev) => {
@@ -41,10 +41,10 @@ function CardNumberParameterInputs({ parameters, onChange }) {
       },
       className: "card-modal-number",
     }),
-    createElement(Typography, { variant: "h4" }, null, "Minimum"),
+    createElement(Typography, { variant: "h5" }, null, "Minimo"),
     createElement(Input, {
       value: parameters.minimum || parameters.exclusiveMinimum || "",
-      placeholder: "ex: 3",
+      placeholder: "ej: 3",
       key: "minimum",
       type: "number",
       onChange: (ev) => {
@@ -84,13 +84,13 @@ function CardNumberParameterInputs({ parameters, onChange }) {
         },
         isChecked: !!parameters.exclusiveMinimum,
         disabled: !parameters.minimum && !parameters.exclusiveMinimum,
-        label: "Exclusive Minimum",
+        label: "Minimo Exclusivo",
       })
     ),
-    createElement(Typography, { variant: "h4" }, null, "Maximum"),
+    createElement(Typography, { variant: "h5" }, null, "Máximo"),
     createElement(Input, {
       value: parameters.maximum || parameters.exclusiveMaximum || "",
-      placeholder: "ex: 8",
+      placeholder: "ej: 8",
       key: "maximum",
       type: "number",
       onChange: (ev) => {
@@ -130,7 +130,7 @@ function CardNumberParameterInputs({ parameters, onChange }) {
         },
         isChecked: !!parameters.exclusiveMaximum,
         disabled: !parameters.maximum && !parameters.exclusiveMaximum,
-        label: "Exclusive Maximum",
+        label: "Máximo Exclusivo",
       })
     )
   );
@@ -140,14 +140,14 @@ function NumberField({ parameters, onChange }) {
   return createElement(
     Fragment,
     null,
-    createElement(Typography, { variant: "h5" }, null, "Default number"),
+    createElement(Typography, { variant: "h5" }, null, "Número por defecto"),
     createElement(Input, {
       value: parameters.default,
       id: "standard-secondary",
       required: true,
       color: "primary",
       label: "Standard secondary",
-      placeholder: "Default",
+      placeholder: "Número por defecto",
       type: "number",
       onChange: (ev) =>
         onChange({ ...parameters, default: parseFloat(ev.target.value) }),
@@ -158,7 +158,7 @@ function NumberField({ parameters, onChange }) {
 
 const numberInputs = {
   integer: {
-    displayName: "Integer",
+    displayName: "Número Entero",
     matchIf: [
       {
         types: ["integer"],
@@ -175,7 +175,7 @@ const numberInputs = {
     modalBody: CardNumberParameterInputs,
   },
   number: {
-    displayName: "Number",
+    displayName: "Número",
     matchIf: [
       {
         types: ["number"],

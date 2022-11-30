@@ -18,7 +18,7 @@ const getInputCardBodyComponent = ({ type }) =>
     return createElement(
       Fragment,
       null,
-      createElement("h5", null, "Default value"),
+      createElement("h5", null, "Valor por defecto"),
       createElement(Input, {
         value: parameters.default || "",
         placeholder: "Default",
@@ -63,7 +63,7 @@ function MultipleChoice({ parameters, onChange }) {
     {
       className: "card-enum",
     },
-    createElement(Typography, { variant: "h6" }, null, "Possible Values"),
+    createElement(Typography, { variant: "h6" }, null, "Valores posibles"),
     createElement(FBCheckbox, {
       onChangeValue: () => {
         if (Array.isArray(parameters.enumNames)) {
@@ -81,7 +81,7 @@ function MultipleChoice({ parameters, onChange }) {
         }
       },
       isChecked: Array.isArray(parameters.enumNames),
-      label: "Display label is different from value",
+      label: "La etiquieta a visualizar es distinta del valor",
       id: `${elementId}_different`,
     }),
     createElement(
@@ -120,7 +120,7 @@ function MultipleChoice({ parameters, onChange }) {
         },
         isChecked: isNumber,
         disabled: containsUnparsableString,
-        label: "Force number",
+        label: "Forzar nùmero",
         id: `${elementId}_forceNumber`,
       })
     ),
@@ -143,7 +143,7 @@ function MultipleChoice({ parameters, onChange }) {
 
 const defaultInputs = {
   dateTime: {
-    displayName: "Date-Time",
+    displayName: "Fecha-Hora",
     matchIf: [
       {
         types: ["string"],
@@ -161,7 +161,7 @@ const defaultInputs = {
     modalBody: CardDefaultParameterInputs,
   },
   date: {
-    displayName: "Date",
+    displayName: "Fecha",
     matchIf: [
       {
         types: ["string"],
@@ -179,7 +179,7 @@ const defaultInputs = {
     modalBody: CardDefaultParameterInputs,
   },
   time: {
-    displayName: "Time",
+    displayName: "Hora",
     matchIf: [
       {
         types: ["string"],
@@ -197,7 +197,7 @@ const defaultInputs = {
     modalBody: CardDefaultParameterInputs,
   },
   checkbox: {
-    displayName: "Checkbox",
+    displayName: "Casillero (Checkbox)",
     matchIf: [
       {
         types: ["boolean"],
@@ -229,7 +229,7 @@ const defaultInputs = {
     modalBody: CardDefaultParameterInputs,
   },
   dropdown: {
-    displayName: "Dropdown",
+    displayName: "Opciones Desplegables",
     matchIf: [
       {
         types: ["string", "number", "integer", "array", "boolean", "null"],

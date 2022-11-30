@@ -54,7 +54,7 @@ export default function Add({ addElem }) {
               addElem("card");
               setPopoverOpen(false);
             },
-            color: "primary",
+           // color: "primary",
           },
           "Elemento"
         ),
@@ -65,7 +65,7 @@ export default function Add({ addElem }) {
               addElem("section");
               setPopoverOpen(false);
             },
-            color: "primary",
+           // color: "primary",
           },
           "Sección"
         ),

@@ -83,7 +83,7 @@ export default function FormBuilder({ schema, uischema, onChange, mods }) {
           columns: 2,
           spacing: 10,
           justifyContent: "center",
-          marginTop: 25,
+         // marginTop: 25,
         },
         // Esta sección genera el input para cambiar el título del formulario
         createElement(
@@ -94,11 +94,11 @@ export default function FormBuilder({ schema, uischema, onChange, mods }) {
             { variant: "h5" },
             mods && mods.labels && typeof mods.labels.formNameLabel === "string"
               ? mods.labels.formNameLabel
-              : "Form Name"
+              : "Nombre"
           ),
           createElement(Input, {
             value: schemaData.title || "",
-            placeholder: "Title",
+            placeholder: "Titulo",
             type: "text",
             onChange: (ev) => {
               onChange(
@@ -125,11 +125,11 @@ export default function FormBuilder({ schema, uischema, onChange, mods }) {
               mods.labels &&
               typeof mods.labels.formDescriptionLabel === "string"
               ? mods.labels.formDescriptionLabel
-              : "Form Description"
+              : "Descripción"
           ),
           createElement(Input, {
             value: schemaData.description || "",
-            placeholder: "Description",
+            placeholder: "Descripción",
             type: "text",
             onChange: (ev) =>
               onChange(
