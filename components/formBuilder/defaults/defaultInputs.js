@@ -58,6 +58,7 @@ function MultipleChoice({ parameters, onChange }) {
     !!enumArray.length && !containsString
   );
   const [elementId] = useState(getRandomId());
+
   return createElement(
     Container,
     {
@@ -197,7 +198,7 @@ const defaultInputs = {
     modalBody: CardDefaultParameterInputs,
   },
   checkbox: {
-    displayName: "Casillero (Checkbox)",
+    displayName: "Checkbox",
     matchIf: [
       {
         types: ["boolean"],
@@ -229,17 +230,20 @@ const defaultInputs = {
     modalBody: CardDefaultParameterInputs,
   },
   dropdown: {
-    displayName: "Opciones Desplegables",
+    displayName: "Select",
     matchIf: [
       {
         types: ["string", "number", "integer", "array", "boolean", "null"],
+        widget: "select",
         enum: true,
       },
     ],
     defaultDataSchema: {
       enum: [],
     },
-    defaultUiSchema: {},
+    defaultUiSchema: {
+      "ui:widget": "select",
+    },
     type: "string",
     cardBody: MultipleChoice,
     modalBody: CardDefaultParameterInputs,
