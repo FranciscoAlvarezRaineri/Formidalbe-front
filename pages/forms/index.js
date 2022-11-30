@@ -17,6 +17,7 @@ import {
   TableBody,
   Table,
   Paper,
+  Typography,
 } from "@material-ui/core";
 import Collapse from "@material-ui/core/Collapse";
 import List from "@material-ui/core/List";
@@ -28,6 +29,7 @@ import ExpandMore from "@material-ui/icons/ExpandMore";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import Share from "@material-ui/icons/Share";
 import Edit from "@material-ui/icons/Edit";
+import FileCopy from "@material-ui/icons/FileCopy";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Response from "../../components/response";
@@ -45,7 +47,6 @@ export default function FormsTable() {
     axios
       .get("/forms")
       .then((res) => {
-        console.log(res);
         setRows(res.data);
       })
       .catch((err) => {
@@ -68,6 +69,20 @@ export default function FormsTable() {
       setSelectedPopUp(index);
     }
   };
+
+  function handleDuplicate(form) {
+    axios
+      .post("/forms/create", {
+        schema: { ...form.schema, title: `Copia de ${form.schema.title}` },
+        uischema: form.uischema,
+      })
+      .then(() => {
+        axios.get("/forms").then((res) => {
+          setRows(res.data);
+        });
+      })
+      .catch((err) => console.log(err));
+  }
 
   function handleDelete(_id) {
     axios
@@ -96,6 +111,7 @@ export default function FormsTable() {
         >
           Nuevo Formulario
         </Button>
+        <Typography>Usuario</Typography>
       </Grid>
       <TableContainer>
         <Table>
@@ -118,6 +134,9 @@ export default function FormsTable() {
                   <TableCell key="edit" align="right">
                     Editar
                   </TableCell>
+                  <TableCell key="duplicate" align="right">
+                    Duplicar
+                  </TableCell>
                   <TableCell key="remove" align="right">
                     Eliminar
                   </TableCell>
@@ -131,76 +150,79 @@ export default function FormsTable() {
               .map((form, index) => {
                 return (
                   <TableRow hover role="checkbox" tabIndex={-1} key={form._id}>
-                    {
-                      <>
-                        <TableCell key={form._id} align="left">
-                          {form.schema?.title || form._id}
-                        </TableCell>
-                        <TableCell key="answers" align="right">
-                          <div onClick={() => handleOpenClose(index)}>
-                            {index === selectedIndex ? (
-                              <ExpandLess />
-                            ) : (
-                              <ExpandMore />
-                            )}
-                            <Collapse in={index === selectedIndex}>
-                              <List id={`res-${form._id}`}>
-                                {form.responses?.map((response, index) => {
-                                  return (
-                                    <ListItem key={response._id}>
-                                      <Button
-                                        onClick={() => handlePopUp(index)}
-                                      >
-                                        {response.formData["Datos Personales"]
-                                          ?.nombre || response._id}
-                                      </Button>
-                                      <Dialog open={index === selectedPopUp}>
-                                        <Response _id={response._id}></Response>
-                                        <Button onClick={() => handlePopUp("")}>
-                                          Salir
-                                        </Button>
-                                      </Dialog>
-                                    </ListItem>
-                                  );
-                                })}
-                              </List>
-                            </Collapse>
-                          </div>
-                        </TableCell>
-                        <TableCell key="createdAt" align="center">
-                          {form.createdAt?.split("T")[0]}
-                        </TableCell>
-                        <TableCell key="share" align="right">
-                          <Button
-                            onClick={() => {
-                              navigator.clipboard.writeText(
-                                `http://localhost:3000/forms/${form._id}`
-                              );
-                            }}
-                          >
-                            <Share />
-                          </Button>
-                        </TableCell>
-                        <TableCell key="edit" align="right">
-                          <Button
-                            onClick={() => {
-                              Router.push(`/forms/${form._id}/manage`);
-                            }}
-                          >
-                            <Edit />
-                          </Button>
-                        </TableCell>
-                        <TableCell key="remove" align="right">
-                          <Button
-                            onClick={() => {
-                              handleDelete(form._id);
-                            }}
-                          >
-                            <Delete />
-                          </Button>
-                        </TableCell>
-                      </>
-                    }
+                    <TableCell key={`title_${form._id}`} align="left">
+                      {form.schema?.title || form._id}
+                    </TableCell>
+                    <TableCell key={`answers_${form._id}`} align="right">
+                      <div onClick={() => handleOpenClose(index)}>
+                        {index === selectedIndex ? (
+                          <ExpandLess />
+                        ) : (
+                          <ExpandMore />
+                        )}
+                      </div>
+                      <Collapse in={index === selectedIndex}>
+                        <List id={`res-${form._id}`}>
+                          {form.responses?.map((response, index) => {
+                            return (
+                              <ListItem key={response._id}>
+                                <Button onClick={() => handlePopUp(index)}>
+                                  {response.formData["Datos Personales"]
+                                    ?.nombre || response._id}
+                                </Button>
+                                <Dialog open={index === selectedPopUp}>
+                                  <Response _id={response._id}></Response>
+                                  <Button onClick={() => handlePopUp("")}>
+                                    Salir
+                                  </Button>
+                                </Dialog>
+                              </ListItem>
+                            );
+                          })}
+                        </List>
+                      </Collapse>
+                    </TableCell>
+                    <TableCell key={`createdAt_${form._id}`} align="center">
+                      {form.createdAt?.split("T")[0]}
+                    </TableCell>
+                    <TableCell key={`share_${form._id}`} align="right">
+                      <Button
+                        onClick={() => {
+                          navigator.clipboard.writeText(
+                            `http://localhost:3000/forms/${form._id}`
+                          );
+                        }}
+                      >
+                        <Share />
+                      </Button>
+                    </TableCell>
+                    <TableCell key={`edit_${form._id}`} align="right">
+                      <Button
+                        onClick={() => {
+                          Router.push(`/forms/${form._id}/manage`);
+                        }}
+                      >
+                        <Edit />
+                      </Button>
+                    </TableCell>
+                    <TableCell key={`duplicate_${form._id}`} align="right">
+                      <Button
+                        onClick={() => {
+                          handleDuplicate(form);
+                        }}
+                      >
+                        <FileCopy />
+                      </Button>
+                    </TableCell>
+                    <TableCell key={`remove_${form._id}`} align="right">
+                      <Button
+                        onClick={() => {
+                          handleDelete(form._id);
+                        }}
+                      >
+                        <Delete />
+                      </Button>
+                    </TableCell>
                   </TableRow>
                 );
               })}
