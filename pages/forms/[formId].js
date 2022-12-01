@@ -58,7 +58,7 @@ export async function getServerSideProps(context) {
 export default function OneForm({ form }) {
   const [open, setOpen] = useState(false);
   const [disable, setDisable] = useState(false);
-  const [data, setData] = useState({});
+  const [data, setData] = useState(null);
 
   function handleSubmit(formData) {
     axios.post("responses/create", { formData, form: form._id });
@@ -73,7 +73,7 @@ export default function OneForm({ form }) {
         <Form
           schema={form.schema}
           uiSchema={form.uischema}
-          formData={data}
+          formData={data ? data : null}
           disabled={disable}
           onSubmit={({ formData }) => (disable ? null : handleSubmit(formData))}
         />

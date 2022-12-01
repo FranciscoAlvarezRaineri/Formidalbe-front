@@ -13,6 +13,30 @@ export function CardDefaultParameterInputs({ parameters, onChange }) {
   return createElement(Container, null);
 }
 
+function DateDefaultParameterInputs({ parameters, onChange }) {
+  const [isCurrent, setIsCurrent] = useState(false);
+  const [elementId] = useState(getRandomId());
+
+  return createElement(
+    Container,
+    null,
+    createElement(FBCheckbox, {
+      onChangeValue: () => {
+        if (isCurrent) {
+          setIsCurrent(false);
+          onChange({ ...parameters, defaultToCurrent: false });
+        } else {
+          setIsCurrent(true);
+          onChange({ ...parameters, defaultToCurrent: true });
+        }
+      },
+      isChecked: isCurrent,
+      label: "Se autocompleta con la fecha actual",
+      id: `${elementId}_currentDate`,
+    })
+  );
+}
+
 const getInputCardBodyComponent = ({ type }) =>
   function InputCardBodyComponent({ parameters, onChange }) {
     return createElement(
@@ -48,15 +72,21 @@ function Checkbox({ parameters, onChange }) {
   );
 }
 
-function MultipleChoice({ parameters, onChange }) {
+export function MultipleChoice({ parameters, onChange }) {
   const enumArray = Array.isArray(parameters.enum) ? parameters.enum : [];
+
   const containsUnparsableString = enumArray.some((val) => isNaN(val));
   const containsString =
     containsUnparsableString ||
     enumArray.some((val) => typeof val === "string");
+
   const [isNumber, setIsNumber] = useState(
     !!enumArray.length && !containsString
   );
+  const [isBool, setIsBool] = useState(false);
+
+  const [isGrandes, setIsGrandes] = useState(false);
+
   const [elementId] = useState(getRandomId());
 
   return createElement(
@@ -85,46 +115,79 @@ function MultipleChoice({ parameters, onChange }) {
       label: "La etiquieta a visualizar es distinta del valor",
       id: `${elementId}_different`,
     }),
-    createElement(
-      Container,
-      null,
-      createElement(FBCheckbox, {
-        onChangeValue: () => {
-          if (containsString || !isNumber) {
-            // attempt converting enum values into numbers
-            try {
-              const newEnum = enumArray.map((val) => {
-                let newNum = 0;
-                if (val) newNum = parseFloat(val) || 0;
-                if (Number.isNaN(newNum))
-                  throw new Error(`Could not convert ${val}`);
-                return newNum;
-              });
-              setIsNumber(true);
-              onChange({
-                ...parameters,
-                enum: newEnum,
-              });
-            } catch (error) {
-              // eslint-disable-next-line no-console
-              console.error(error);
-            }
-          } else {
-            // convert enum values back into strings
-            const newEnum = enumArray.map((val) => `${val || 0}`);
-            setIsNumber(false);
+    createElement(FBCheckbox, {
+      onChangeValue: () => {
+        if (containsString || !isNumber) {
+          // attempt converting enum values into numbers
+          try {
+            const newEnum = enumArray.map((val) => {
+              let newNum = 0;
+              if (val) newNum = parseFloat(val) || 0;
+              if (Number.isNaN(newNum))
+                throw new Error(`Could not convert ${val}`);
+              return newNum;
+            });
+            setIsNumber(true);
             onChange({
               ...parameters,
               enum: newEnum,
             });
+          } catch (error) {
+            // eslint-disable-next-line no-console
+            console.error(error);
           }
-        },
-        isChecked: isNumber,
-        disabled: containsUnparsableString,
-        label: "Forzar nùmero",
-        id: `${elementId}_forceNumber`,
-      })
-    ),
+        } else {
+          // convert enum values back into strings
+          const newEnum = enumArray.map((val) => `${val || 0}`);
+          setIsNumber(false);
+          onChange({
+            ...parameters,
+            enum: newEnum,
+          });
+        }
+      },
+      isChecked: isNumber,
+      disabled: containsUnparsableString,
+      label: "Solo números",
+      id: `${elementId}_forceNumber`,
+    }),
+    createElement(FBCheckbox, {
+      onChangeValue: () => {
+        setIsBool(!isBool);
+        isBool
+          ? onChange({
+              ...parameters,
+              enum: [],
+            })
+          : onChange({
+              ...parameters,
+              enumNames: ["verdadero", "falso"],
+              enum: [true, false],
+            });
+      },
+
+      isChecked: isBool,
+      label: "Solo verdadero o falso",
+      id: `${elementId}_forceBool`,
+    }),
+    createElement(FBCheckbox, {
+      onChangeValue: () => {
+        console.log(parameters);
+        setIsGrandes(!isGrandes);
+        isGrandes
+          ? onChange({
+              ...parameters,
+              classNames: "",
+            })
+          : onChange({
+              ...parameters,
+              classNames: "big-buttons",
+            });
+      },
+      isChecked: isGrandes,
+      label: "Botones Grandes",
+      id: `${elementId}_bigButtons`,
+    }),
     createElement(CardEnumOptions, {
       initialValues: enumArray,
       names: Array.isArray(parameters.enumNames)
@@ -137,7 +200,7 @@ function MultipleChoice({ parameters, onChange }) {
           enum: newEnum,
           enumNames: newEnumNames,
         }),
-      type: isNumber ? "number" : "string",
+      type: isBool ? "bool" : isNumber ? "number" : "string",
     })
   );
 }
@@ -162,7 +225,7 @@ const defaultInputs = {
     modalBody: CardDefaultParameterInputs,
   },
   date: {
-    displayName: "Fecha",
+    displayName: "Date",
     matchIf: [
       {
         types: ["string"],
@@ -177,10 +240,10 @@ const defaultInputs = {
     cardBody: getInputCardBodyComponent({
       type: "date",
     }),
-    modalBody: CardDefaultParameterInputs,
+    modalBody: DateDefaultParameterInputs,
   },
   time: {
-    displayName: "Hora",
+    displayName: "Time",
     matchIf: [
       {
         types: ["string"],
@@ -219,9 +282,7 @@ const defaultInputs = {
         enum: true,
       },
     ],
-    defaultDataSchema: {
-      enum: [],
-    },
+    defaultDataSchema: { enum: [] },
     defaultUiSchema: {
       "ui:widget": "radio",
     },

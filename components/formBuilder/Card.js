@@ -36,6 +36,7 @@ export default function Card({
 }) {
   const [modalOpen, setModalOpen] = useState(false);
   const [elementId] = useState(getRandomId());
+
   return createElement(
     Fragment,
     null,

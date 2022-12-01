@@ -52,6 +52,7 @@ export default function CardModal({
         {
           className: "card-modal-entries",
         },
+        // Crea los inputs especificos para cada tipo de Input
         createElement(TypeSpecificParameters, {
           parameters: componentPropsState,
           onChange: (newState) => {
@@ -61,6 +62,21 @@ export default function CardModal({
             });
           },
         }),
+        // crea los componente comunes
+        createElement(
+          "div",
+          null,
+          createElement(Typography, { variant: "h6" }, "Ayuda"),
+          createElement(Input, {
+            type: "text",
+            onChange: (ev) => {
+              setComponentProps({
+                ...componentPropsState,
+                "ui:help": ev.target.value,
+              });
+            },
+          })
+        ),
         createElement(
           "div",
           null,
