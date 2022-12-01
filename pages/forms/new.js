@@ -116,7 +116,8 @@ export default function NewForm() {
     },
     backButton: {
       type: "button",
-      margin: "10px",
+      margin: "0px",
+      backgroundColor:"#0097d1",
     },
   }));
   const classes = useStyles();

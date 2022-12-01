@@ -103,7 +103,7 @@ export default function FormsTable() {
         <Button
           type="button"
           variant="contained"
-          color="primary"
+          //color="#0097d1"
           className={classes.submit}
           onClick={() => {
             window.location.href = "/forms/new";
@@ -259,5 +259,6 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
     minWidth: 250,
+    backgroundColor:"#0097d1",
   },
 }));
