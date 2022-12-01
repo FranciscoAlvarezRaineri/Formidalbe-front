@@ -63,7 +63,7 @@ export default function FormsTable() {
   };
 
   const handlePopUp = (index) => {
-    if (selectedIndex === index) {
+    if (selectedPopUp === index) {
       setSelectedPopUp("");
     } else {
       setSelectedPopUp(index);
@@ -163,14 +163,18 @@ export default function FormsTable() {
                       </div>
                       <Collapse in={index === selectedIndex}>
                         <List id={`res-${form._id}`}>
-                          {form.responses?.map((response, index) => {
+                          {form.responses?.map((response, j) => {
                             return (
                               <ListItem key={response._id}>
-                                <Button onClick={() => handlePopUp(index)}>
+                                <Button
+                                  onClick={() => handlePopUp(`${index}.${j}`)}
+                                >
                                   {response.formData["Datos Personales"]
                                     ?.nombre || response._id}
                                 </Button>
-                                <Dialog open={index === selectedPopUp}>
+                                <Dialog
+                                  open={`${index}.${j}` === selectedPopUp}
+                                >
                                   <Response _id={response._id}></Response>
                                   <Button onClick={() => handlePopUp("")}>
                                     Salir
@@ -259,6 +263,6 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
     minWidth: 250,
-    backgroundColor:"#0097d1",
+    backgroundColor: "#0097d1",
   },
 }));
