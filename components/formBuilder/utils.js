@@ -1044,7 +1044,14 @@ export function generateElementComponentsFromSchemas(parameters) {
               } else {
                 newUiProps[propName] = newCardObj[propName];
               }
-            } else if (["classNames", "defaultToCurrent"].includes(propName)) {
+            } else if (
+              [
+                "classNames",
+                "defaultToCurrent",
+                "saveFormat",
+                "timeManipulation",
+              ].includes(propName)
+            ) {
               newUiProps[propName] = newCardObj[propName];
             } else if (
               ![
