@@ -131,8 +131,10 @@ const supportedUiParameters = new Set([
   "ui:field",
   "ui:placeholder",
   "ui:column",
+  "ui:help",
   "items",
   "definitions",
+  "classNames",
 ]);
 
 // recursively called function to check an object for unsupported features
@@ -1042,6 +1044,8 @@ export function generateElementComponentsFromSchemas(parameters) {
               } else {
                 newUiProps[propName] = newCardObj[propName];
               }
+            } else if (["classNames", "defaultToCurrent"].includes(propName)) {
+              newUiProps[propName] = newCardObj[propName];
             } else if (
               ![
                 "name",
@@ -1481,7 +1485,6 @@ export function getNewElementDefaultDataOptions(i, mods) {
       title: `Nuevo Elemento ${i}`,
       type: "string",
       default: "",
-  
     };
   }
 }

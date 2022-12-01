@@ -12,6 +12,8 @@ export default function GeneralParameterInputs({
   allFormInputs,
 }) {
   const CardBody = getCardBody(category, allFormInputs);
+  console.log("parameters", parameters);
+  console.log("CardBody", CardBody);
   return createElement(
     "div",
     null,

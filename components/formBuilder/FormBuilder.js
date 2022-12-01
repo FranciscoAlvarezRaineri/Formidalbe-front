@@ -68,7 +68,7 @@ export default function FormBuilder({ schema, uischema, onChange, mods }) {
             createElement(
               ListItem,
               {
-                key: `${elementId}_${message}`,
+                key: `${index}`,
               },
               message
             )
@@ -83,7 +83,7 @@ export default function FormBuilder({ schema, uischema, onChange, mods }) {
           columns: 2,
           spacing: 10,
           justifyContent: "center",
-         // marginTop: 25,
+          // marginTop: 25,
         },
         // Esta sección genera el input para cambiar el título del formulario
         createElement(
@@ -117,10 +117,8 @@ export default function FormBuilder({ schema, uischema, onChange, mods }) {
           Grid,
           { item: true, align: "center" },
           createElement(
-            "h5",
-            {
-              "data-test": "form-description-label",
-            },
+            Typography,
+            { variant: "h5" },
             mods &&
               mods.labels &&
               typeof mods.labels.formDescriptionLabel === "string"
