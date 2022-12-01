@@ -8,7 +8,6 @@ export default function Response({ _id }) {
   const [response, setResponse] = useState({});
   useEffect(() => {
     axios.get(`/responses/${_id}`).then((res) => {
-      console.log(res.data);
       setResponse(res.data);
     });
   }, []);
