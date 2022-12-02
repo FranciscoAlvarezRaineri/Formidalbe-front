@@ -110,7 +110,7 @@ export default function FormsTable() {
           //color="#0097d1"
           className={classes.submit}
           onClick={() => {
-            window.location.href = "/forms/new";
+            Router.push("/forms/new");
           }}
         >
           Nuevo Formulario
