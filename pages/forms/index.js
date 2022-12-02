@@ -5,28 +5,23 @@
 import React, { useState, useEffect } from "react";
 import Router from "next/router";
 import axios from "../../axios";
+import { useCookies } from "react-cookie";
+import { parseCookies } from "./helpers/index";
 
-import { parseCookies } from "./helpers/index"
-
-
-import {
-  Grid,
-  Button,
-  TableRow,
-  TablePagination,
-  TableHead,
-  TableContainer,
-  TableCell,
-  TableBody,
-  Table,
-  Paper,
-  Typography,
-} from "@material-ui/core";
+import Grid from "@material-ui/core/Grid";
+import Button from "@material-ui/core/Button";
+import TableRow from "@material-ui/core/TableRow";
+import TablePagination from "@material-ui/core/TablePagination";
+import TableHead from "@material-ui/core/TableHead";
+import TableCell from "@material-ui/core/TableCell";
+import TableBody from "@material-ui/core/TableBody";
+import TableContainer from "@material-ui/core/TableContainer";
+import Table from "@material-ui/core/Table";
+import Paper from "@material-ui/core/Paper";
 import Collapse from "@material-ui/core/Collapse";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import Dialog from "@material-ui/core/Dialog";
-
 import Delete from "@material-ui/icons/Delete";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import ExpandLess from "@material-ui/icons/ExpandLess";
@@ -36,7 +31,6 @@ import FileCopy from "@material-ui/icons/FileCopy";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Response from "../../components/response";
-import { getLocationOrigin } from "next/dist/next-server/lib/utils";
 
 export default function FormsTable() {
   const classes = useStyles();
@@ -47,9 +41,11 @@ export default function FormsTable() {
   const [selectedIndex, setSelectedIndex] = useState("");
   const [selectedPopUp, setSelectedPopUp] = useState("");
 
+  const [cookies] = useCookies(["token"]);
+
   useEffect(() => {
     axios
-      .get("/forms")
+      .get(`/forms/users/${cookies.token.id}`)
       .then((res) => {
         setRows(res.data);
       })
@@ -155,7 +151,7 @@ export default function FormsTable() {
                 return (
                   <TableRow hover role="checkbox" tabIndex={-1} key={form._id}>
                     <TableCell key={`title_${form._id}`} align="left">
-                      {form.schema?.title || form._id}
+                      {form.title || form._id}
                     </TableCell>
                     <TableCell key={`answers_${form._id}`} align="right">
                       <div onClick={() => handleOpenClose(index)}>
@@ -170,13 +166,11 @@ export default function FormsTable() {
                           {form.responses?.map((response, j) => {
                             return (
                               <ListItem key={response._id}>
-
                                 <Button
                                   onClick={() => handlePopUp(`${index}.${j}`)}
                                 >
                                   {response.formData["Datos Personales"]
                                     ?.nombre || response._id}
-
                                 </Button>
                                 <Dialog
                                   open={`${index}.${j}` === selectedPopUp}
@@ -273,25 +267,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-
 // funcion para checkear si esta logueado el user
 FormsTable.getInitialProps = async ({ req, res }) => {
   const data = parseCookies(req);
 
-
   console.log(Object.keys(data)[0]);
 
-if (res) {
+  if (res) {
     if (Object.keys(data).length === 0 && data.constructor === Object) {
-      res.writeHead(301, { Location: "/" })
-      res.end()
+      res.writeHead(301, { Location: "/" });
+      res.end();
     }
   }
 
   return {
-    data: data && data
-  }
-}
-
-
-
+    data: data && data,
+  };
+};

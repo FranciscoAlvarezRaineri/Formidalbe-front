@@ -5,6 +5,9 @@ import axios from "../../axios";
 import Router from "next/router";
 import dynamic from "next/dynamic";
 
+import { useCookies } from "react-cookie";
+
+
 import Form from "@rjsf/material-ui";
 import Editor from "@monaco-editor/react";
 
@@ -31,11 +34,15 @@ export default function NewForm() {
   const [uischema, setUischema] = useState({});
   const [jsons, setJsons] = useState(true);
 
+  const [cookies] = useCookies(["token"]);
+
+
   function createForm() {
     axios
       .post("/forms/create", {
         schema,
         uischema,
+        user: cookies.token.id,
       })
       .then(() => {
         Router.push("/forms");

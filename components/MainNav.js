@@ -1,53 +1,53 @@
-import React, { useEffect, useState } from 'react';
-import clsx from 'clsx';
-import { makeStyles, useTheme, createTheme } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import List from '@material-ui/core/List';
-import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import LoginIcon from '@material-ui/icons/VpnKey';
-import LogoutIcon from '@material-ui/icons/VpnKey';
-import HomeIcon from '@material-ui/icons/Home';
-import RegisterIcon from '@material-ui/icons/ContactMail';
-import MenuItem from '@material-ui/core/MenuItem';
-import MailIcon from '@material-ui/icons/Mail';
-import Button from '@material-ui/core/Button';
-import Link from '../src/Link';
-import { useRouter } from 'next/router'
+import React, { useEffect, useState } from "react";
+import clsx from "clsx";
+import Link from "../src/Link";
+import { useRouter } from "next/router";
 import Router from "next/router";
-import reactCookie from 'react-cookie'
-import axios from "../axios"
-import { useCookies } from 'react-cookie'
-import AddIcon from '@material-ui/icons/Add';
-import FormatListBulletedRoundedIcon from '@material-ui/icons/FormatListBulletedRounded';
-import PersonIcon from '@material-ui/icons/Person';
-import ViewListIcon from '@material-ui/icons/ViewList';
-import AddCircleIcon from '@material-ui/icons/AddCircle';
+import reactCookie from "react-cookie";
+import axios from "../axios";
+import { useCookies } from "react-cookie";
 
+import { makeStyles, useTheme, createTheme } from "@material-ui/core/styles";
+import Drawer from "@material-ui/core/Drawer";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import List from "@material-ui/core/List";
+import Typography from "@material-ui/core/Typography";
+import Divider from "@material-ui/core/Divider";
+import IconButton from "@material-ui/core/IconButton";
+import MenuIcon from "@material-ui/icons/Menu";
+import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
+import ChevronRightIcon from "@material-ui/icons/ChevronRight";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
+import InboxIcon from "@material-ui/icons/MoveToInbox";
+import LoginIcon from "@material-ui/icons/VpnKey";
+import LogoutIcon from "@material-ui/icons/VpnKey";
+import HomeIcon from "@material-ui/icons/Home";
+import RegisterIcon from "@material-ui/icons/ContactMail";
+import MenuItem from "@material-ui/core/MenuItem";
+import MailIcon from "@material-ui/icons/Mail";
+import Button from "@material-ui/core/Button";
+import AddIcon from "@material-ui/icons/Add";
+import FormatListBulletedRoundedIcon from "@material-ui/icons/FormatListBulletedRounded";
+import PersonIcon from "@material-ui/icons/Person";
+import ViewListIcon from "@material-ui/icons/ViewList";
+import AddCircleIcon from "@material-ui/icons/AddCircle";
 
-import Container from '@material-ui/core/Container';
+import Container from "@material-ui/core/Container";
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: 'flex',
+    display: "flex",
   },
   title: {
     flexGrow: 1,
   },
   appBar: {
-    transition: theme.transitions.create(['margin', 'width'], {
+    transition: theme.transitions.create(["margin", "width"], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
@@ -56,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
   appBarShift: {
     width: `calc(100% - ${drawerWidth}px)`,
     marginLeft: drawerWidth,
-    transition: theme.transitions.create(['margin', 'width'], {
+    transition: theme.transitions.create(["margin", "width"], {
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen,
     }),
@@ -65,7 +65,7 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(2),
   },
   hide: {
-    display: 'none',
+    display: "none",
   },
   drawer: {
     width: drawerWidth,
@@ -75,24 +75,24 @@ const useStyles = makeStyles((theme) => ({
     width: drawerWidth,
   },
   drawerHeader: {
-    display: 'flex',
-    alignItems: 'center',
+    display: "flex",
+    alignItems: "center",
     padding: theme.spacing(0, 1),
     // necessary for content to be below app bar
     ...theme.mixins.toolbar,
-    justifyContent: 'flex-end',
+    justifyContent: "flex-end",
   },
   content: {
     flexGrow: 1,
     padding: theme.spacing(3),
-    transition: theme.transitions.create('margin', {
+    transition: theme.transitions.create("margin", {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
     marginLeft: -drawerWidth,
   },
   contentShift: {
-    transition: theme.transitions.create('margin', {
+    transition: theme.transitions.create("margin", {
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen,
     }),
@@ -105,16 +105,7 @@ export default function PersistentDrawerLeft(props) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const router = useRouter();
-  const [cookies] = useCookies(['token']);
-  console.log(cookies);
-  // const [user, setUser] = useState("")
-
-
-
-
-
-
-
+  const [cookies] = useCookies(["token"]);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -126,62 +117,57 @@ export default function PersistentDrawerLeft(props) {
 
   const activeRoute = (routeName, currentRoute) => {
     return routeName === currentRoute ? true : false;
-  }
-
-
+  };
 
   const routes = () => {
     if (!cookies.token) {
       return [
         {
           id: 2,
-          label: 'Iniciar sesión',
-          path: '/login',
-          icon: LoginIcon
+          label: "Iniciar sesión",
+          path: "/login",
+          icon: LoginIcon,
         },
         {
           id: 3,
-          label: 'Registrarse',
-          path: '/register',
-          icon: RegisterIcon
-        }
-      ]
-    }
-    else {
+          label: "Registrarse",
+          path: "/register",
+          icon: RegisterIcon,
+        },
+      ];
+    } else {
       return [
         {
           id: 1,
-          label: 'Formularios',
-          path: '/forms',
-          icon: ViewListIcon
+          label: "Formularios",
+          path: "/forms",
+          icon: ViewListIcon,
         },
         {
           id: 4,
-          label: 'Nuevo Formulario',
-          path: '/forms/new',
-          icon: AddCircleIcon
-        }]
+          label: "Nuevo Formulario",
+          path: "/forms/new",
+          icon: AddCircleIcon,
+        },
+      ];
     }
-  }
+  };
 
-  const options = routes()
+  const options = routes();
 
-  const forceReload = () =>{
-    router.reload ()
-  }
-
+  const forceReload = () => {
+    router.reload();
+  };
 
   function logOut() {
-    Router.push("/login")
+    Router.push("/login");
     axios
-    .get("/users/logout", { withCredentials: true })
-    .then (()=>forceReload())
-    .catch((error) => {
-      alert("Error: No se pudo desloguear");
-    });
-
+      .get("/users/logout", { withCredentials: true })
+      .then(() => forceReload())
+      .catch((error) => {
+        alert("Error: No se pudo desloguear");
+      });
   }
-
 
   return (
     <div className={classes.root}>
@@ -202,18 +188,29 @@ export default function PersistentDrawerLeft(props) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" className={classes.title}>Creador de Formularios</Typography>
+          <Typography variant="h6" className={classes.title}>
+            Creador de Formularios
+          </Typography>
           {cookies.token ? (
             <>
-          <Typography variant='h5' color="action" >{cookies.token.name}</Typography>&nbsp;&nbsp;&nbsp;<PersonIcon style={{ color: "white",fontSize: 40  }}     />
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <Button color="inherit" onClick={logOut} style={{ background: "grey",fontSize: 16  }} >Cerrar Sesión</Button></> 
-          ) : (""
-          // <Button color="inherit" component={Link} href="/login">Iniciar Sesión</Button>
+              <Typography variant="h5" color="action">
+                {cookies.token.name}
+              </Typography>
+              &nbsp;&nbsp;&nbsp;
+              <PersonIcon style={{ color: "white", fontSize: 40 }} />
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <Button
+                color="inherit"
+                onClick={logOut}
+                style={{ background: "grey", fontSize: 16 }}
+              >
+                Cerrar Sesión
+              </Button>
+            </>
+          ) : (
+            ""
+            // <Button color="inherit" component={Link} href="/login">Iniciar Sesión</Button>
           )}
-
-
-
         </Toolbar>
       </AppBar>
       <Drawer
@@ -227,23 +224,33 @@ export default function PersistentDrawerLeft(props) {
       >
         <div className={classes.drawerHeader}>
           <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+            {theme.direction === "ltr" ? (
+              <ChevronLeftIcon />
+            ) : (
+              <ChevronRightIcon />
+            )}
           </IconButton>
         </div>
         <Divider />
         <List>
           {options.map((item, index) => (
-            <Link href={item.path} style={{ textDecoration: 'none', color: 'black' }} key={index}>
+            <Link
+              href={item.path}
+              style={{ textDecoration: "none", color: "black" }}
+              key={index}
+            >
               <MenuItem selected={activeRoute(item.path, router.pathname)}>
-                <ListItem button key={index}  >
-                  <ListItemIcon> <item.icon /> </ListItemIcon>
+                <ListItem button key={index}>
+                  <ListItemIcon>
+                    {" "}
+                    <item.icon />{" "}
+                  </ListItemIcon>
                   <ListItemText primary={item.label} />
                 </ListItem>
               </MenuItem>
             </Link>
           ))}
         </List>
-
       </Drawer>
       <main
         className={clsx(classes.content, {
@@ -251,10 +258,7 @@ export default function PersistentDrawerLeft(props) {
         })}
       >
         <div className={classes.drawerHeader} />
-        <Container maxWidth="xl">
-          {props.mainPage}
-        </Container>
-
+        <Container maxWidth="xl">{props.mainPage}</Container>
       </main>
     </div>
   );
@@ -263,11 +267,6 @@ export default function PersistentDrawerLeft(props) {
 // PersistentDrawerLeft.getInitialProps = async ({ req, res }) => {
 //   const data = parseCookies(req);
 
-
 //   // console.log(Object.keys(data)[0]);
 
-
 // }
-
-
-
