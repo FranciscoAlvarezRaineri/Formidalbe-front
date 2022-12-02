@@ -73,6 +73,7 @@ const useStyles = makeStyles((theme) => ({
   },
   drawerPaper: {
     width: drawerWidth,
+    backgroundColor: "#BFDCF5",
   },
   drawerHeader: {
     display: "flex",
@@ -202,7 +203,8 @@ export default function PersistentDrawerLeft(props) {
               <Button
                 color="inherit"
                 onClick={logOut}
-                style={{ background: "grey", fontSize: 16 }}
+                variant={"outlined"}
+                style={{ background: "#0097d1", fontSize: 16 }}
               >
                 Cerrar Sesión
               </Button>

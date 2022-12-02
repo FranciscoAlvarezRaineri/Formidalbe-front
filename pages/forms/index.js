@@ -264,6 +264,11 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(3, 0, 2),
     minWidth: 250,
     backgroundColor: "#0097d1",
+    '&:hover':{
+      backgroundColor: "#BFDCF5",
+      color: "black"
+     },
+     color:"white"
   },
 }));
 

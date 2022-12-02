@@ -51,6 +51,9 @@ export default function NewForm() {
       type: "button",
       margin: "0px",
       backgroundColor: "#0097d1",
+      '&:hover':{
+        backgroundColor: "#BFDCF5",
+       }
     },
     fondo: {
       background: "#f5fafd",
