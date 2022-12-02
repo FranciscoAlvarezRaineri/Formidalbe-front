@@ -6,6 +6,9 @@ import React, { useState, useEffect } from "react";
 import Router from "next/router";
 import axios from "../../axios";
 
+import { parseCookies } from "./helpers/index"
+
+
 import {
   Grid,
   Button,
@@ -33,6 +36,7 @@ import FileCopy from "@material-ui/icons/FileCopy";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Response from "../../components/response";
+import { getLocationOrigin } from "next/dist/next-server/lib/utils";
 
 export default function FormsTable() {
   const classes = useStyles();
@@ -111,7 +115,7 @@ export default function FormsTable() {
         >
           Nuevo Formulario
         </Button>
-        <Typography>Usuario</Typography>
+        {/* <Typography>Usuario</Typography> */}
       </Grid>
       <TableContainer>
         <Table>
@@ -166,11 +170,13 @@ export default function FormsTable() {
                           {form.responses?.map((response, j) => {
                             return (
                               <ListItem key={response._id}>
+
                                 <Button
                                   onClick={() => handlePopUp(`${index}.${j}`)}
                                 >
                                   {response.formData["Datos Personales"]
                                     ?.nombre || response._id}
+
                                 </Button>
                                 <Dialog
                                   open={`${index}.${j}` === selectedPopUp}
@@ -266,3 +272,26 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "#0097d1",
   },
 }));
+
+
+// funcion para checkear si esta logueado el user
+FormsTable.getInitialProps = async ({ req, res }) => {
+  const data = parseCookies(req);
+
+
+  console.log(Object.keys(data)[0]);
+
+if (res) {
+    if (Object.keys(data).length === 0 && data.constructor === Object) {
+      res.writeHead(301, { Location: "/" })
+      res.end()
+    }
+  }
+
+  return {
+    data: data && data
+  }
+}
+
+
+
