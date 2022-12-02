@@ -2,6 +2,7 @@ import { createElement, Fragment } from "react";
 import Add from "@material-ui/icons/Add";
 import Close from "@material-ui/icons/Close";
 import Input from "@material-ui/core/Input";
+import Button from "@material-ui/core/Button";
 
 // Input field corresponding to an array of values, add and remove
 export default function CardEnumOptions({
@@ -11,6 +12,7 @@ export default function CardEnumOptions({
   onChange,
   type,
 }) {
+  const disabled = type === "bool";
   const possibleValues = [];
   for (let index = 0; index < initialValues.length; index += 1) {
     const value = initialValues[index];
@@ -23,10 +25,11 @@ export default function CardEnumOptions({
           key: index,
         },
         createElement(Input, {
+          disabled,
           value: value === undefined || value === null ? "" : value,
           placeholder: "Possible Value",
           key: `val-${index}`,
-          type: type === "string" ? "text" : "number",
+          type: type === "string" || "bool" ? "text" : "number",
           onChange: (ev) => {
             let newVal;
             switch (type) {
@@ -55,6 +58,7 @@ export default function CardEnumOptions({
           className: "card-text",
         }),
         createElement(Input, {
+          disabled,
           value: name || "",
           placeholder: "Label",
           key: `name-${index}`,
@@ -72,37 +76,46 @@ export default function CardEnumOptions({
             display: showNames ? "initial" : "none",
           },
         }),
-        createElement(Close, {
-          className: "delete-button",
-          onClick: () => {
-            // remove this value
-            onChange(
-              [
-                ...initialValues.slice(0, index),
-                ...initialValues.slice(index + 1),
-              ],
-              names
-                ? [...names.slice(0, index), ...names.slice(index + 1)]
-                : undefined
-            );
-          },
-        })
+        createElement(
+          Button,
+          { disabled },
+          createElement(Close, {
+            className: "delete-button",
+            onClick: () => {
+              // remove this value
+              onChange(
+                [
+                  ...initialValues.slice(0, index),
+                  ...initialValues.slice(index + 1),
+                ],
+                names
+                  ? [...names.slice(0, index), ...names.slice(index + 1)]
+                  : undefined
+              );
+            },
+          })
+        )
       )
     );
   }
+
   return createElement(
     Fragment,
     null,
     possibleValues,
 
-    createElement(Add, {
-      onClick: () => {
-        // add a new dropdown option
-        onChange(
-          [...initialValues, type === "string" ? "" : 0],
-          names ? [...names, ""] : undefined
-        );
-      },
-    })
+    createElement(
+      Button,
+      { disabled },
+      createElement(Add, {
+        onClick: () => {
+          // add a new dropdown option
+          onChange(
+            [...initialValues, type === "string" ? "" : 0],
+            names ? [...names, ""] : undefined
+          );
+        },
+      })
+    )
   );
 }

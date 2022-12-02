@@ -1,9 +1,8 @@
 // Similar a forms/[formID]/manage salvo que sin el botón de eliminar.
 // Al crearlo se debe guardar el form en el back end.
-import React, { useState, useEffect } from "react";
-import axios from "../../axios";
+import React, { useState } from "react";
+import axios from "../../../axios";
 import Router from "next/router";
-import { useCookies } from "react-cookie";
 
 import Form from "@rjsf/material-ui";
 import Editor from "@monaco-editor/react";
@@ -14,26 +13,32 @@ import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 import dynamic from "next/dynamic";
 
-import { parseCookies } from "./helpers/index";
+
 
 const FormBuilder = dynamic(
-  () => import("../../components/formBuilder/FormBuilder"),
+  () => import("../../../components/formBuilder/FormBuilder"),
   {
     ssr: false,
   }
 );
 
-export default function NewForm() {
-  const [schema, setSchema] = useState({});
-  const [uischema, setUischema] = useState({});
-  const [cookies] = useCookies(["token"]);
+export async function getServerSideProps(context) {
+  const response = await axios.get(`/forms/${context.params.formId}`);
+  const form = response.data;
+  return {
+    props: { form },
+  };
+}
 
-  function createForm() {
+export default function EditForm({ form }) {
+  const [schema, setSchema] = useState(form.schema);
+  const [uischema, setUischema] = useState(form.uischema);
+
+  function saveForm() {
     axios
-      .post("/forms/create", {
+      .put(`/forms/${form._id}`, {
         schema,
         uischema,
-        user: cookies.token.id,
       })
       .then(() => {
         Router.push("/forms");
@@ -49,22 +54,13 @@ export default function NewForm() {
     },
     backButton: {
       type: "button",
-      margin: "0px",
-      backgroundColor: "#0097d1",
-    },
-    fondo: {
-      background: "#f5fafd",
+      margin: "10px",
     },
   }));
   const classes = useStyles();
 
   return (
-    <Grid
-      container
-      justifyContent="space-evenly"
-      spacing={3}
-      className={classes.fondo}
-    >
+    <Grid container justifyContent="space-evenly" spacing={3}>
       <Grid item lg={6} md={12}>
         <FormBuilder
           schema={JSON.stringify(schema)}
@@ -86,10 +82,10 @@ export default function NewForm() {
           variant="contained"
           color="primary"
           onClick={() => {
-            createForm();
+            saveForm();
           }}
         >
-          Crear Formulario
+          Guardar Cambios
         </Button>
       </Grid>
       <Grid item lg={6} md={12}>
@@ -98,7 +94,7 @@ export default function NewForm() {
           <Paper className={classes.item}>
             <Editor
               height="500px"
-              width="100%"
+              width="600px"
               language="json"
               value={JSON.stringify(schema, null, 2)}
               onChange={(e) => {
@@ -110,7 +106,7 @@ export default function NewForm() {
           <Paper className={classes.item}>
             <Editor
               height="500px"
-              width="100%"
+              width="600px"
               language="json"
               value={JSON.stringify(uischema, null, 2)}
               onChange={(e) => {
@@ -134,20 +130,3 @@ export default function NewForm() {
   );
 }
 
-// funcion para checkear si esta logueado el user
-NewForm.getInitialProps = async ({ req, res }) => {
-  const data = parseCookies(req);
-
-  console.log(Object.keys(data)[0]);
-
-  if (res) {
-    if (Object.keys(data).length === 0 && data.constructor === Object) {
-      res.writeHead(301, { Location: "/" });
-      res.end();
-    }
-  }
-
-  return {
-    data: data && data,
-  };
-};

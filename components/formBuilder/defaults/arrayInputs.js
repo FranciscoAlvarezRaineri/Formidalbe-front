@@ -111,7 +111,7 @@ function getInnerCardComponent({ defaultFormInputs }) {
           }
         },
         isChecked: newDataProps.items.type === "object",
-        label: "Section",
+        label: "Sección",
         id: `${elementId}_issection`,
       }),
       generateElementComponentsFromSchemas({
@@ -155,7 +155,7 @@ const defaultFormInputs = {
 };
 
 defaultFormInputs.array = {
-  displayName: "Array",
+  displayName: "Arreglo",
   matchIf: [
     {
       types: ["array"],
@@ -175,7 +175,7 @@ defaultFormInputs.array = {
 };
 const arrayInputs = {
   array: {
-    displayName: "Array",
+    displayName: "Arreglo",
     matchIf: [
       {
         types: ["array"],

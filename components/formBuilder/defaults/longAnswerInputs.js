@@ -19,10 +19,10 @@ function CardLongAnswerParameterInputs({ parameters, onChange }) {
   return createElement(
     Container,
     null,
-    createElement(Typography, { variant: "h4" }, null, "Minimum Length"),
+    createElement(Typography, { variant: "h5" }, null, "Largo Minimo"),
     createElement(Input, {
       value: parameters.minLength ? parameters.minLength : "",
-      placeholder: "Minimum Length",
+      placeholder: "Largo Minimo",
       key: "minLength",
       type: "number",
       onChange: (ev) => {
@@ -33,10 +33,10 @@ function CardLongAnswerParameterInputs({ parameters, onChange }) {
       },
       className: "card-modal-number",
     }),
-    createElement(Typography, { variant: "h4" }, null, "Maximum Length"),
+    createElement(Typography, { variant: "h5" }, null, "Largo Maximo"),
     createElement(Input, {
       value: parameters.maxLength ? parameters.maxLength : "",
-      placeholder: "Maximum Length",
+      placeholder: "Largo Maximo",
       key: "maxLength",
       type: "number",
       onChange: (ev) => {
@@ -49,9 +49,9 @@ function CardLongAnswerParameterInputs({ parameters, onChange }) {
     }),
     createElement(
       Typography,
-      { variant: "h4" },
+      { variant: "h5" },
       null,
-      "Regular Expression Pattern",
+      "Patrón de Expresión Regular",
       " ",
       createElement(
         Link,
@@ -61,7 +61,7 @@ function CardLongAnswerParameterInputs({ parameters, onChange }) {
         createElement(Example, {
           id: `${elementId}_regex`,
           type: "help",
-          text: "Regular expression pattern that this must satisfy",
+          text: "El Patrón de expresión regular a satisfacer",
         })
       )
     ),
@@ -99,7 +99,7 @@ function CardLongAnswerParameterInputs({ parameters, onChange }) {
         isChecked: parameters["ui:autofocus"]
           ? parameters["ui:autofocus"] === true
           : false,
-        label: "Auto Focus",
+        label: "Foco Automático",
       })
     )
   );
@@ -109,7 +109,7 @@ function LongAnswer({ parameters, onChange }) {
   return createElement(
     Fragment,
     null,
-    createElement(Typography, { variant: "h5" }, "Default value"),
+    createElement(Typography, { variant: "h5" }, "Valor por defecto"),
     createElement(Input, {
       value: parameters.default,
       placeholder: "Default",
@@ -123,7 +123,7 @@ function LongAnswer({ parameters, onChange }) {
 
 const longAnswerInput = {
   longAnswer: {
-    displayName: "Long Answer",
+    displayName: "Respuesta Larga",
     matchIf: [
       {
         types: ["string"],

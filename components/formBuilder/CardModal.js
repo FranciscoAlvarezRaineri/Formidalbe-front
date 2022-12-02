@@ -44,7 +44,7 @@ export default function CardModal({
               display: componentProps.hideKey ? "none" : "initial",
             },
           },
-          createElement(Typography, { variant: "h5" }, "Additional Settings")
+          createElement(Typography, { variant: "h5" }, "Ajustes Adicionales")
         )
       ),
       createElement(
@@ -52,6 +52,7 @@ export default function CardModal({
         {
           className: "card-modal-entries",
         },
+        // Crea los inputs especificos para cada tipo de Input
         createElement(TypeSpecificParameters, {
           parameters: componentPropsState,
           onChange: (newState) => {
@@ -61,6 +62,21 @@ export default function CardModal({
             });
           },
         }),
+        // crea los componente comunes
+        createElement(
+          "div",
+          null,
+          createElement(Typography, { variant: "h6" }, "Ayuda"),
+          createElement(Input, {
+            type: "text",
+            onChange: (ev) => {
+              setComponentProps({
+                ...componentPropsState,
+                "ui:help": ev.target.value,
+              });
+            },
+          })
+        ),
         createElement(
           "div",
           null,
@@ -79,7 +95,7 @@ export default function CardModal({
               createElement(Example, {
                 id: "column_size_tooltip",
                 type: "help",
-                text: "Set the column size of the input",
+                text: "Setea el tamaño de la columna del input",
               })
             )
           ),
@@ -120,7 +136,7 @@ export default function CardModal({
               onClose();
               onChange(componentPropsState);
             },
-            color: "primary",
+            //color: "primary",
           },
           "Guardar"
         ),

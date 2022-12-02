@@ -15,9 +15,9 @@ export default function PlaceholderInput({ parameters, onChange }) {
     null,
     createElement(
       Typography,
-      { variant: "h4" },
+      { variant: "h5" },
       null,
-      "Placeholder",
+      "Parametro de Sustitución",
       " ",
       createElement(
         Link,
@@ -29,13 +29,13 @@ export default function PlaceholderInput({ parameters, onChange }) {
         createElement(Example, {
           id: `${elementId}_placeholder`,
           type: "help",
-          text: "Hint to the user as to what kind of information is expected in the field",
+          text: "Proporciona al usuario un indicio sobre que información se espera en el campo",
         })
       )
     ),
     createElement(Input, {
       value: parameters["ui:placeholder"],
-      placeholder: "Placeholder",
+      placeholder: "Parametro de Sustitución",
       key: "placeholder",
       type: "text",
       onChange: (ev) => {

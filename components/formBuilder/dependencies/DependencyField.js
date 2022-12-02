@@ -42,7 +42,7 @@ export default function DependencyField({ parameters, onChange }) {
       createElement(Example, {
         id: `${elementId}_dependent`,
         type: "help",
-        text: "Control whether other form elements show based on this one",
+        text: "Controla si otros elementos del formulario se muestran basados en este",
       })
     ),
     !!parameters.dependents &&
@@ -56,19 +56,19 @@ export default function DependencyField({ parameters, onChange }) {
           options: [
             {
               value: "definition",
-              label: "Any value dependency",
+              label: "Dependencia con cualquier valor",
             },
             {
               value: "value",
               label: createElement(
                 Fragment,
                 null,
-                "Specific value dependency",
+                "Dependencia con valor especifico",
                 " ",
                 createElement(Example, {
                   id: `${elementId}_valuebased`,
                   type: "help",
-                  text: "Specify whether these elements should show based on this element's value",
+                  text: "Especifica si estos elementos deben mostrarse basados en el valor de este elemento",
                 })
               ),
             },
@@ -134,7 +134,10 @@ export default function DependencyField({ parameters, onChange }) {
                   : [];
                 onChange({
                   ...parameters,
-                  dependents: newDependents,
+                  dependents: [
+                    ...newDependents.slice(0, index),
+                    ...newDependents.slice(index + 1),
+                  ],
                 });
               },
             })
@@ -144,7 +147,7 @@ export default function DependencyField({ parameters, onChange }) {
         Tooltip,
         {
           title:
-            "Add another dependency relation linking this element and other form elements",
+            "Agregar otra relacion de dependecias liniando este elemento y otros elementos del formulario",
           id: `${elementId}_adddependency`,
         },
         createElement(Add, {

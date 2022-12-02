@@ -2,7 +2,7 @@ import { createElement } from "react";
 import Checkbox from "@material-ui/core/Checkbox";
 import InputLabel from "@material-ui/core/InputLabel";
 import Container from "@material-ui/core/Container";
-
+import { makeStyles } from "@material-ui/core";
 export default function FBCheckbox({
   onChangeValue,
   value = "",
@@ -16,6 +16,13 @@ export default function FBCheckbox({
 }) {
   const potentialCheckboxId = id !== "" ? id : label;
   const checkboxId = potentialCheckboxId !== "" ? potentialCheckboxId : null;
+  const useStyles = makeStyles((theme) => ({
+        root: {color:'#0097d1',    
+     },
+    }
+    ));
+  const classes = useStyles();
+
   return createElement(
     Container,
     null,
@@ -28,6 +35,7 @@ export default function FBCheckbox({
         value: value,
         disabled: disabled,
         checked: isChecked,
+        className: classes.root
       }),
       label
     )

@@ -4,8 +4,9 @@ import Input from "@material-ui/core/Input";
 import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
 import Link from "@material-ui/core/Link";
-
-import Select from "react-select";
+import { Autocomplete } from "@material-ui/lab";
+import { TextField } from "@material-ui/core";
+//import Select from "react-select";
 
 import { getRandomId } from "../utils";
 import Example from "../Tooltip";
@@ -14,11 +15,11 @@ import FBCheckbox from "../checkbox/FBCheckbox";
 import PlaceholderInput from "../inputs/PlaceholderInput";
 
 const formatDictionary = {
-  "": "None",
+  "": "Ninguno",
   email: "Email",
-  hostname: "Hostname",
+  hostname: "Nombre del Servidor",
   uri: "URI",
-  regex: "Regular Expression",
+  regex: "Expresion Regular",
 };
 
 const formatTypeDictionary = {
@@ -27,12 +28,12 @@ const formatTypeDictionary = {
 };
 
 const autoDictionary = {
-  "": "None",
+  "": "Ninguno",
   email: "Email",
-  username: "User Name",
-  password: "Password",
-  "street-address": "Street Address",
-  country: "Country",
+  username: "Nombre de Usuario",
+  password: "Contraseña",
+  "street-address": "Diección",
+  country: "País",
 };
 
 // specify the inputs required for a string type object
@@ -42,10 +43,10 @@ function CardShortAnswerParameterInputs({ parameters, onChange }) {
   return createElement(
     Container,
     null,
-    createElement(Typography, { variant: "h4" }, null, "Minimum Length"),
+    createElement(Typography, { variant: "h5" }, null, "Largo Minimo"),
     createElement(Input, {
       value: parameters.minLength ? parameters.minLength : "",
-      placeholder: "Minimum Length",
+      placeholder: "Largo Minimo",
       key: "minLength",
       type: "number",
       onChange: (ev) => {
@@ -56,10 +57,10 @@ function CardShortAnswerParameterInputs({ parameters, onChange }) {
       },
       className: "card-modal-number",
     }),
-    createElement(Typography, { variant: "h4" }, null, "Maximum Length"),
+    createElement(Typography, { variant: "h5" }, null, "Largo Maximo"),
     createElement(Input, {
       value: parameters.maxLength ? parameters.maxLength : "",
-      placeholder: "Maximum Length",
+      placeholder: "Largo Maximo",
       key: "maxLength",
       type: "number",
       onChange: (ev) => {
@@ -72,9 +73,9 @@ function CardShortAnswerParameterInputs({ parameters, onChange }) {
     }),
     createElement(
       Typography,
-      { variant: "h4" },
+      { variant: "h5" },
       null,
-      "Regular Expression Pattern",
+      "Patrón de Expresión Regular",
       " ",
       createElement(
         Link,
@@ -86,13 +87,13 @@ function CardShortAnswerParameterInputs({ parameters, onChange }) {
         createElement(Example, {
           id: `${elementId}_regex`,
           type: "help",
-          text: "Regular expression pattern that this must satisfy",
+          text: "El Patrón de expresión regular a satisfacer",
         })
       )
     ),
     createElement(Input, {
       value: parameters.pattern ? parameters.pattern : "",
-      placeholder: "Regular Expression Pattern",
+      placeholder: "Patrón de Expresión Regular",
       key: "pattern",
       type: "text",
       onChange: (ev) => {
@@ -105,48 +106,66 @@ function CardShortAnswerParameterInputs({ parameters, onChange }) {
     }),
     createElement(
       Typography,
-      { variant: "h4" },
+      { variant: "h5" },
       null,
-      "Format",
+      "Formato",
       " ",
       createElement(Example, {
         id: `${elementId}_format`,
         type: "help",
-        text: "Require string input to match a certain common format",
+        text: "Requiere que un input ´String´machee sierto formato comun",
       })
     ),
-    createElement(Select, {
-      value: {
-        value: parameters.format
-          ? formatDictionary[
-              typeof parameters.format === "string" ? parameters.format : ""
-            ]
-          : "",
-        label: parameters.format
-          ? formatDictionary[
-              typeof parameters.format === "string" ? parameters.format : ""
-            ]
-          : "None",
-      },
-      placeholder: "Format",
-      key: "format",
-      options: Object.keys(formatDictionary).map((key) => ({
-        value: key,
-        label: formatDictionary[key],
-      })),
-      onChange: (val) => {
-        onChange({
-          ...parameters,
-          format: val.value,
-        });
-      },
-      className: "card-modal-select",
-    }),
+    <Autocomplete
+    id="Formato"
+    options={Object.keys(autoDictionary).map((key) => ({
+           value: key,
+           label: autoDictionary[key],
+         }))}
+    getOptionLabel={(option) => option.label}
+    style={{ width: "100%" }}
+    
+    onChange={(event,val) => {
+      onChange({
+        ...parameters,
+        format: val.value,
+      })}}
+    renderInput={(params) => <TextField {...params} label="Ninguno"  />}
+  />,
+
+    /////////////////////ORIGINAL /////////////////////
+    // createElement(Select, {
+    //   value: {
+    //     value: parameters.format
+    //       ? formatDictionary[
+    //           typeof parameters.format === "string" ? parameters.format : ""
+    //         ]
+    //       : "",
+    //     label: parameters.format
+    //       ? formatDictionary[
+    //           typeof parameters.format === "string" ? parameters.format : ""
+    //         ]
+    //       : "Ninguno",
+    //   },
+    //   placeholder: "Formato",
+    //   key: "format",
+    //   options: Object.keys(formatDictionary).map((key) => ({
+    //     value: key,
+    //     label: formatDictionary[key],
+    //   })),
+    //   onChange: (val) => {
+    //     onChange({
+    //       ...parameters,
+    //       format: val.value,
+    //     });
+    //   },
+    //   className: "card-modal-select",
+    // }),
     createElement(
       Typography,
       { variant: "h5" },
       null,
-      "Auto Complete Category",
+      "Categoria a Auto Completar",
       " ",
       createElement(
         Link,
@@ -158,50 +177,67 @@ function CardShortAnswerParameterInputs({ parameters, onChange }) {
         createElement(Example, {
           id: `${elementId}_autocomplete`,
           type: "help",
-          text: "Suggest entries based on the user's browser history",
+          text: "Sugerir entradas basadas en el historial del navegador del usuario",
         })
       )
     ),
-    createElement(Select, {
-      value: {
-        value: parameters["ui:autocomplete"]
-          ? autoDictionary[
-              typeof parameters["ui:autocomplete"] === "string"
-                ? parameters["ui:autocomplete"]
-                : ""
-            ]
-          : "",
-        label: parameters["ui:autocomplete"]
-          ? autoDictionary[
-              typeof parameters["ui:autocomplete"] === "string"
-                ? parameters["ui:autocomplete"]
-                : ""
-            ]
-          : "None",
-      },
-      placeholder: "Auto Complete",
-      key: "ui:autocomplete",
-      options: Object.keys(autoDictionary).map((key) => ({
-        value: key,
-        label: autoDictionary[key],
-      })),
-      onChange: (val) => {
-        onChange({
-          ...parameters,
-          "ui:autocomplete": val.value,
-        });
-      },
-      className: "card-modal-select",
-    }),
+    <Autocomplete
+    id="Categoria-a-Autocompletar"
+    options={Object.keys(autoDictionary).map((key) => ({
+           value: key,
+           label: autoDictionary[key],
+         }))}
+    getOptionLabel={(option) => option.label}
+    style={{ width: "100%" }}
+    
+    onChange={(event,val) => {
+           onChange({
+             ...parameters,
+             "ui:autocomplete": val.value,
+           })}}
+    renderInput={(params) => <TextField {...params} label="Ninguno"  />}
+  />,
+    //////////////////////////ORIGINAL/////////////////////
+    // createElement(Select, {
+    //   value: {
+    //     value: parameters["ui:autocomplete"]
+    //       ? autoDictionary[
+    //           typeof parameters["ui:autocomplete"] === "string"
+    //             ? parameters["ui:autocomplete"]
+    //             : ""
+    //         ]
+    //       : "",
+    //     label: parameters["ui:autocomplete"]
+    //       ? autoDictionary[
+    //           typeof parameters["ui:autocomplete"] === "string"
+    //             ? parameters["ui:autocomplete"]
+    //             : ""
+    //         ]
+    //       : "Ninguno",
+    //   },
+    //   placeholder: "Auto Completar",
+    //   key: "ui:autocomplete",
+    //   options: Object.keys(autoDictionary).map((key) => ({
+    //     value: key,
+    //     label: autoDictionary[key],
+    //   })),
+    //   onChange: (val) => {
+    //     onChange({
+    //       ...parameters,
+    //       "ui:autocomplete": val.value,
+    //     });
+    //   },
+    //   className: "card-modal-select",
+    // }),
     createElement(PlaceholderInput, {
       parameters: parameters,
       onChange: onChange,
     }),
     createElement(
       Typography,
-      { variant: "h4" },
+      { variant: "h5" },
       null,
-      "Column Size",
+      "Tamaño de la Columna",
       " ",
       createElement(
         Link,
@@ -213,7 +249,7 @@ function CardShortAnswerParameterInputs({ parameters, onChange }) {
         createElement(Example, {
           id: `${elementId}_column_size`,
           type: "help",
-          text: "Set the column size of the input",
+          text: "Setea el tamaño de la columna del input",
         })
       )
     ),
@@ -257,7 +293,7 @@ function ShortAnswerField({ parameters, onChange }) {
   return createElement(
     Fragment,
     null,
-    createElement(Typography, { variant: "h5" }, null, "Default value"),
+    createElement(Typography, { variant: "h6" }, null, "Valor por defecto"),
     createElement(Input, {
       value: parameters.default,
       placeholder: "Default",
@@ -274,7 +310,7 @@ function Password({ parameters, onChange }) {
   return createElement(
     Fragment,
     null,
-    createElement(Typography, { variant: "h5" }, null, "Default password"),
+    createElement(Typography, { variant: "h5" }, null, "Contraseña por defecto"),
     createElement(Input, {
       value: parameters.default,
       placeholder: "Default",
@@ -287,7 +323,7 @@ function Password({ parameters, onChange }) {
 
 const shortAnswerInput = {
   shortAnswer: {
-    displayName: "Short Answer",
+    displayName: "Respuesta Corta",
     matchIf: [
       {
         types: ["string"],
@@ -304,7 +340,7 @@ const shortAnswerInput = {
     modalBody: CardShortAnswerParameterInputs,
   },
   password: {
-    displayName: "Password",
+    displayName: "Contraseña",
     matchIf: [
       {
         types: ["string"],
