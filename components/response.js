@@ -5,10 +5,11 @@ import axios from "../axios";
 import { useEffect, useState } from "react";
 
 export default function Response({ _id }) {
+  console.log(_id);
   const [response, setResponse] = useState({});
+
   useEffect(() => {
     axios.get(`/responses/${_id}`).then((res) => {
-      console.log(res.data);
       setResponse(res.data);
     });
   }, []);

@@ -118,13 +118,17 @@ export default function NewForm() {
     },
     backButton: {
       type: "button",
-      margin: "10px",
+      margin: "0px",
+      backgroundColor:"#0097d1",
     },
+    fondo:{
+      background:"#f5fafd",
+    }
   }));
   const classes = useStyles();
 
   return (
-    <Grid container justifyContent="space-evenly" spacing={3}>
+    <Grid container justifyContent="space-evenly" spacing={3} className={classes.fondo}>
       <Grid item lg={6} md={12}>
         <FormBuilder
           schema={JSON.stringify(schema)}
@@ -133,6 +137,7 @@ export default function NewForm() {
             setSchema(JSON.parse(newSchema));
             setUischema(JSON.parse(newUiSchema));
           }}
+        
         />
         <Paper className={classes.item}>
           <Form

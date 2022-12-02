@@ -5,13 +5,12 @@ import Typography from "@material-ui/core/Typography";
 import FormGroup from "@material-ui/core/FormGroup";
 import Input from "@material-ui/core/Input";
 import FormHelperText from "@material-ui/core/FormHelperText";
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import {Box} from "@material-ui/core";
-import {InputLabel} from '@material-ui/core';
-import {MenuItem} from '@material-ui/core';
-import {FormControl} from '@material-ui/core';
-import {Select} from '@material-ui/core';
-
+import Autocomplete from "@material-ui/lab/Autocomplete";
+import { Box } from "@material-ui/core";
+import { InputLabel } from "@material-ui/core";
+import { MenuItem } from "@material-ui/core";
+import { FormControl } from "@material-ui/core";
+import { Select } from "@material-ui/core";
 
 // Importar componentes:
 import GeneralParameterInputs from "./GeneralParameterInputs";
@@ -52,7 +51,10 @@ export default function CardGeneralParameterInputs({
       : defaultLabel;
   };
   const objectNameLabel = fetchLabel("objectNameLabel", "Nombre del Elemento");
-  const displayNameLabel = fetchLabel("displayNameLabel", "Nombre a Visualizar");
+  const displayNameLabel = fetchLabel(
+    "displayNameLabel",
+    "Nombre a Visualizar"
+  );
   const descriptionLabel = fetchLabel("descriptionLabel", "Descripción");
   const inputTypeLabel = fetchLabel("inputTypeLabel", "Tipo de Input");
   const availableInputTypes = () => {
@@ -73,8 +75,7 @@ export default function CardGeneralParameterInputs({
       }))
       .sort((a, b) => a.label.localeCompare(b.label));
   };
-  return <div/>,
-  createElement(
+  return createElement(
     Fragment,
     null,
     createElement(
@@ -190,7 +191,7 @@ export default function CardGeneralParameterInputs({
               mods.tooltipDescriptions &&
               typeof mods.tooltipDescriptions.cardDescription === "string"
                 ? mods.tooltipDescriptions.cardDescription
-                : "Esto aparecerà a modo de ayuda en el formulario",
+                : "Esto aparecerá a modo de ayuda en el formulario",
             id: `${elementId}-descriptioninfo`,
             type: "help",
           })
@@ -231,73 +232,42 @@ export default function CardGeneralParameterInputs({
             type: "help",
           })
         ),
- 
+
         <Autocomplete
-      id="Tipos-de-Inputs"
-      options={availableInputTypes()}
-      getOptionLabel={(option) => option.label}
-      style={{ width: "100%" }}
-      
-      onChange={ (event,val) => {
-                // figure out the new 'type'
-              console.log(val)
-              //console.log(event)
-        const newCategory = val.value;
-        const newProps = {
-          ...defaultUiProps(newCategory, allFormInputs),
-          ...defaultDataProps(newCategory, allFormInputs),
-          name: parameters.name,
-          required: parameters.required,
-        };
-        if (newProps.$ref !== undefined && !newProps.$ref) {
-          // assign an initial reference
-          const firstDefinition = Object.keys(parameters.definitionData)[0];
-          newProps.$ref = `#/definitions/${firstDefinition || "empty"}`;
-        }
-        onChange({
-          ...newProps,
-          title: newProps.title || parameters.title,
-          default: newProps.default || "",
-          type: newProps.type || categoryType(newCategory, allFormInputs),
-          category: newProps.category || newCategory,
-        });
-      }}
-      renderInput={(params) => <TextField {...params} label="Tipo de Input"  />}
-    />,
-    //////////////////////ORIGINAL//////////////////////
-    //     createElement(Select, {
-    //       value: {
-    //         value: parameters.category,
-    //         label: categoryMap[parameters.category],
-    //       },
-    //       placeholder: inputTypeLabel,
-    //       options: availableInputTypes(),
-    //       onChange: (val) => {
-    //         // figure out the new 'type'
-    //         const newCategory = val.value;
-    //         const newProps = {
-    //           ...defaultUiProps(newCategory, allFormInputs),
-    //           ...defaultDataProps(newCategory, allFormInputs),
-    //           name: parameters.name,
-    //           required: parameters.required,
-    //         };
-    //         if (newProps.$ref !== undefined && !newProps.$ref) {
-    //           // assign an initial reference
-    //           const firstDefinition = Object.keys(parameters.definitionData)[0];
-    //           newProps.$ref = `#/definitions/${firstDefinition || "empty"}`;
-    //         }
-    //         onChange({
-    //           ...newProps,
-    //           title: newProps.title || parameters.title,
-    //           default: newProps.default || "",
-    //           type: newProps.type || categoryType(newCategory, allFormInputs),
-    //           category: newProps.category || newCategory,
-    //         });
-    //       },
-    //       className: "card-select",
-    //     })
-       )
-     ),
+          id="Tipos-de-Inputs"
+          options={availableInputTypes()}
+          getOptionLabel={(option) => option.label}
+          style={{ width: "100%" }}
+          onChange={(event, val) => {
+            // figure out the new 'type'
+           
+            const newCategory =  val != null ? val.value : "array"
+           
+            const newProps = {
+              ...defaultUiProps(newCategory, allFormInputs),
+              ...defaultDataProps(newCategory, allFormInputs),
+              name: parameters.name,
+              required: parameters.required,
+            };
+            if (newProps.$ref !== undefined && !newProps.$ref) {
+              // assign an initial reference
+              const firstDefinition = Object.keys(parameters.definitionData)[0];
+              newProps.$ref = `#/definitions/${firstDefinition || "empty"}`;
+            }
+            onChange({
+              ...newProps,
+              title: newProps.title || parameters.title,
+              default: newProps.default || "",
+              type: newProps.type || categoryType(newCategory, allFormInputs),
+              category: newProps.category || newCategory,
+            });
+          }}
+          renderInput={(params) => (
+            <TextField {...params} label="Tipo de Input" />
+          )}
+        />
+      )
+    ),
     createElement(
       "div",
       {
