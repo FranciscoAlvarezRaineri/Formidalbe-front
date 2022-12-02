@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Router from "next/router";
+
 import axios from "../axios"; //importar axios del index de la carpeta axios, que contiene la instancia que hace referencia al back.
 
 import Avatar from "@material-ui/core/Avatar";
@@ -14,6 +15,9 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+
+import { useCookies } from "react-cookie"
+
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -40,15 +44,40 @@ export default function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   // const [remember, setRemember] = useState(false) // para ser usado cuando codiemo permanencia.
+  const [cookie, setCookie] = useCookies(["user"])
+ 
 
-  function logIn(e) {
-    axios
-      .post("/users/login", { email, password })
-      .then(() => {
-        Router.push("/forms");
+
+
+
+
+
+  const logIn = async () => {
+    try {
+      const response = await axios
+        .post("/users/login", { email, password }, { withCredentials: true }) //handle API call to sign in here.
+      const data = response.data
+      Router.push("/forms");
+      setCookie("token", JSON.stringify(data), {
+        path: "/",
+        maxAge: 3600, // Expires after 1hr
+        sameSite: true,
       })
-      .catch((err) => console.log(err));
+    } catch (err) {
+      console.log(err)
+    }
   }
+
+
+
+
+  // axios
+  //   .post("/users/login", { email, password }, {withCredentials:true})
+  //   .then(() => {
+  //     Router.push("/forms");
+  //   })
+  //   .catch((err) => console.log(err));
+
 
   return (
     <Container component="main" maxWidth="xs">
@@ -105,6 +134,9 @@ export default function SignIn() {
             Iniciar Sesión
           </Button>
         </form>
+        <Link href="/register" variant="body2">
+          No posees cuenta? Registrarse aqui
+        </Link>
       </div>
       <Box mt={8}>
         <Copyright />
