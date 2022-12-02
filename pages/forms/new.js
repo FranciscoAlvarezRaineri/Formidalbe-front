@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "../../axios";
 import Router from "next/router";
+import dynamic from "next/dynamic";
 
 import Form from "@rjsf/material-ui";
 import Editor from "@monaco-editor/react";
@@ -10,10 +11,13 @@ import Editor from "@monaco-editor/react";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
-import { makeStyles } from "@material-ui/core/styles";
-import dynamic from "next/dynamic";
+import Collapse from "@material-ui/core/Collapse";
+import ExpandMore from "@material-ui/icons/ExpandMore";
+import ExpandLess from "@material-ui/icons/ExpandLess";
 
-import { parseCookies } from "./helpers/index"
+import { makeStyles } from "@material-ui/core/styles";
+
+import { parseCookies } from "./helpers/index";
 
 const FormBuilder = dynamic(
   () => import("../../components/formBuilder/FormBuilder"),
@@ -25,6 +29,7 @@ const FormBuilder = dynamic(
 export default function NewForm() {
   const [schema, setSchema] = useState({});
   const [uischema, setUischema] = useState({});
+  const [jsons, setJsons] = useState(true);
 
   function createForm() {
     axios
@@ -38,78 +43,6 @@ export default function NewForm() {
       .catch((err) => console.log(err));
   }
 
-  /* useEffect(() => {
-    setUischema({
-      "ui:order": [
-        "Condiciones generales obligatorias",
-        "Elementos de protección personal necesarios para la tarea",
-        "Riesgos aplicados",
-      ],
-    });
-    setSchema({
-      type: "object",
-      title: "Permiso de Trabajo General",
-      properties: {
-        "Riesgos aplicados": {
-          type: "object",
-          title: "Riesgos aplicables al trabajo a realizar.",
-        },
-        "Condiciones generales obligatorias": {
-          type: "object",
-          title: "Condiciones generales obligatorias",
-          properties: {
-            "Indumentaria acorde a la tarea a realizar": {
-              type: "boolean",
-              title: "¿Tiene indumentaria acorde a la tarea?",
-            },
-            "Retiro de materiales al final de la jornada": {
-              type: "boolean",
-              title: "Se retiraron los materiales al final de la jornada",
-            },
-            "Indumentaria en buenas condiciones de limpieza": {
-              type: "boolean",
-              title: "Tiene indumentaria en buenas condiciones de limpieza",
-            },
-            "Colocar vallados y sectorizar el área de trabajo": {
-              type: "boolean",
-              title:
-                "Se colocaron los vallados y se sectorizo el área de trabajo",
-            },
-            "Respetar procedimiento de circulación para contratistas": {
-              type: "boolean",
-              title:
-                "Se ha respetado el procedimiento de circulación libre para contratistas",
-            },
-          },
-        },
-        "Elementos de protección personal necesarios para la tarea": {
-          type: "object",
-          title: "Elementos de protección personal necesarios para la tarea",
-          properties: {
-            epps: {
-              type: "array",
-              items: {
-                enum: [
-                  "Casco",
-                  "Anteojos de seguridad",
-                  "Arnés de seguridad",
-                  "Máscara facial",
-                  "Delantal",
-                  "Protector auditivo",
-                  "Guantes",
-                  "Calzado",
-                ],
-                type: "string",
-              },
-              title: "Seleccione los EPPS necesarios",
-            },
-          },
-        },
-      },
-      description: "hola, esto es un formulario",
-    });
-  }, []); */
-
   const useStyles = makeStyles((theme) => ({
     item: {
       borderRadius: "2px",
@@ -119,83 +52,108 @@ export default function NewForm() {
     backButton: {
       type: "button",
       margin: "0px",
-      backgroundColor:"#0097d1",
+      backgroundColor: "#0097d1",
     },
-    fondo:{
-      background:"#f5fafd",
-    }
+    fondo: {
+      background: "#f5fafd",
+    },
   }));
   const classes = useStyles();
 
   return (
-    <Grid container justifyContent="space-evenly" spacing={3} className={classes.fondo}>
-      <Grid item lg={6} md={12}>
-        <FormBuilder
-          schema={JSON.stringify(schema)}
-          uischema={JSON.stringify(uischema)}
-          onChange={(newSchema, newUiSchema) => {
-            setSchema(JSON.parse(newSchema));
-            setUischema(JSON.parse(newUiSchema));
-          }}
-        
-        />
-        <Paper className={classes.item}>
-          <Form
-            schema={schema}
-            uiSchema={uischema}
-            children={true} // Evitar que se muestre el boton de Submit.
+    <>
+      <Grid
+        container
+        justifyContent="space-evenly"
+        spacing={3}
+        className={classes.fondo}
+      >
+        <Grid item lg={6} md={12}>
+          <FormBuilder
+            schema={JSON.stringify(schema)}
+            uischema={JSON.stringify(uischema)}
+            onChange={(newSchema, newUiSchema) => {
+              setSchema(JSON.parse(newSchema));
+              setUischema(JSON.parse(newUiSchema));
+            }}
           />
-        </Paper>
-        <Button
-          className={classes.backButton}
-          variant="contained"
-          color="primary"
-          onClick={() => {
-            createForm();
-          }}
-        >
-          Crear Formulario
-        </Button>
-      </Grid>
-      <Grid item lg={6} md={12}>
-        <>
-          <h3>Schema:</h3>
-          <Paper className={classes.item}>
-            <Editor
-              height="500px"
-              width="100%"
-              language="json"
-              value={JSON.stringify(schema, null, 2)}
-              onChange={(e) => {
-                setSchema(JSON.parse(e));
-              }}
-            />
-          </Paper>
-          <h3>UISchema:</h3>
-          <Paper className={classes.item}>
-            <Editor
-              height="500px"
-              width="100%"
-              language="json"
-              value={JSON.stringify(uischema, null, 2)}
-              onChange={(e) => {
-                setUischema(JSON.parse(e));
-              }}
-            />
-          </Paper>
           <Button
             className={classes.backButton}
             variant="contained"
             color="primary"
             onClick={() => {
-              Router.push("/forms");
+              createForm();
             }}
           >
-            Atras
+            Crear Formulario
           </Button>
-        </>
+        </Grid>
+
+        <Grid item lg={6} md={12}>
+          <Paper className={classes.item}>
+            <Form
+              schema={schema}
+              uiSchema={uischema}
+              children={true} // Evitar que se muestre el boton de Submit.
+            />
+          </Paper>
+        </Grid>
       </Grid>
-    </Grid>
+      <Button
+        onClick={() => {
+          setJsons(!jsons);
+        }}
+      >
+        JSON Schemas {jsons ? <ExpandLess /> : <ExpandMore />}
+      </Button>
+      <Collapse in={!jsons}>
+        <Grid
+          container
+          justifyContent="space-evenly"
+          spacing={3}
+          className={classes.fondo}
+        >
+          <Grid item lg={6} md={12}>
+            <h3>Schema:</h3>
+            <Paper className={classes.item}>
+              <Editor
+                height="500px"
+                width="100%"
+                language="json"
+                value={JSON.stringify(schema, null, 2)}
+                onChange={(e) => {
+                  setSchema(JSON.parse(e));
+                }}
+              />
+            </Paper>
+          </Grid>
+          <Grid item lg={6} md={12}>
+            <h3>UISchema:</h3>
+            <Paper className={classes.item}>
+              <Editor
+                height="500px"
+                width="100%"
+                language="json"
+                value={JSON.stringify(uischema, null, 2)}
+                onChange={(e) => {
+                  setUischema(JSON.parse(e));
+                }}
+              />
+            </Paper>
+            <Button
+              className={classes.backButton}
+              variant="contained"
+              color="primary"
+              onClick={() => {
+                Router.push("/forms");
+              }}
+            >
+              Atras
+            </Button>
+          </Grid>
+        </Grid>
+      </Collapse>
+    </>
   );
 }
 
@@ -203,17 +161,14 @@ export default function NewForm() {
 NewForm.getInitialProps = async ({ req, res }) => {
   const data = parseCookies(req);
 
-
-  console.log(Object.keys(data)[0]);
-
-if (res) {
+  if (res) {
     if (Object.keys(data).length === 0 && data.constructor === Object) {
-      res.writeHead(301, { Location: "/" })
-      res.end()
+      res.writeHead(301, { Location: "/" });
+      res.end();
     }
   }
 
   return {
-    data: data && data
-  }
-}
+    data: data && data,
+  };
+};
