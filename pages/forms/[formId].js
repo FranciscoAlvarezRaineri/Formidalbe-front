@@ -12,7 +12,6 @@ import Card from "@material-ui/core/Card";
 import axios from "../../axios";
 import { useState } from "react";
 
-
 export async function getServerSideProps(context) {
   let form = await axios.get(`/forms/${context.params.formId}`);
   form = form.data;
@@ -61,8 +60,6 @@ export default function OneForm({ form }) {
   const [disable, setDisable] = useState(false);
   const [data, setData] = useState(null);
 
-  
-
   function handleSubmit(formData) {
     axios.post("responses/create", { formData, form: form._id });
     setOpen(true);
@@ -89,4 +86,3 @@ export default function OneForm({ form }) {
     </Container>
   );
 }
-

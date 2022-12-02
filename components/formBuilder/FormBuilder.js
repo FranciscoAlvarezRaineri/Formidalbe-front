@@ -97,7 +97,7 @@ export default function FormBuilder({ schema, uischema, onChange, mods }) {
               : "Nombre"
           ),
           createElement(Input, {
-            value: schemaData.title || "",
+            value: schemaData.title || "Formulario Nuevo",
             placeholder: "Titulo",
             type: "text",
             onChange: (ev) => {
