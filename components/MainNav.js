@@ -168,13 +168,13 @@ export default function PersistentDrawerLeft(props) {
   const forceReload = () =>{
     router.reload ()
   }
+
+
   function logOut() {
+    Router.push("/login")
     axios
     .get("/users/logout", { withCredentials: true })
-    .then(() => {
-      Router.push("/login")
-      
-    }).then (()=>forceReload())
+    .then (()=>forceReload())
     .catch((error) => {
       alert("Error: No se pudo desloguear");
     });
