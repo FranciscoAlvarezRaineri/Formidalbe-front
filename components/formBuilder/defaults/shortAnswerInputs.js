@@ -310,7 +310,7 @@ function Password({ parameters, onChange }) {
   return createElement(
     Fragment,
     null,
-    createElement(Typography, { variant: "h5" }, null, "Contraseña por defecto"),
+    createElement(Typography, { variant: "h6" }, null, "Contraseña por defecto"),
     createElement(Input, {
       value: parameters.default,
       placeholder: "Default",

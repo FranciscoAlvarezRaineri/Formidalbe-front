@@ -87,7 +87,7 @@ export default function CardGeneralParameterInputs({
           null,
           createElement(
             Typography,
-            { variant: "h5" },
+            { variant: "h6" },
             null,
             `${objectNameLabel} `,
             createElement(Example, {
@@ -144,7 +144,7 @@ export default function CardGeneralParameterInputs({
         },
         createElement(
           Typography,
-          { variant: "h5" },
+          { variant: "h6" },
           null,
           `${displayNameLabel} `,
           createElement(Example, {
@@ -182,7 +182,7 @@ export default function CardGeneralParameterInputs({
         },
         createElement(
           Typography,
-          { variant: "h5" },
+          { variant: "h6" },
           null,
           `${descriptionLabel} `,
           createElement(Example, {
@@ -218,7 +218,7 @@ export default function CardGeneralParameterInputs({
         },
         createElement(
           Typography,
-          { variant: "h5" },
+          { variant: "h6" },
           null,
           `${inputTypeLabel} `,
           createElement(Example, {
