@@ -62,8 +62,6 @@ export default function FormsTable() {
     }
   };
 
-
-
   function handleDuplicate(form) {
     axios
       .post("/forms/create", {
@@ -156,9 +154,13 @@ export default function FormsTable() {
                         )}
                       </div>
                       <Collapse in={index === selectedIndex}>
-                        <Button onClick={() => {
-                          Router.push(`/forms/${form._id}/resp`);
-                        }}>Ver Respuestas</Button>
+                        <Button
+                          onClick={() => {
+                            Router.push(`/forms/${form._id}/responses`);
+                          }}
+                        >
+                          Ver Respuestas
+                        </Button>
                       </Collapse>
                     </TableCell>
                     <TableCell key={`createdAt_${form._id}`} align="center">
