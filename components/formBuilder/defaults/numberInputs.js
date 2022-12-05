@@ -186,7 +186,7 @@ function CardNumberParameterInputs1({ parameters, onChange }) {
     }),
     createElement(Typography, { variant: "h5" }, null, "Minimo"),
     createElement(Input, {
-      value: parameters.minimum || parameters.exclusiveMinimum || "",
+      value: parameters.minimum || "",
       placeholder: "ej: 3",
       key: "minimum",
       type: "number",
@@ -195,44 +195,17 @@ function CardNumberParameterInputs1({ parameters, onChange }) {
         if (Number.isNaN(newVal)) newVal = null;
         // change either min or exclusiveMin depending on which one is active
         if (parameters.exclusiveMinimum) {
-          onChange({ ...parameters, exclusiveMinimum: newVal, minimum: null });
+          onChange({ ...parameters,minimum: null });
         } else {
-          onChange({ ...parameters, minimum: newVal, exclusiveMinimum: null });
+          onChange({ ...parameters, minimum: newVal });
         }
       },
       className: "card-modal-number",
     }),
-    createElement(
-      Container,
-      {
-        className: "card-modal-boolean",
-      },
-      createElement(FBCheckbox, {
-        key: "exclusiveMinimum",
-        onChangeValue: () => {
-          const newMin = parameters.minimum || parameters.exclusiveMinimum;
-          if (parameters.exclusiveMinimum) {
-            onChange({
-              ...parameters,
-              exclusiveMinimum: null,
-              minimum: newMin,
-            });
-          } else {
-            onChange({
-              ...parameters,
-              exclusiveMinimum: newMin,
-              minimum: null,
-            });
-          }
-        },
-        isChecked: !!parameters.exclusiveMinimum,
-        disabled: !parameters.minimum && !parameters.exclusiveMinimum,
-        label: "Minimo Exclusivo",
-      })
-    ),
+   
     createElement(Typography, { variant: "h5" }, null, "Máximo"),
     createElement(Input, {
-      value: parameters.maximum || parameters.exclusiveMaximum || "",
+      value: parameters.maximum || "",
       placeholder: "ej: 8",
       key: "maximum",
       type: "number",
@@ -241,41 +214,14 @@ function CardNumberParameterInputs1({ parameters, onChange }) {
         if (Number.isNaN(newVal)) newVal = null;
         // change either max or exclusiveMax depending on which one is active
         if (parameters.exclusiveMinimum) {
-          onChange({ ...parameters, exclusiveMaximum: newVal, maximum: null });
+          onChange({ ...parameters,  maximum: null });
         } else {
-          onChange({ ...parameters, maximum: newVal, exclusiveMaximum: null });
+          onChange({ ...parameters, maximum: newVal});
         }
       },
       className: "card-modal-number",
     }),
-    createElement(
-      Container,
-      {
-        className: "card-modal-boolean",
-      },
-      createElement(FBCheckbox, {
-        key: "exclusiveMaximum",
-        onChangeValue: () => {
-          const newMax = parameters.maximum || parameters.exclusiveMaximum;
-          if (parameters.exclusiveMaximum) {
-            onChange({
-              ...parameters,
-              exclusiveMaximum: null,
-              maximum: newMax,
-            });
-          } else {
-            onChange({
-              ...parameters,
-              exclusiveMaximum: newMax,
-              maximum: null,
-            });
-          }
-        },
-        isChecked: !!parameters.exclusiveMaximum,
-        disabled: !parameters.maximum && !parameters.exclusiveMaximum,
-        label: "Máximo Exclusivo",
-      })
-    )
+    
   );
 }
 
