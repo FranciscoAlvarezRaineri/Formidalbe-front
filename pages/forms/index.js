@@ -169,8 +169,8 @@ export default function FormsTable() {
                                 <Button
                                   onClick={() => handlePopUp(`${index}.${j}`)}
                                 >
-                                  {response.formData["Datos Personales"]
-                                    ?.nombre || response._id}
+                                  {response?.formData["Datos Personales"]
+                                    .nombre || response._id}
                                 </Button>
                                 <Dialog
                                   open={`${index}.${j}` === selectedPopUp}
@@ -264,11 +264,11 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(3, 0, 2),
     minWidth: 250,
     backgroundColor: "#0097d1",
-    '&:hover':{
+    "&:hover": {
       backgroundColor: "#BFDCF5",
-      color: "black"
-     },
-     color:"white"
+      color: "black",
+    },
+    color: "white",
   },
 }));
 
