@@ -1,18 +1,16 @@
 import React, { useState, useEffect } from "react";
 import axios from "../../../axios";
-import {
-  Button,
-  TableRow,
-  TableHead,
-  TableContainer,
-  TableCell,
-  TableBody,
-  Table,
-} from "@material-ui/core";
-import Response from "../../../components/response";
+import Table from "@material-ui/core/Table";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableRow from "@material-ui/core/TableRow";
+
+import CheckIcon from "@material-ui/icons/Check";
+import ClearIcon from "@material-ui/icons/Clear";
+
 import { makeStyles } from "@material-ui/core/styles";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
 
 const flattenObj = (ob) => {
   let result = {};
@@ -34,24 +32,32 @@ export async function getServerSideProps(context) {
   const formsData = response.data.responses
     .map((response) => response.formData)
     .map((formData) => flattenObj(formData));
-  const keys = Object.keys(formsData[0]);
+  let allKeys = [
+    ...new Set(formsData.flatMap((formData) => Object.keys(formData))),
+  ];
+  allKeys.splice(allKeys.indexOf("Datos Personales.email"), 1);
+  allKeys.unshift("Datos Personales.email");
+  allKeys.splice(allKeys.indexOf("Datos Personales.nombre"), 1);
+  allKeys.unshift("Datos Personales.nombre");
   return {
-    props: { formsData },
+    props: { formsData, allKeys },
   };
 }
 
-const Resp = ({ formsData }) => {
+const Resp = ({ formsData, allKeys }) => {
   const classes = useStyles();
 
   useEffect(() => {
     console.log(formsData);
+    console.log(allKeys);
   });
+
   return (
     <TableContainer>
       <Table>
         <TableHead className={classes.head}>
           <TableRow>
-            {Object.keys(formsData[0]).map((key) => (
+            {allKeys.map((key) => (
               <TableCell>{key}</TableCell>
             ))}
           </TableRow>
@@ -60,13 +66,17 @@ const Resp = ({ formsData }) => {
           {formsData.map((formData) => {
             return (
               <TableRow>
-                {Object.keys(formsData[0]).map((key) => (
+                {allKeys.map((key) => (
                   <TableCell>
-                    {typeof formData[key] === "boolean"
-                      ? formData[key]
-                        ? "true"
-                        : "false"
-                      : formData[key]}
+                    {typeof formData[key] === "boolean" ? (
+                      formData[key] ? (
+                        <CheckIcon></CheckIcon>
+                      ) : (
+                        <ClearIcon></ClearIcon>
+                      )
+                    ) : (
+                      formData[key]
+                    )}
                   </TableCell>
                 ))}
               </TableRow>
