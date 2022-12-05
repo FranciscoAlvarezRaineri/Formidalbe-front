@@ -18,19 +18,23 @@ import TableBody from "@material-ui/core/TableBody";
 import TableContainer from "@material-ui/core/TableContainer";
 import Table from "@material-ui/core/Table";
 import Paper from "@material-ui/core/Paper";
-import Collapse from "@material-ui/core/Collapse";
+import Dialog from "@material-ui/core/Dialog";
+import Typography from "@material-ui/core/Typography";
+import Popover from "@material-ui/core/Popover";
+import Input from "@material-ui/core/Input";
+import Hidden from "@material-ui/core/Hidden";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
-import Dialog from "@material-ui/core/Dialog";
+import Alert from "@material-ui/lab/Alert";
+
 import Delete from "@material-ui/icons/Delete";
-import ExpandMore from "@material-ui/icons/ExpandMore";
-import ExpandLess from "@material-ui/icons/ExpandLess";
 import Share from "@material-ui/icons/Share";
 import Edit from "@material-ui/icons/Edit";
 import FileCopy from "@material-ui/icons/FileCopy";
+import ListIcon from "@material-ui/icons/List";
+import MoreVertIcon from "@material-ui/icons/MoreVert";
 
 import { makeStyles } from "@material-ui/core/styles";
-import Response from "../../components/response";
 
 export default function FormsTable() {
   const classes = useStyles();
@@ -38,8 +42,13 @@ export default function FormsTable() {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [rows, setRows] = useState([]);
 
-  const [selectedIndex, setSelectedIndex] = useState("");
-  const [selectedPopUp, setSelectedPopUp] = useState("");
+  //const [selectedIndex, setSelectedIndex] = useState("");
+  const [selectedDeletePopUp, setSelectedDeletePopUp] = useState("");
+  const [selectedSharePopUp, setSelectedSharePopUp] = useState("");
+  const [anchorEl, setAnchorEl] = useState({});
+  const [email, setEmail] = useState("");
+
+  const [selectedExpand, setSelectedExpand] = useState("");
 
   const [cookies] = useCookies(["token"]);
 
@@ -54,19 +63,13 @@ export default function FormsTable() {
       });
   }, []);
 
-  const handleOpenClose = (index) => {
-    if (selectedIndex === index) {
-      setSelectedIndex("");
-    } else {
-      setSelectedIndex(index);
-    }
-  };
-
   function handleDuplicate(form) {
+    console.log(form);
     axios
       .post("/forms/create", {
-        schema: { ...form.schema, title: `Copia de ${form.schema.title}` },
+        schema: { ...form.schema, title: `Copia de ${form.title}` },
         uischema: form.uischema,
+        user: cookies.token.id,
       })
       .then(() => {
         axios.get("/forms").then((res) => {
@@ -76,11 +79,27 @@ export default function FormsTable() {
       .catch((err) => console.log(err));
   }
 
+  function handleSharePopUp(i) {
+    if (selectedSharePopUp === i) {
+      setSelectedSharePopUp("");
+    } else {
+      setSelectedSharePopUp(i);
+    }
+  }
+
+  function handleDeletePopUp(i) {
+    if (selectedDeletePopUp === i) {
+      setSelectedDeletePopUp("");
+    } else {
+      setSelectedDeletePopUp(i);
+    }
+  }
+
   function handleDelete(_id) {
     axios
       .delete(`/forms/${_id}`)
       .then(() => {
-        axios.get("/forms").then((res) => {
+        axios.get(`/forms/users/${cookies.token.id}`).then((res) => {
           setRows(res.data);
         });
       })
@@ -89,142 +108,316 @@ export default function FormsTable() {
       });
   }
 
+  function handleEmail(form) {
+    axios
+      .put(`/responses/share`, {
+        email,
+        formUrl: `http://localhost:3000/forms/${form._id}`,
+        formTitle: form.title,
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  function handleExpand(i) {
+    if (selectedExpand === i) {
+      setSelectedExpand("");
+    } else {
+      setSelectedExpand(i);
+    }
+  }
+
   return (
-    <Paper className={classes.root}>
-      <Grid container justifyContent="center">
-        <Button
-          type="button"
-          variant="contained"
-          //color="#0097d1"
-          className={classes.submit}
-          onClick={() => {
-            Router.push("/forms/new");
-          }}
-        >
-          Nuevo Formulario
-        </Button>
-        {/* <Typography>Usuario</Typography> */}
-      </Grid>
-      <TableContainer>
-        <Table>
-          <TableHead className={classes.head}>
-            <TableRow>
-              {
-                <>
-                  <TableCell key="_id" align="left">
-                    Formulario
-                  </TableCell>
-                  <TableCell key="answers" align="right">
-                    Respuestas
-                  </TableCell>
-                  <TableCell key="createdAt" align="center">
-                    Fecha de Creación
-                  </TableCell>
-                  <TableCell key="share" align="right">
-                    Compartir
-                  </TableCell>
-                  <TableCell key="edit" align="right">
-                    Editar
-                  </TableCell>
-                  <TableCell key="duplicate" align="right">
-                    Duplicar
-                  </TableCell>
-                  <TableCell key="remove" align="right">
-                    Eliminar
-                  </TableCell>
-                </>
-              }
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((form, index) => {
-                return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={form._id}>
-                    <TableCell key={`title_${form._id}`} align="left">
-                      {form.title || form._id}
-                    </TableCell>
-                    <TableCell key={`answers_${form._id}`} align="right">
-                      <div onClick={() => handleOpenClose(index)}>
-                        {index === selectedIndex ? (
-                          <ExpandLess />
-                        ) : (
-                          <ExpandMore />
-                        )}
-                      </div>
-                      <Collapse in={index === selectedIndex}>
+    <>
+      <Hidden smDown>
+        <Paper className={classes.root}>
+          <Grid container justifyContent="center">
+            <Button
+              type="button"
+              variant="contained"
+              //color="#0097d1"
+              className={classes.submit}
+              onClick={() => {
+                Router.push("/forms/new");
+              }}
+            >
+              Nuevo Formulario
+            </Button>
+          </Grid>
+          <TableContainer>
+            <Table>
+              <TableHead className={classes.head}>
+                <TableRow>
+                  {
+                    <>
+                      <TableCell key="_id" align="left">
+                        Formulario
+                      </TableCell>
+                      <TableCell key="createdAt" align="center">
+                        Fecha de Creación
+                      </TableCell>
+                      <TableCell key="answers" align="right">
+                        Respuestas
+                      </TableCell>
+                      <TableCell key="share" align="right">
+                        Compartir
+                      </TableCell>
+                      <TableCell key="edit" align="right">
+                        Editar
+                      </TableCell>
+                      <TableCell key="duplicate" align="right">
+                        Duplicar
+                      </TableCell>
+                      <TableCell key="remove" align="right">
+                        Eliminar
+                      </TableCell>
+                    </>
+                  }
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {rows
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((form, i) => {
+                    return (
+                      <TableRow
+                        hover
+                        role="checkbox"
+                        tabIndex={-1}
+                        key={form._id}
+                      >
+                        <TableCell key={`title_${form._id}`} align="left">
+                          {form.title || form._id}
+                        </TableCell>
+                        <TableCell key={`createdAt_${form._id}`} align="center">
+                          {form.createdAt?.split("T")[0]}
+                        </TableCell>
+                        <TableCell key={`answers_${form._id}`} align="right">
+                          <Button
+                            onClick={() => {
+                              Router.push(`/forms/${form._id}/responses`);
+                            }}
+                          >
+                            <ListIcon />
+                          </Button>
+                        </TableCell>
+                        <TableCell key={`share_${form._id}`} align="right">
+                          <Button
+                            onClick={(e) => {
+                              setAnchorEl(e.target);
+                              handleSharePopUp(i);
+                            }}
+                          >
+                            <Share />
+                          </Button>
+                          <Popover
+                            open={i === selectedSharePopUp}
+                            anchorEl={anchorEl}
+                          >
+                            <Button
+                              onClick={() => {
+                                navigator.clipboard.writeText(
+                                  `http://localhost:3000/forms/${form._id}`
+                                );
+                                handleSharePopUp("");
+                              }}
+                            >
+                              Copiar al portapapeles
+                            </Button>
+                            <>
+                              <Typography>Enviar al e-mail:</Typography>
+                              <Input
+                                type="text"
+                                onChange={(e) => setEmail(e.target.value)}
+                              ></Input>
+                              <Button onClick={() => handleEmail(form)}>
+                                ENVIAR
+                              </Button>
+                            </>
+                          </Popover>
+                        </TableCell>
+                        <TableCell key={`edit_${form._id}`} align="right">
+                          <Button
+                            onClick={() => {
+                              Router.push(`/forms/${form._id}/manage`);
+                            }}
+                          >
+                            <Edit />
+                          </Button>
+                        </TableCell>
+                        <TableCell key={`duplicate_${form._id}`} align="right">
+                          <Button
+                            onClick={() => {
+                              handleDuplicate(form);
+                            }}
+                          >
+                            <FileCopy />
+                          </Button>
+                        </TableCell>
+                        <TableCell key={`remove_${form._id}`} align="right">
+                          <Button onClick={() => handleDeletePopUp(i)}>
+                            <Delete />
+                          </Button>
+                          <Dialog open={i === selectedDeletePopUp}>
+                            <Typography>{`Se eliminará el formulario ${
+                              form.title || form._id
+                            } `}</Typography>
+                            <Button onClick={() => handleDelete(form._id)}>
+                              Eliminar
+                            </Button>
+                            <Button onClick={() => handleDeletePopUp("")}>
+                              Cancelar
+                            </Button>
+                          </Dialog>
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <TablePagination
+            rowsPerPageOptions={[10, 25, 50, 100]}
+            component="div"
+            count={rows.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={(e, newPage) => {
+              setPage(newPage);
+            }}
+            onRowsPerPageChange={(e) => {
+              setRowsPerPage(+e.target.value);
+              setPage(0);
+            }}
+          />
+        </Paper>
+      </Hidden>
+      <Hidden mdUp>
+        <List>
+          {rows.map((form, i) => (
+            <ListItem key={i}>
+              <Grid container justifyContent="space-between" spacing={2}>
+                <Grid item>{form.title}</Grid>
+                <Grid item>
+                  <Button
+                    onClick={() => {
+                      form.responses ? (
+                        Router.push(`/forms/${form._id}/responses`)
+                      ) : (
+                        <Alert>
+                          {" "}
+                          El formulario todavia no tiene respuestas.
+                        </Alert>
+                      );
+                    }}
+                  >
+                    <ListIcon />
+                  </Button>
+                </Grid>
+                <Grid item>
+                  <Button onClick={(e) => handleExpand(i)}>
+                    <MoreVertIcon />
+                  </Button>
+                  <Dialog open={i === selectedExpand}>
+                    <List>
+                      <ListItem>
+                        <Typography>{`${form.title}`}</Typography>
+                      </ListItem>
+                      <ListItem>
+                        <Typography>{form.createdAt?.split("T")[0]}</Typography>
+                      </ListItem>
+                      <ListItem>
                         <Button
-                          onClick={() => {
-                            Router.push(`/forms/${form._id}/responses`);
+                          onClick={(e) => {
+                            setAnchorEl(e.target);
+                            handleSharePopUp(i);
                           }}
                         >
-                          Ver Respuestas
+                          <Share /> <Typography>Compartir</Typography>
                         </Button>
-                      </Collapse>
-                    </TableCell>
-                    <TableCell key={`createdAt_${form._id}`} align="center">
-                      {form.createdAt?.split("T")[0]}
-                    </TableCell>
-                    <TableCell key={`share_${form._id}`} align="right">
-                      <Button
-                        onClick={() => {
-                          navigator.clipboard.writeText(
-                            `http://localhost:3000/forms/${form._id}`
-                          );
-                        }}
-                      >
-                        <Share />
-                      </Button>
-                    </TableCell>
-                    <TableCell key={`edit_${form._id}`} align="right">
-                      <Button
-                        onClick={() => {
-                          Router.push(`/forms/${form._id}/manage`);
-                        }}
-                      >
-                        <Edit />
-                      </Button>
-                    </TableCell>
-                    <TableCell key={`duplicate_${form._id}`} align="right">
-                      <Button
-                        onClick={() => {
-                          handleDuplicate(form);
-                        }}
-                      >
-                        <FileCopy />
-                      </Button>
-                    </TableCell>
-                    <TableCell key={`remove_${form._id}`} align="right">
-                      <Button
-                        onClick={() => {
-                          handleDelete(form._id);
-                        }}
-                      >
-                        <Delete />
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[10, 25, 50, 100]}
-        component="div"
-        count={rows.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={(e, newPage) => {
-          setPage(newPage);
-        }}
-        onRowsPerPageChange={(e) => {
-          setRowsPerPage(+e.target.value);
-          setPage(0);
-        }}
-      />
-    </Paper>
+                        <Popover
+                          open={i === selectedSharePopUp}
+                          anchorEl={anchorEl}
+                        >
+                          <Button
+                            onClick={() => {
+                              navigator.clipboard.writeText(
+                                `http://localhost:3000/forms/${form._id}`
+                              );
+                              handleSharePopUp("");
+                            }}
+                          >
+                            Copiar al portapapeles
+                          </Button>
+                          <>
+                            <Typography>Enviar al e-mail:</Typography>
+                            <Input
+                              type="text"
+                              onChange={(e) => setEmail(e.target.value)}
+                            ></Input>
+                            <Button onClick={() => handleEmail(form)}>
+                              ENVIAR
+                            </Button>
+                          </>
+                        </Popover>
+                      </ListItem>
+                      <ListItem>
+                        <Button
+                          onClick={() => {
+                            Router.push(`/forms/${form._id}/manage`);
+                          }}
+                        >
+                          <Edit />
+                          <Typography>editar </Typography>
+                        </Button>
+                      </ListItem>
+                      <ListItem>
+                        <Button
+                          onClick={() => {
+                            handleDuplicate(form);
+                          }}
+                        >
+                          <>
+                            <FileCopy />
+                            <Typography>copiar </Typography>
+                          </>
+                        </Button>
+                      </ListItem>
+                      <ListItem>
+                        <Button onClick={() => handleDeletePopUp(i)}>
+                          <Delete />
+                          <Typography>eliminar</Typography>
+                        </Button>
+                        <Dialog open={i === selectedDeletePopUp}>
+                          <Typography>{`Se eliminará el formulario ${
+                            form.title || form._id
+                          } `}</Typography>
+                          <Button
+                            onClick={() => {
+                              handleExpand("");
+                              handleDeletePopUp("");
+                              handleDelete(form._id);
+                            }}
+                          >
+                            Eliminar
+                          </Button>
+                          <Button onClick={() => handleDeletePopUp("")}>
+                            Cancelar
+                          </Button>
+                        </Dialog>
+                      </ListItem>
+                    </List>
+
+                    <Button onClick={() => handleExpand("")}>Cancelar</Button>
+                  </Dialog>
+                </Grid>
+              </Grid>
+            </ListItem>
+          ))}
+        </List>
+      </Hidden>
+    </>
   );
 }
 
