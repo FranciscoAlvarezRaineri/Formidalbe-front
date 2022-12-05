@@ -62,13 +62,7 @@ export default function FormsTable() {
     }
   };
 
-  const handlePopUp = (index) => {
-    if (selectedPopUp === index) {
-      setSelectedPopUp("");
-    } else {
-      setSelectedPopUp(index);
-    }
-  };
+
 
   function handleDuplicate(form) {
     axios
@@ -162,28 +156,9 @@ export default function FormsTable() {
                         )}
                       </div>
                       <Collapse in={index === selectedIndex}>
-                        <List id={`res-${form._id}`}>
-                          {form.responses?.map((response, j) => {
-                            return (
-                              <ListItem key={response._id}>
-                                <Button
-                                  onClick={() => handlePopUp(`${index}.${j}`)}
-                                >
-                                  {response.formData["Datos Personales"]
-                                    ?.nombre || response._id}
-                                </Button>
-                                <Dialog
-                                  open={`${index}.${j}` === selectedPopUp}
-                                >
-                                  <Response _id={response._id}></Response>
-                                  <Button onClick={() => handlePopUp("")}>
-                                    Salir
-                                  </Button>
-                                </Dialog>
-                              </ListItem>
-                            );
-                          })}
-                        </List>
+                        <Button onClick={() => {
+                          Router.push(`/forms/${form._id}/resp`);
+                        }}>Ver Respuestas</Button>
                       </Collapse>
                     </TableCell>
                     <TableCell key={`createdAt_${form._id}`} align="center">
