@@ -61,6 +61,7 @@ export default function OneForm({ form }) {
   const [data, setData] = useState(null);
 
   function handleSubmit(formData) {
+    console.log(formData);
     axios.post("responses/create", { formData, form: form._id });
     setOpen(true);
     setDisable(true);
