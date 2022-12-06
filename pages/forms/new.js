@@ -168,14 +168,17 @@ export default function NewForm() {
 // funcion para checkear si esta logueado el user
 NewForm.getInitialProps = async ({ req, res }) => {
   const data = parseCookies(req);
-
   if (res) {
     if (Object.keys(data).length === 0 && data.constructor === Object) {
       res.writeHead(301, { Location: "/" });
       res.end();
     }
+    const token = JSON.parse(data.token);
+    if (!token.confirm) {
+      res.writeHead(301, { Location: "/confirm/notConfirm" });
+      res.end();
+    }
   }
-
   return {
     data: data && data,
   };

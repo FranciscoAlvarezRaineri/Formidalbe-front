@@ -18,7 +18,7 @@ const flattenObj = (ob) => {
     if (typeof ob[i] === "object" && !Array.isArray(ob[i])) {
       const temp = flattenObj(ob[i]);
       for (const j in temp) {
-        result[i + "." + j] = temp[j];
+        result[i + " | " + j] = temp[j];
       }
     } else {
       result[i] = ob[i];
@@ -35,10 +35,10 @@ export async function getServerSideProps(context) {
   let allKeys = [
     ...new Set(formsData.flatMap((formData) => Object.keys(formData))),
   ];
-  allKeys.splice(allKeys.indexOf("Datos Personales.email"), 1);
-  allKeys.unshift("Datos Personales.email");
-  allKeys.splice(allKeys.indexOf("Datos Personales.nombre"), 1);
-  allKeys.unshift("Datos Personales.nombre");
+  allKeys.splice(allKeys.indexOf("Datos Personales | email"), 1);
+  allKeys.unshift("Datos Personales | email");
+  allKeys.splice(allKeys.indexOf("Datos Personales | nombre"), 1);
+  allKeys.unshift("Datos Personales | nombre");
   return {
     props: { formsData, allKeys },
   };
