@@ -16,8 +16,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 
-import { useCookies } from "react-cookie"
-
+import { useCookies } from "react-cookie";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -37,10 +36,10 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
     backgroundColor: "#0097d1",
-    '&:hover':{
+    "&:hover": {
       backgroundColor: "#BFDCF5",
-      color:"black"
-     }
+      color: "black",
+    },
   },
 }));
 
@@ -48,41 +47,26 @@ export default function SignIn() {
   const classes = useStyles();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  // const [remember, setRemember] = useState(false) // para ser usado cuando codiemo permanencia.
-  const [cookie, setCookie] = useCookies(["user"])
- 
-
-
-
-
-
+  const [cookie, setCookie] = useCookies(["user"]);
 
   const logIn = async () => {
     try {
-      const response = await axios
-        .post("/users/login", { email, password }, { withCredentials: true }) //handle API call to sign in here.
-      const data = response.data
-      Router.push("/forms");
+      const response = await axios.post(
+        "/users/login",
+        { email, password },
+        { withCredentials: true }
+      ); //handle API call to sign in here.
+      const data = response.data;
       setCookie("token", JSON.stringify(data), {
         path: "/",
-        maxAge: 3600, // Expires after 1hr
+        maxAge: 36000, // Expires after 10hr
         sameSite: true,
-      })
+      });
+      Router.push("/forms");
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
-  }
-
-
-
-
-  // axios
-  //   .post("/users/login", { email, password }, {withCredentials:true})
-  //   .then(() => {
-  //     Router.push("/forms");
-  //   })
-  //   .catch((err) => console.log(err));
-
+  };
 
   return (
     <Container component="main" maxWidth="xs">
@@ -123,11 +107,6 @@ export default function SignIn() {
               setPassword(e.target.value);
             }}
           />
-          {/* <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Recordarme"
-          /> */}
-
           <Button
             onClick={() => logIn()}
             type="button"
