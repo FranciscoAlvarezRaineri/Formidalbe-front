@@ -26,7 +26,9 @@ import Hidden from "@material-ui/core/Hidden";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import Alert from "@material-ui/lab/Alert";
-import { DialogTitle, DialogContent } from "@material-ui/core";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import DialogContent from "@material-ui/core/DialogContent";
+import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 
 import Delete from "@material-ui/icons/Delete";
 import Share from "@material-ui/icons/Share";
@@ -34,51 +36,40 @@ import Edit from "@material-ui/icons/Edit";
 import FileCopy from "@material-ui/icons/FileCopy";
 import ListIcon from "@material-ui/icons/List";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
+import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
+import NavigateNextIcon from "@material-ui/icons/NavigateNext";
+import ExpandMore from "@material-ui/icons/ExpandMore";
+import ExpandLess from "@material-ui/icons/ExpandLess";
 
 import { makeStyles } from "@material-ui/core/styles";
 
 export default function FormsTable() {
   const classes = useStyles();
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [amount, setAmount] = useState(10);
   const [rows, setRows] = useState([]);
 
-  //const [selectedIndex, setSelectedIndex] = useState("");
   const [selectedDeletePopUp, setSelectedDeletePopUp] = useState("");
   const [selectedSharePopUp, setSelectedSharePopUp] = useState("");
   const [anchorEl, setAnchorEl] = useState({});
   const [email, setEmail] = useState("");
 
   const [selectedExpand, setSelectedExpand] = useState("");
+  const [openAmount, setOpenAmount] = useState(false);
 
   const [cookies] = useCookies(["token"]);
 
   useEffect(() => {
     axios
-      .get(`/forms/users/${cookies.token.id}`)
+      .get(`/forms/users/${cookies.token.id}/${page}/${amount}`)
       .then((res) => {
         setRows(res.data);
+        console.log(res.data);
       })
       .catch((err) => {
         console.log(err);
       });
-  }, []);
-
-  function handleDuplicate(form) {
-    console.log(form);
-    axios
-      .post("/forms/create", {
-        schema: { ...form.schema, title: `Copia de ${form.title}` },
-        uischema: form.uischema,
-        user: cookies.token.id,
-      })
-      .then(() => {
-        axios.get("/forms").then((res) => {
-          setRows(res.data);
-        });
-      })
-      .catch((err) => console.log(err));
-  }
+  }, [page, amount]);
 
   function handleSharePopUp(i) {
     if (selectedSharePopUp === i) {
@@ -96,13 +87,32 @@ export default function FormsTable() {
     }
   }
 
+  function handleDuplicate(form) {
+    axios
+      .post("/forms/create", {
+        schema: { ...form.schema, title: `Copia de ${form.title}` },
+        uischema: form.uischema,
+        user: cookies.token.id,
+      })
+      .then(() => {
+        axios
+          .get(`/forms/users/${cookies.token.id}/${page}/${amount}`)
+          .then((res) => {
+            setRows(res.data);
+          });
+      })
+      .catch((err) => console.log(err));
+  }
+
   function handleDelete(_id) {
     axios
       .delete(`/forms/${_id}`)
       .then(() => {
-        axios.get(`/forms/users/${cookies.token.id}`).then((res) => {
-          setRows(res.data);
-        });
+        axios
+          .get(`/forms/users/${cookies.token.id}/${page}/${amount}`)
+          .then((res) => {
+            setRows(res.data);
+          });
       })
       .catch((err) => {
         console.log(err);
@@ -129,19 +139,26 @@ export default function FormsTable() {
     }
   }
 
-  const handleClose=()=>{
-    setSelectedSharePopUp(null)
+  const handleClose = () => {
+    setSelectedSharePopUp(null);
+  };
+
+  function handleClickAway() {
+    console.log("hola");
+    setOpenAmount(false);
+    setSelectedDeletePopUp(false);
+    setSelectedSharePopUp(false);
+    setSelectedExpand(false);
   }
 
   return (
-    <>
+    <div>
       <Hidden smDown>
         <Paper className={classes.root}>
           <Grid container justifyContent="center">
             <Button
               type="button"
               variant="contained"
-              //color="#0097d1"
               className={classes.submit}
               onClick={() => {
                 Router.push("/forms/new");
@@ -182,140 +199,203 @@ export default function FormsTable() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((form, i) => {
-                    return (
-                      <TableRow
-                        hover
-                        role="checkbox"
-                        tabIndex={-1}
-                        key={form._id}
-                      >
-                        <TableCell key={`title_${form._id}`} align="left">
-                          {form.title || form._id}
-                        </TableCell>
-                        <TableCell key={`createdAt_${form._id}`} align="center">
-                          {form.createdAt?.split("T")[0]}
-                        </TableCell>
-                        <TableCell key={`answers_${form._id}`} align="right">
-                          <Button
-                            onClick={() => {
-                              Router.push(`/forms/${form._id}/responses`);
-                            }}
-                          >
-                            <ListIcon />
-                          </Button>
-                        </TableCell>
-                        <TableCell key={`share_${form._id}`} align="right">
-                          <Button
-                            onClick={(e) => {
-                              setAnchorEl(e.target);
-                              handleSharePopUp(i);
-                            }}
-                          >
-                            <Share />
-                          </Button>
-                          <Popover
+                {rows.map((form, i) => {
+                  return (
+                    <TableRow
+                      hover
+                      role="checkbox"
+                      tabIndex={-1}
+                      key={form._id}
+                    >
+                      <TableCell key={`title_${form._id}`} align="left">
+                        {form.title || form._id}
+                      </TableCell>
+                      <TableCell key={`createdAt_${form._id}`} align="center">
+                        {form.createdAt?.split("T")[0]}
+                      </TableCell>
+                      <TableCell key={`answers_${form._id}`} align="right">
+                        <Button
+                          onClick={() =>
+                            Router.push(`/forms/${form._id}/responses`)
+                          }
+                          disabled={form.responses?.length ? false : true}
+                        >
+                          <ListIcon />
+                        </Button>
+                      </TableCell>
+                      <TableCell key={`share_${form._id}`} align="right">
+                        <Button
+                          onClick={(e) => {
+                            setAnchorEl(e.target);
+                            handleSharePopUp(i);
+                          }}
+                        >
+                          <Share />
+                        </Button>
+                        <Popover
                           open={i === selectedSharePopUp}
-                          onClose = {handleClose}
-                            anchorEl={anchorEl}
-                          >
-                            <Button
+                          onClose={handleClose}
+                          anchorEl={anchorEl}
+                        >
+                          <Button
                             className={classes.submit}
-                              onClick={() => {
-                                navigator.clipboard.writeText(
-                                  `http://localhost:3000/forms/${form._id}`
-                                );
-                                handleSharePopUp("");
-                              }}
+                            onClick={() => {
+                              navigator.clipboard.writeText(
+                                `http://localhost:3000/forms/${form._id}`
+                              );
+                              handleSharePopUp("");
+                            }}
+                          >
+                            Copiar al portapapeles
+                          </Button>
+                          <>
+                            <Typography>Enviar al e-mail:</Typography>
+                            <Input
+                              type="text"
+                              onChange={(e) => setEmail(e.target.value)}
+                            ></Input>
+                            <Button
+                              className={classes.submit1}
+                              onClick={() => handleEmail(form)}
                             >
-                              Copiar al portapapeles
+                              ENVIAR
                             </Button>
-                            <>
-                              <Typography>Enviar al e-mail:</Typography>
-                              <Input
-                                type="text"
-                                onChange={(e) => setEmail(e.target.value)}
-                              ></Input>
-                              <Button 
-                               className={classes.submit1}
-                              onClick={() => handleEmail(form)}>
-                                ENVIAR
-                              </Button>
-                            </>
-                          </Popover>
-                        </TableCell>
-                        <TableCell key={`edit_${form._id}`} align="right">
+                          </>
+                        </Popover>
+                      </TableCell>
+                      <TableCell key={`edit_${form._id}`} align="right">
+                        <Button
+                          onClick={() => {
+                            Router.push(`/forms/${form._id}/manage`);
+                          }}
+                        >
+                          <Edit />
+                        </Button>
+                      </TableCell>
+                      <TableCell key={`duplicate_${form._id}`} align="right">
+                        <Button
+                          onClick={() => {
+                            handleDuplicate(form);
+                          }}
+                        >
+                          <FileCopy />
+                        </Button>
+                      </TableCell>
+                      <TableCell key={`remove_${form._id}`} align="right">
+                        <Button onClick={() => handleDeletePopUp(i)}>
+                          <Delete />
+                        </Button>
+                        <Dialog open={i === selectedDeletePopUp}>
+                          <DialogTitle>{`Se eliminará el formulario ${
+                            form.title || form._id
+                          } `}</DialogTitle>
+                          <DialogContent>{`Confirma que desea eliminar el Formulario ${
+                            form.title || form._id
+                          } `}</DialogContent>
+                          <Button onClick={() => handleDelete(form._id)}>
+                            Eliminar
+                          </Button>
                           <Button
-                            onClick={() => {
-                              Router.push(`/forms/${form._id}/manage`);
-                            }}
+                            onClick={() => handleDeletePopUp("")}
+                            color={"secondary"}
                           >
-                            <Edit />
+                            Cancelar
                           </Button>
-                        </TableCell>
-                        <TableCell key={`duplicate_${form._id}`} align="right">
-                          <Button
-                            onClick={() => {
-                              handleDuplicate(form);
-                            }}
-                          >
-                            <FileCopy />
-                          </Button>
-                        </TableCell>
-                        <TableCell key={`remove_${form._id}`} align="right">
-                          <Button onClick={() => handleDeletePopUp(i)}>
-                            <Delete />
-                          </Button>
-                          <Dialog open={i === selectedDeletePopUp}>
-                            <DialogTitle>{`Se eliminará el formulario ${
-                              form.title || form._id
-                            } `}</DialogTitle>
-                            <DialogContent>{`Confirma que desea eliminar el Formulario ${
-                              form.title || form._id
-                            } `}</DialogContent>
-                            <Button onClick={() => handleDelete(form._id)}>
-                              Eliminar
-                            </Button>
-                            <Button onClick={() => handleDeletePopUp("")} color={"secondary"}>
-                              Cancelar
-                            </Button>
-                          </Dialog>
-                        </TableCell>
-                      </TableRow>
-                    );
-                  })}
+                        </Dialog>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
               </TableBody>
             </Table>
           </TableContainer>
-          <TablePagination
-            rowsPerPageOptions={[10, 25, 50, 100]}
-            component="div"
-            count={rows.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={(e, newPage) => {
-              setPage(newPage);
-            }}
-            onRowsPerPageChange={(e) => {
-              setRowsPerPage(+e.target.value);
-              setPage(0);
-            }}
-          />
+          <Grid container justifyContent="flex-end" spacing={1}>
+            <Grid item>
+              <ClickAwayListener onClickAway={() => setOpenAmount(false)}>
+                <Button
+                  onClick={(e) => {
+                    setAnchorEl(e.target);
+                    setOpenAmount(true);
+                  }}
+                >
+                  {openAmount ? <ExpandLess /> : <ExpandMore />}
+                </Button>
+              </ClickAwayListener>
+              <Popover open={openAmount} anchorEl={anchorEl}>
+                <List>
+                  <ListItem>
+                    <Button
+                      onClick={() => {
+                        setOpenAmount(false);
+                        setAmount(10);
+                      }}
+                    >
+                      10
+                    </Button>
+                  </ListItem>
+                  <ListItem>
+                    <Button
+                      onClick={() => {
+                        setOpenAmount(false);
+                        setAmount(25);
+                      }}
+                    >
+                      25
+                    </Button>
+                  </ListItem>
+                  <ListItem>
+                    <Button
+                      onClick={() => {
+                        setOpenAmount(false);
+                        setAmount(50);
+                      }}
+                    >
+                      50
+                    </Button>
+                  </ListItem>
+                  <ListItem>
+                    <Button
+                      onClick={() => {
+                        setOpenAmount(false);
+                        setAmount(100);
+                      }}
+                    >
+                      100
+                    </Button>
+                  </ListItem>
+                </List>
+              </Popover>
+            </Grid>
+            <Grid item>
+              <Button
+                onClick={() => setPage(page - 1)}
+                disabled={page ? false : true}
+              >
+                <NavigateBeforeIcon />
+              </Button>
+            </Grid>
+            <Grid item>
+              <Button
+                onClick={() => setPage(page + 1)}
+                disabled={rows.length >= amount ? false : true}
+              >
+                <NavigateNextIcon />
+              </Button>
+            </Grid>
+          </Grid>
         </Paper>
       </Hidden>
       <Hidden mdUp>
         <Button
-              type="button"
-              variant="contained"
-              className={classes.submit2}
-              onClick={() => {
-                Router.push("/forms/new");
-              }}
-            >
-              Nuevo Formulario
-            </Button>
+          type="button"
+          variant="contained"
+          className={classes.submit2}
+          onClick={() => {
+            Router.push("/forms/new");
+          }}
+        >
+          Nuevo Formulario
+        </Button>
         <List>
           {rows.map((form, i) => (
             <ListItem key={i}>
@@ -323,16 +403,8 @@ export default function FormsTable() {
                 <Grid item>{form.title}</Grid>
                 <Grid item>
                   <Button
-                    onClick={() => {
-                      form.responses ? (
-                        Router.push(`/forms/${form._id}/responses`)
-                      ) : (
-                        <Alert>
-                          {" "}
-                          El formulario todavia no tiene respuestas.
-                        </Alert>
-                      );
-                    }}
+                    onClick={() => Router.push(`/forms/${form._id}/responses`)}
+                    disabled={form.responses?.length ? false : true}
                   >
                     <ListIcon />
                   </Button>
@@ -344,10 +416,14 @@ export default function FormsTable() {
                   <Dialog open={i === selectedExpand}>
                     <List>
                       <ListItem>
-                        <Typography className={classes.title}>{`${form.title}`}</Typography>
+                        <Typography
+                          className={classes.title}
+                        >{`${form.title}`}</Typography>
                       </ListItem>
                       <ListItem>
-                        <Typography className={classes.title}>{form.createdAt?.split("T")[0]}</Typography>
+                        <Typography className={classes.title}>
+                          {form.createdAt?.split("T")[0]}
+                        </Typography>
                       </ListItem>
                       <ListItem>
                         <Button
@@ -412,7 +488,9 @@ export default function FormsTable() {
                           <Typography>eliminar</Typography>
                         </Button>
                         <Dialog open={i === selectedDeletePopUp}>
-                          <DialogTitle className={classes.title} >{`Se eliminará el formulario ${
+                          <DialogTitle
+                            className={classes.title}
+                          >{`Se eliminará el formulario ${
                             form.title || form._id
                           } `}</DialogTitle>
                           <Button
@@ -431,7 +509,12 @@ export default function FormsTable() {
                       </ListItem>
                     </List>
 
-                    <Button onClick={() => handleExpand("")} color={"secondary"}>Cancelar</Button>
+                    <Button
+                      onClick={() => handleExpand("")}
+                      color={"secondary"}
+                    >
+                      Cancelar
+                    </Button>
                   </Dialog>
                 </Grid>
               </Grid>
@@ -439,15 +522,15 @@ export default function FormsTable() {
           ))}
         </List>
       </Hidden>
-    </>
+    </div>
   );
 }
 
 const useStyles = makeStyles((theme) => ({
-  title:{
-    fontWeight: 'bold',
-    display:"flex",
-    margin:"0 auto",
+  title: {
+    fontWeight: "bold",
+    display: "flex",
+    margin: "0 auto",
   },
   root: {
     width: "100%",
@@ -475,16 +558,17 @@ const useStyles = makeStyles((theme) => ({
       color: "black",
     },
     color: "white",
-  },submit2: {
+  },
+  submit2: {
     margin: "0 auto",
-    display:"flex",
+    display: "flex",
     backgroundColor: "#0097d1",
     "&:hover": {
       backgroundColor: "#BFDCF5",
       color: "black",
     },
     color: "white",
-    justifyContent: 'center'
+    justifyContent: "center",
   },
 }));
 
