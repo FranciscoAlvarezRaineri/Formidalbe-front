@@ -10,10 +10,11 @@ import Editor from "@monaco-editor/react";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
+import Collapse from "@material-ui/core/Collapse";
+import ExpandMore from "@material-ui/icons/ExpandMore";
+import ExpandLess from "@material-ui/icons/ExpandLess";
 import { makeStyles } from "@material-ui/core/styles";
 import dynamic from "next/dynamic";
-
-
 
 const FormBuilder = dynamic(
   () => import("../../../components/formBuilder/FormBuilder"),
@@ -33,6 +34,7 @@ export async function getServerSideProps(context) {
 export default function EditForm({ form }) {
   const [schema, setSchema] = useState(form.schema);
   const [uischema, setUischema] = useState(form.uischema);
+  const [jsons, setJsons] = useState(true);
 
   function saveForm() {
     axios
@@ -60,60 +62,36 @@ export default function EditForm({ form }) {
   const classes = useStyles();
 
   return (
-    <Grid container justifyContent="space-evenly" spacing={3}>
-      <Grid item lg={6} md={12}>
-        <FormBuilder
-          schema={JSON.stringify(schema)}
-          uischema={JSON.stringify(uischema)}
-          onChange={(newSchema, newUiSchema) => {
-            setSchema(JSON.parse(newSchema));
-            setUischema(JSON.parse(newUiSchema));
-          }}
-        />
-        <Paper className={classes.item}>
-          <Form
-            schema={schema}
-            uiSchema={uischema}
-            children={true} // Evitar que se muestre el boton de Submit.
+    <>
+      <Grid container justifyContent="space-evenly" spacing={3}>
+        <Grid item lg={6} md={12}>
+          <FormBuilder
+            schema={JSON.stringify(schema)}
+            uischema={JSON.stringify(uischema)}
+            onChange={(newSchema, newUiSchema) => {
+              setSchema(JSON.parse(newSchema));
+              setUischema(JSON.parse(newUiSchema));
+            }}
           />
-        </Paper>
-        <Button
-          className={classes.backButton}
-          variant="contained"
-          color="primary"
-          onClick={() => {
-            saveForm();
-          }}
-        >
-          Guardar Cambios
-        </Button>
-      </Grid>
-      <Grid item lg={6} md={12}>
-        <>
-          <h3>Schema:</h3>
+        </Grid>
+        <Grid item lg={6} md={12}>
           <Paper className={classes.item}>
-            <Editor
-              height="500px"
-              width="600px"
-              language="json"
-              value={JSON.stringify(schema, null, 2)}
-              onChange={(e) => {
-                setSchema(JSON.parse(e));
-              }}
+            <Form
+              schema={schema}
+              uiSchema={uischema}
+              children={true} // Evitar que se muestre el boton de Submit.
             />
           </Paper>
-          <h3>UISchema:</h3>
-          <Paper className={classes.item}>
-            <Editor
-              height="500px"
-              width="600px"
-              language="json"
-              value={JSON.stringify(uischema, null, 2)}
-              onChange={(e) => {
-                setUischema(JSON.parse(e));
-              }}
-            />
-          </Paper>
+          <Button
+            className={classes.backButton}
+            variant="contained"
+            color="primary"
+            onClick={() => {
+              saveForm();
+            }}
+          >
+            Guardar Cambios
+          </Button>
           <Button
             className={classes.backButton}
             variant="contained"
@@ -124,9 +102,47 @@ export default function EditForm({ form }) {
           >
             Atras
           </Button>
-        </>
+        </Grid>
       </Grid>
-    </Grid>
+      <Button
+        onClick={() => {
+          setJsons(!jsons);
+        }}
+      >
+        JSON Schemas {jsons ? <ExpandLess /> : <ExpandMore />}
+      </Button>
+      <Collapse in={!jsons}>
+        <Grid container justifyContent="space-evenly" spacing={3}>
+          <Grid item lg={6} md={12}>
+            <h3>Schema:</h3>
+            <Paper className={classes.item}>
+              <Editor
+                height="500px"
+                width="600px"
+                language="json"
+                value={JSON.stringify(schema, null, 2)}
+                onChange={(e) => {
+                  setSchema(JSON.parse(e));
+                }}
+              />
+            </Paper>
+          </Grid>
+          <Grid item lg={6} md={12}>
+            <h3>UISchema:</h3>
+            <Paper className={classes.item}>
+              <Editor
+                height="500px"
+                width="600px"
+                language="json"
+                value={JSON.stringify(uischema, null, 2)}
+                onChange={(e) => {
+                  setUischema(JSON.parse(e));
+                }}
+              />
+            </Paper>
+          </Grid>
+        </Grid>
+      </Collapse>
+    </>
   );
 }
-

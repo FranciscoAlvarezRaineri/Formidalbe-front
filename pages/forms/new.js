@@ -7,7 +7,6 @@ import dynamic from "next/dynamic";
 
 import { useCookies } from "react-cookie";
 
-
 import Form from "@rjsf/material-ui";
 import Editor from "@monaco-editor/react";
 
@@ -36,7 +35,6 @@ export default function NewForm() {
 
   const [cookies] = useCookies(["token"]);
 
-
   function createForm() {
     axios
       .post("/forms/create", {
@@ -60,9 +58,9 @@ export default function NewForm() {
       type: "button",
       margin: "0px",
       backgroundColor: "#0097d1",
-      '&:hover':{
+      "&:hover": {
         backgroundColor: "#BFDCF5",
-       }
+      },
     },
     fondo: {
       background: "#f5fafd",
