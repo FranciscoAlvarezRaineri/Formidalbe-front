@@ -7,6 +7,9 @@ import {
   Grid,
   Paper,
   Typography,
+  makeStyles,
+  DialogTitle,
+  DialogContent
 } from "@material-ui/core";
 import Card from "@material-ui/core/Card";
 import axios from "../../axios";
@@ -67,9 +70,21 @@ export default function OneForm({ form }) {
     setDisable(true);
     setData(formData);
   }
-
+  const useStyles = makeStyles((theme) => ({
+    
+    
+    fondo: {
+      background: "#f5fafd",
+    },
+    dialog:{
+      color:"green",
+      margin: "0 auto",
+      display:"flex",
+    }
+  }));
+  const classes = useStyles();
   return (
-    <Container maxWidth={"sm"}>
+    <Container maxWidth={"sm"}  className={"classes.fondo"}>
       <Paper elevation={3}>
         <Form
           schema={form.schema}
@@ -80,10 +95,12 @@ export default function OneForm({ form }) {
         />
       </Paper>
       <Dialog open={open} onClick={() => setOpen(false)}>
-        <Card minWidth="300">
-          <Typography variant={"h6"}>Fromulario enviado</Typography>
-        </Card>
-      </Dialog>
+        <DialogTitle  className={classes.dialog} >Fromulario enviado</DialogTitle>
+        <DialogContent> {`Se enviò el formulario ${
+                              form.title || form._id
+                            } `}</DialogContent>
+        </Dialog>
+     
     </Container>
   );
 }

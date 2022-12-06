@@ -56,7 +56,11 @@ export default function EditForm({ form }) {
     },
     backButton: {
       type: "button",
-      margin: "10px",
+      margin: "2px",
+      backgroundColor: "#0097d1",
+      "&:hover": {
+        backgroundColor: "#BFDCF5",
+      },
     },
   }));
   const classes = useStyles();
