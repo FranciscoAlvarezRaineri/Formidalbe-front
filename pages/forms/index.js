@@ -26,6 +26,7 @@ import Hidden from "@material-ui/core/Hidden";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import Alert from "@material-ui/lab/Alert";
+import { DialogTitle, DialogContent } from "@material-ui/core";
 
 import Delete from "@material-ui/icons/Delete";
 import Share from "@material-ui/icons/Share";
@@ -128,6 +129,10 @@ export default function FormsTable() {
     }
   }
 
+  const handleClose=()=>{
+    setSelectedSharePopUp(null)
+  }
+
   return (
     <>
       <Hidden smDown>
@@ -212,10 +217,12 @@ export default function FormsTable() {
                             <Share />
                           </Button>
                           <Popover
-                            open={i === selectedSharePopUp}
+                          open={i === selectedSharePopUp}
+                          onClose = {handleClose}
                             anchorEl={anchorEl}
                           >
                             <Button
+                            className={classes.submit}
                               onClick={() => {
                                 navigator.clipboard.writeText(
                                   `http://localhost:3000/forms/${form._id}`
@@ -231,7 +238,9 @@ export default function FormsTable() {
                                 type="text"
                                 onChange={(e) => setEmail(e.target.value)}
                               ></Input>
-                              <Button onClick={() => handleEmail(form)}>
+                              <Button 
+                               className={classes.submit1}
+                              onClick={() => handleEmail(form)}>
                                 ENVIAR
                               </Button>
                             </>
@@ -260,13 +269,16 @@ export default function FormsTable() {
                             <Delete />
                           </Button>
                           <Dialog open={i === selectedDeletePopUp}>
-                            <Typography>{`Se eliminará el formulario ${
+                            <DialogTitle>{`Se eliminará el formulario ${
                               form.title || form._id
-                            } `}</Typography>
+                            } `}</DialogTitle>
+                            <DialogContent>{`Confirma que desea eliminar el Formulario ${
+                              form.title || form._id
+                            } `}</DialogContent>
                             <Button onClick={() => handleDelete(form._id)}>
                               Eliminar
                             </Button>
-                            <Button onClick={() => handleDeletePopUp("")}>
+                            <Button onClick={() => handleDeletePopUp("")} color={"secondary"}>
                               Cancelar
                             </Button>
                           </Dialog>
@@ -294,6 +306,16 @@ export default function FormsTable() {
         </Paper>
       </Hidden>
       <Hidden mdUp>
+        <Button
+              type="button"
+              variant="contained"
+              className={classes.submit2}
+              onClick={() => {
+                Router.push("/forms/new");
+              }}
+            >
+              Nuevo Formulario
+            </Button>
         <List>
           {rows.map((form, i) => (
             <ListItem key={i}>
@@ -322,10 +344,10 @@ export default function FormsTable() {
                   <Dialog open={i === selectedExpand}>
                     <List>
                       <ListItem>
-                        <Typography>{`${form.title}`}</Typography>
+                        <Typography className={classes.title}>{`${form.title}`}</Typography>
                       </ListItem>
                       <ListItem>
-                        <Typography>{form.createdAt?.split("T")[0]}</Typography>
+                        <Typography className={classes.title}>{form.createdAt?.split("T")[0]}</Typography>
                       </ListItem>
                       <ListItem>
                         <Button
@@ -390,9 +412,9 @@ export default function FormsTable() {
                           <Typography>eliminar</Typography>
                         </Button>
                         <Dialog open={i === selectedDeletePopUp}>
-                          <Typography>{`Se eliminará el formulario ${
+                          <DialogTitle className={classes.title} >{`Se eliminará el formulario ${
                             form.title || form._id
-                          } `}</Typography>
+                          } `}</DialogTitle>
                           <Button
                             onClick={() => {
                               handleExpand("");
@@ -409,7 +431,7 @@ export default function FormsTable() {
                       </ListItem>
                     </List>
 
-                    <Button onClick={() => handleExpand("")}>Cancelar</Button>
+                    <Button onClick={() => handleExpand("")} color={"secondary"}>Cancelar</Button>
                   </Dialog>
                 </Grid>
               </Grid>
@@ -422,6 +444,11 @@ export default function FormsTable() {
 }
 
 const useStyles = makeStyles((theme) => ({
+  title:{
+    fontWeight: 'bold',
+    display:"flex",
+    margin:"0 auto",
+  },
   root: {
     width: "100%",
   },
@@ -439,6 +466,25 @@ const useStyles = makeStyles((theme) => ({
       color: "black",
     },
     color: "white",
+  },
+  submit1: {
+    margin: theme.spacing(3, 0, 2),
+    backgroundColor: "#0097d1",
+    "&:hover": {
+      backgroundColor: "#BFDCF5",
+      color: "black",
+    },
+    color: "white",
+  },submit2: {
+    margin: "0 auto",
+    display:"flex",
+    backgroundColor: "#0097d1",
+    "&:hover": {
+      backgroundColor: "#BFDCF5",
+      color: "black",
+    },
+    color: "white",
+    justifyContent: 'center'
   },
 }));
 

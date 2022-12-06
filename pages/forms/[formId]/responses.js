@@ -6,6 +6,8 @@ import TableHead from "@material-ui/core/TableHead";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableRow from "@material-ui/core/TableRow";
+import { Button } from "@material-ui/core";
+import Router from "next/router";
 
 import CheckIcon from "@material-ui/icons/Check";
 import ClearIcon from "@material-ui/icons/Clear";
@@ -84,7 +86,18 @@ const Resp = ({ formsData, allKeys }) => {
           })}
         </TableBody>
       </Table>
+      <Button
+              className={classes.backButton}
+              variant="contained"
+              color="primary"
+              onClick={() => {
+                Router.push("/forms");
+              }}
+            >
+              Atras
+            </Button>
     </TableContainer>
+    
   );
 };
 
@@ -101,6 +114,14 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(3, 0, 2),
     minWidth: 250,
     backgroundColor: "#0097d1",
+  },
+  backButton: {
+    type: "button",
+    margin: "0px",
+    backgroundColor: "#0097d1",
+    "&:hover": {
+      backgroundColor: "#BFDCF5",
+    },
   },
 }));
 
