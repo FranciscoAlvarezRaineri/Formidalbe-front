@@ -194,11 +194,11 @@ export default function PersistentDrawerLeft(props) {
           </Typography>
           {cookies.token ? (
             <>
+            <PersonIcon style={{ color: "white", fontSize: 40 }} />
               <Typography variant="h5" color="action">
                 {cookies.token.name}
               </Typography>
               &nbsp;&nbsp;&nbsp;
-              <PersonIcon style={{ color: "white", fontSize: 40 }} />
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               <Button
                 color="inherit"
