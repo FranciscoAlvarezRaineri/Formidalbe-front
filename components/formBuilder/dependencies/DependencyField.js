@@ -36,7 +36,7 @@ export default function DependencyField({ parameters, onChange }) {
     },
     createElement(
       Typography,
-      { variant: "h5" },
+      { variant: "h6" },
       "Dependencias",
       " ",
       createElement(Example, {
