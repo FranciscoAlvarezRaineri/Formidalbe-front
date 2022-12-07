@@ -22,10 +22,10 @@ function CardArrayParameterInputs({ parameters, onChange }) {
   return createElement(
     "div",
     null,
-    createElement(Typography, { variant: "h6" }, null, "Minimum Items"),
+    createElement(Typography, { variant: "h6" }, null, "Minima Cantidad de Items"),
     createElement(Input, {
       value: parameters.minItems || "",
-      placeholder: "ex: 2",
+      placeholder: "ej: 2",
       key: "minimum",
       type: "number",
       onChange: (ev) => {
@@ -36,10 +36,10 @@ function CardArrayParameterInputs({ parameters, onChange }) {
       },
       className: "card-modal-number",
     }),
-    createElement(Typography, { variant: "h6" }, null, "Maximum Items"),
+    createElement(Typography, { variant: "h6" }, null, "Maxima Cantidad de Items"),
     createElement(Input, {
       value: parameters.maxItems || "",
-      placeholder: "ex: 2",
+      placeholder: "ej: 2",
       key: "maximum",
       type: "number",
       onChange: (ev) => {

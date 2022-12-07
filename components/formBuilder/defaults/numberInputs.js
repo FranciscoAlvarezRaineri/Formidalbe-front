@@ -140,7 +140,7 @@ function NumberField({ parameters, onChange }) {
   return createElement(
     Fragment,
     null,
-    createElement(Typography, { variant: "h5" }, null, "Número por defecto"),
+    createElement(Typography, { variant: "h6" }, null, "Número por defecto"),
     createElement(Input, {
       value: parameters.default,
       id: "standard-secondary",
@@ -229,7 +229,7 @@ function NumberField1({ parameters, onChange }) {
   return createElement(
     Fragment,
     null,
-    createElement(Typography, { variant: "h5" }, null, "Numero por defecto"),
+    createElement(Typography, { variant: "h6" }, null, "Numero por defecto"),
     createElement(Input, {
       value: parameters.default,
       id: "standard-terciary",

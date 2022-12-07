@@ -148,6 +148,9 @@ export default function NewForm() {
                 }}
               />
             </Paper>
+          </Grid>
+        </Grid>
+      </Collapse>
             <Button
               className={classes.backButton}
               variant="contained"
@@ -158,9 +161,6 @@ export default function NewForm() {
             >
               Atras
             </Button>
-          </Grid>
-        </Grid>
-      </Collapse>
     </>
   );
 }
