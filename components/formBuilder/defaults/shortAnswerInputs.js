@@ -117,21 +117,21 @@ function CardShortAnswerParameterInputs({ parameters, onChange }) {
       })
     ),
     <Autocomplete
-    id="Formato"
-    options={Object.keys(autoDictionary).map((key) => ({
-           value: key,
-           label: autoDictionary[key],
-         }))}
-    getOptionLabel={(option) => option.label}
-    style={{ width: "100%" }}
-    
-    onChange={(event,val) => {
-      onChange({
-        ...parameters,
-        format: val.value,
-      })}}
-    renderInput={(params) => <TextField {...params} label="Ninguno"  />}
-  />,
+      id="Formato"
+      options={Object.keys(autoDictionary).map((key) => ({
+        value: key,
+        label: autoDictionary[key],
+      }))}
+      getOptionLabel={(option) => option.label}
+      style={{ width: "100%" }}
+      onChange={(event, val) => {
+        onChange({
+          ...parameters,
+          format: val.value,
+        });
+      }}
+      renderInput={(params) => <TextField {...params} label="Ninguno" />}
+    />,
 
     /////////////////////ORIGINAL /////////////////////
     // createElement(Select, {
@@ -182,21 +182,21 @@ function CardShortAnswerParameterInputs({ parameters, onChange }) {
       )
     ),
     <Autocomplete
-    id="Categoria-a-Autocompletar"
-    options={Object.keys(autoDictionary).map((key) => ({
-           value: key,
-           label: autoDictionary[key],
-         }))}
-    getOptionLabel={(option) => option.label}
-    style={{ width: "100%" }}
-    
-    onChange={(event,val) => {
-           onChange({
-             ...parameters,
-             "ui:autocomplete": val.value,
-           })}}
-    renderInput={(params) => <TextField {...params} label="Ninguno"  />}
-  />,
+      id="Categoria-a-Autocompletar"
+      options={Object.keys(autoDictionary).map((key) => ({
+        value: key,
+        label: autoDictionary[key],
+      }))}
+      getOptionLabel={(option) => option.label}
+      style={{ width: "100%" }}
+      onChange={(event, val) => {
+        onChange({
+          ...parameters,
+          "ui:autocomplete": val.value,
+        });
+      }}
+      renderInput={(params) => <TextField {...params} label="Ninguno" />}
+    />,
     //////////////////////////ORIGINAL/////////////////////
     // createElement(Select, {
     //   value: {
@@ -310,7 +310,12 @@ function Password({ parameters, onChange }) {
   return createElement(
     Fragment,
     null,
-    createElement(Typography, { variant: "h6" }, null, "Contraseña por defecto"),
+    createElement(
+      Typography,
+      { variant: "h6" },
+      null,
+      "Contraseña por defecto"
+    ),
     createElement(Input, {
       value: parameters.default,
       placeholder: "Default",

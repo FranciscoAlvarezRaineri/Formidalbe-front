@@ -240,9 +240,9 @@ export default function CardGeneralParameterInputs({
           style={{ width: "100%" }}
           onChange={(event, val) => {
             // figure out the new 'type'
-           
-            const newCategory =  val != null ? val.value : "array"
-           
+
+            const newCategory = val != null ? val.value : "array";
+
             const newProps = {
               ...defaultUiProps(newCategory, allFormInputs),
               ...defaultDataProps(newCategory, allFormInputs),
