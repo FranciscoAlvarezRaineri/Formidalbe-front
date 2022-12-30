@@ -133,9 +133,6 @@ function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {"Copyright © "}
-      <Link color="inherit" href="https://smartsafety.com.ar/" target="_blank">
-        Smart Safety
-      </Link>
       {" 2022"}
     </Typography>
   );
