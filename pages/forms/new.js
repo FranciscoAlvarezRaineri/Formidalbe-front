@@ -36,7 +36,10 @@ export default function NewForm() {
   const [cookies] = useCookies(["token"]);
 
   useEffect(() => {
-    if (!cookies.token) return Router.push("/");
+    if (!cookies.token) {
+      Router.push("/");
+      return;
+    }
   }, []);
 
   function createForm() {
