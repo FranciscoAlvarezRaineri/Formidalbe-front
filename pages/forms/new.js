@@ -7,7 +7,7 @@ import dynamic from "next/dynamic";
 
 import { useCookies } from "react-cookie";
 
-import Form from "@rjsf/material-ui";
+import Form from "@rjsf/material-ui/v4";
 import Editor from "@monaco-editor/react";
 
 import Grid from "@material-ui/core/Grid";
@@ -19,7 +19,7 @@ import ExpandLess from "@material-ui/icons/ExpandLess";
 
 import { makeStyles } from "@material-ui/core/styles";
 
-import { parseCookies } from "./helpers/index";
+import { parseCookies } from "../../helpers/index";
 
 const FormBuilder = dynamic(
   () => import("../../components/formBuilder/FormBuilder"),
@@ -151,16 +151,16 @@ export default function NewForm() {
           </Grid>
         </Grid>
       </Collapse>
-            <Button
-              className={classes.backButton}
-              variant="contained"
-              color="primary"
-              onClick={() => {
-                Router.push("/forms");
-              }}
-            >
-              Atras
-            </Button>
+      <Button
+        className={classes.backButton}
+        variant="contained"
+        color="primary"
+        onClick={() => {
+          Router.push("/forms");
+        }}
+      >
+        Atras
+      </Button>
     </>
   );
 }

@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import axios from "../../../axios";
 import Router from "next/router";
 
-import Form from "@rjsf/material-ui";
+import Form from "@rjsf/material-ui/v4";
 import Editor from "@monaco-editor/react";
 
 import Grid from "@material-ui/core/Grid";
