@@ -1,9 +1,9 @@
 import axios from "axios";
 
-axios.defaults.baseURL = "https://localhost:3001/api";
+axios.defaults.baseURL = "https://formidable-back.onrender.com/api";
 
 const back = axios.create({
-  baseURL: "http://localhost:3001/api",
+  baseURL: "https://formidable-back.onrender.com/api",
 });
 
 export default back;
