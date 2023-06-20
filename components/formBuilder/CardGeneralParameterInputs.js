@@ -1,16 +1,11 @@
 import { useState, createElement, Fragment } from "react";
 
-import { TextField } from "@material-ui/core";
+import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import FormGroup from "@material-ui/core/FormGroup";
 import Input from "@material-ui/core/Input";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import Autocomplete from "@material-ui/lab/Autocomplete";
-import { Box } from "@material-ui/core";
-import { InputLabel } from "@material-ui/core";
-import { MenuItem } from "@material-ui/core";
-import { FormControl } from "@material-ui/core";
-import { Select } from "@material-ui/core";
 
 // Importar componentes:
 import GeneralParameterInputs from "./GeneralParameterInputs";

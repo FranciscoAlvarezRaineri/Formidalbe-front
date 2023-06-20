@@ -2,22 +2,28 @@ import axios from "../../axios";
 import { useEffect, useState } from "react";
 import Typography from "@material-ui/core/Typography";
 import Link from "@material-ui/core/Link";
-
-export async function getServerSideProps(context) {
-  return {
-    props: { code: context.params.confirmCode },
-  };
-}
+import { useRouter } from "next/router";
 
 export default function ConfirmCode(props) {
   const [confirm, setConfirm] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
+    if (!router.isReady) return;
+    const getCode = async function (context) {
+      return {
+        props: { code: context.params.confirmCode },
+      };
+    };
+
+    code = getCode();
+
     axios
-      .post(`/users/confirm/${props.code}`)
+      .post(`/users/confirm/${code}`)
       .then((res) => setConfirm(res.data))
       .catch((err) => console.log(err));
-  }, []);
+  }, [router.isReady]);
+
   return (
     <>
       {confirm ? (

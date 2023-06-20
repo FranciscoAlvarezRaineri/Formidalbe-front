@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import clsx from "clsx";
 import Link from "../src/Link";
 import { useRouter } from "next/router";
 import Router from "next/router";
-import reactCookie from "react-cookie";
 import axios from "../axios";
 import { useCookies } from "react-cookie";
 
-import { makeStyles, useTheme, createTheme } from "@material-ui/core/styles";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import AppBar from "@material-ui/core/AppBar";
@@ -22,16 +21,10 @@ import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
 import LoginIcon from "@material-ui/icons/VpnKey";
-import LogoutIcon from "@material-ui/icons/VpnKey";
-import HomeIcon from "@material-ui/icons/Home";
 import RegisterIcon from "@material-ui/icons/ContactMail";
 import MenuItem from "@material-ui/core/MenuItem";
-import MailIcon from "@material-ui/icons/Mail";
 import Button from "@material-ui/core/Button";
-import AddIcon from "@material-ui/icons/Add";
-import FormatListBulletedRoundedIcon from "@material-ui/icons/FormatListBulletedRounded";
 import PersonIcon from "@material-ui/icons/Person";
 import ViewListIcon from "@material-ui/icons/ViewList";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
@@ -194,7 +187,7 @@ export default function PersistentDrawerLeft(props) {
           </Typography>
           {cookies.token ? (
             <>
-            <PersonIcon style={{ color: "white", fontSize: 40 }} />
+              <PersonIcon style={{ color: "white", fontSize: 40 }} />
               <Typography variant="h5" color="action">
                 {cookies.token.name}
               </Typography>
@@ -265,10 +258,3 @@ export default function PersistentDrawerLeft(props) {
     </div>
   );
 }
-
-// PersistentDrawerLeft.getInitialProps = async ({ req, res }) => {
-//   const data = parseCookies(req);
-
-//   // console.log(Object.keys(data)[0]);
-
-// }
