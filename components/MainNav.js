@@ -152,7 +152,7 @@ export default function PersistentDrawerLeft(props) {
     axios
       .get("/users/logout", { withCredentials: true })
       .then(() => {
-        removeCookie("token");
+        removeCookie("token", { path: "/" });
         Router.push("/login");
       })
       .catch((error) => {
