@@ -35,6 +35,10 @@ export default function NewForm() {
 
   const [cookies] = useCookies(["token"]);
 
+  useEffect(() => {
+    if (!cookies.token) return Router.push("/");
+  }, []);
+
   function createForm() {
     axios
       .post("/forms/create", {
@@ -166,6 +170,7 @@ export default function NewForm() {
 }
 
 // funcion para checkear si esta logueado el user
+/*
 NewForm.getInitialProps = async ({ req, res }) => {
   const data = parseCookies(req);
   if (res) {
@@ -183,3 +188,4 @@ NewForm.getInitialProps = async ({ req, res }) => {
     data: data && data,
   };
 };
+*/

@@ -22,8 +22,8 @@ function MyApp({ Component, pageProps }) {
     <CookiesProvider>
       <React.Fragment>
         <Head>
-          <title>Next.js Material Layout</title>
-          <link rel="shortcut icon" href="/static/favicon.ico" />
+          <title>Formidable</title>
+          <link rel="shortcut icon" href="/public/favicon.ico" />
           <meta
             name="viewport"
             content="minimum-scale=1, initial-scale=1, width=device-width"

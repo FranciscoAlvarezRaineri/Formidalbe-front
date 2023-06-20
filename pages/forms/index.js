@@ -58,6 +58,10 @@ export default function FormsTable() {
   const [cookies] = useCookies(["token"]);
 
   useEffect(() => {
+    if (!cookies.token) {
+      Router.push("/");
+      return;
+    }
     axios
       .get(`/forms/users/${cookies.token.id}/${page}/${amount}`)
       .then((res) => {
@@ -571,6 +575,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 // funcion para checkear si esta logueado el user
+/*
 FormsTable.getInitialProps = async ({ req, res }) => {
   const data = parseCookies(req);
   if (res) {
@@ -588,3 +593,4 @@ FormsTable.getInitialProps = async ({ req, res }) => {
     data: data && data,
   };
 };
+*/

@@ -99,8 +99,7 @@ export default function PersistentDrawerLeft(props) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const router = useRouter();
-  const [cookies] = useCookies(["token"]);
-
+  const [cookies, setCookie, removeCookie] = useCookies(["token"]);
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -149,15 +148,13 @@ export default function PersistentDrawerLeft(props) {
 
   const options = routes();
 
-  const forceReload = () => {
-    router.reload();
-  };
-
   function logOut() {
-    Router.push("/login");
     axios
       .get("/users/logout", { withCredentials: true })
-      .then(() => forceReload())
+      .then(() => {
+        removeCookie("token");
+        Router.push("/login");
+      })
       .catch((error) => {
         alert("Error: No se pudo desloguear");
       });

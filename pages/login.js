@@ -7,8 +7,6 @@ import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
 import Link from "@material-ui/core/Link";
 import Box from "@material-ui/core/Box";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
@@ -49,7 +47,8 @@ export default function SignIn() {
   const [password, setPassword] = useState("");
   const [cookie, setCookie] = useCookies(["user"]);
 
-  const logIn = async () => {
+  const logIn = async (e) => {
+    e.preventDefault();
     try {
       const response = await axios.post(
         "/users/login",
@@ -78,7 +77,7 @@ export default function SignIn() {
         <Typography component="h1" variant="h5">
           Iniciar Sesión
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} noValidate onSubmit={(e) => logIn(e)}>
           <TextField
             margin="normal"
             required
@@ -108,8 +107,8 @@ export default function SignIn() {
             }}
           />
           <Button
-            onClick={() => logIn()}
-            type="button"
+            onClick={(e) => logIn(e)}
+            type="submit"
             fullWidth
             variant="contained"
             color="primary"
