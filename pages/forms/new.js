@@ -19,7 +19,7 @@ import ExpandLess from "@material-ui/icons/ExpandLess";
 
 import { makeStyles } from "@material-ui/core/styles";
 
-import { parseCookies } from "../../helpers/index";
+import parseCookies from "../../helpers/index";
 
 const FormBuilder = dynamic(
   () => import("../../components/formBuilder/FormBuilder"),
