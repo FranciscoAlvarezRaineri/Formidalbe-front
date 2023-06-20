@@ -1,4 +1,4 @@
-import Form from "@rjsf/material-ui";
+import Form from "@rjsf/material-ui/v4";
 import { Container, Dialog, Paper, Typography } from "@material-ui/core";
 import Card from "@material-ui/core/Card";
 import axios from "../axios";

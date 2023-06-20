@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import axios from "../../../axios";
 import Table from "@material-ui/core/Table";
 import TableContainer from "@material-ui/core/TableContainer";
@@ -87,17 +87,16 @@ const Resp = ({ formsData, allKeys }) => {
         </TableBody>
       </Table>
       <Button
-              className={classes.backButton}
-              variant="contained"
-              color="primary"
-              onClick={() => {
-                Router.push("/forms");
-              }}
-            >
-              Atras
-            </Button>
+        className={classes.backButton}
+        variant="contained"
+        color="primary"
+        onClick={() => {
+          Router.push("/forms");
+        }}
+      >
+        Atras
+      </Button>
     </TableContainer>
-    
   );
 };
 
