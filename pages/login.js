@@ -13,6 +13,11 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+import Dialog from "@material-ui/core/Dialog";
+import DialogContent from "@material-ui/core/DialogContent";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogTitle from "@material-ui/core/DialogTitle";
 
 import { useCookies } from "react-cookie";
 
@@ -46,25 +51,34 @@ export default function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [cookie, setCookie] = useCookies(["user"]);
+  const [open, setOpen] = useState(false);
+  const [done, setDone] = useState(false);
+  const [message, setMessage] = useState("");
 
   const logIn = async (e) => {
     e.preventDefault();
+    setOpen(true);
+
     try {
       const response = await axios.post(
         "/users/login",
         { email, password },
         { withCredentials: true }
       ); //handle API call to sign in here.
-      const data = response.data;
-      setCookie("token", JSON.stringify(data), {
-        path: "/",
-        maxAge: 36000, // Expires after 10hr
-        sameSite: true,
-      });
-      Router.push("/forms");
+      if (response) {
+        const data = response.data;
+        setCookie("token", JSON.stringify(data), {
+          path: "/",
+          maxAge: 36000, // Expires after 10hr
+          sameSite: true,
+        });
+        Router.push("/forms");
+      }
     } catch (err) {
-      console.log(err);
+      setDone(true);
+      setMessage(`${err.message ? err.message : null}.`);
     }
+    return;
   };
 
   return (
@@ -118,9 +132,48 @@ export default function SignIn() {
           </Button>
         </form>
         <Link href="/register" variant="body2">
-          No posees cuenta? Registrarse aqui
+          No tienes una cuenta? Registrarse aqui.
         </Link>
       </div>
+      <Dialog
+        open={open}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        {done ? (
+          <>
+            <DialogTitle>
+              <Typography variant="h5" align="center">
+                Hubo un problema.
+              </Typography>
+              <Typography variant="h5" align="center">
+                {message}
+              </Typography>
+              <Typography variant="h5" align="center">
+                Por favor, vuelve a intentarlo.
+              </Typography>
+            </DialogTitle>
+            <DialogActions>
+              <Button
+                onClick={() => setOpen(false)}
+                type="button"
+                fullWidth
+                variant="contained"
+                color="primary"
+                className={classes.submit}
+              >
+                Volver a intentar
+              </Button>
+            </DialogActions>
+          </>
+        ) : (
+          <DialogContent>
+            <Box m={5}>
+              <CircularProgress />
+            </Box>
+          </DialogContent>
+        )}
+      </Dialog>
       <Box mt={8}>
         <Copyright />
       </Box>
